@@ -282,6 +282,9 @@ canvas#stars {
   display: inline-block;
   width: 1ch;              /* keeps the caret’s inline footprint tidy */
   text-align: center;
+  /* smooth reveal for the overlay text */
+.typed-overlay { opacity: 0; transition: opacity .35s ease; }
+.eureka.typing-on .typed-overlay { opacity: 1; }
 }
 
 .caret {
