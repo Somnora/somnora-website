@@ -1,84 +1,37 @@
+// --- STARFIELD ---
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
-let stars = []; let w, h;
+let stars = [];
 
 function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-  stars = Array.from({ length: 130 }, () => ({
-    x: Math.random() * w, y: Math.random() * h,
-    r: Math.random() * 1.3 + 0.3, o: Math.random() * 0.6 + 0.3
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = Array.from({ length: 150 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 1.5,
+    speed: Math.random() * 0.02 + 0.02
   }));
 }
-resize(); window.addEventListener('resize', resize);
+resize();
+window.addEventListener('resize', resize);
 
-let offsetX = 0, offsetY = 0;
-document.addEventListener('mousemove', e => {
-  offsetX = (e.clientX / window.innerWidth - 0.5) * 40;
-  offsetY = (e.clientY / window.innerHeight - 0.5) * 40;
-});
-
-function draw() {
-  ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = '#E2C67A';
+function animateStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#fff";
   stars.forEach(s => {
-    ctx.globalAlpha = s.o;
+    ctx.globalAlpha = 0.5 + Math.random() * 0.5;
     ctx.beginPath();
-    ctx.arc(s.x + offsetX, s.y + offsetY, s.r, 0, Math.PI * 2);
+    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
     ctx.fill();
+    s.y += s.speed * 100;
+    if (s.y > canvas.height) s.y = 0;
   });
-  requestAnimationFrame(draw);
+  requestAnimationFrame(animateStars);
 }
-draw();
+animateStars();
 
-gsap.registerPlugin(ScrollTrigger);
-
-const bulbGlow = document.querySelector('.bulb-glow');
-gsap.to(bulbGlow, { opacity: 0.4, scale: 1.05, duration: 3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-
-// Smooth color shift scroll
-gsap.to('body', {
-  background: 'linear-gradient(180deg, #071022 0%, #121C33 40%, #F3EAD2 100%)',
-  ease: 'none',
-  scrollTrigger: { trigger: '.dawn', start: 'top bottom', end: 'bottom top', scrub: true }
-});
-
-// Animate cards in
-gsap.utils.toArray('.card').forEach(card => {
-  gsap.from(card, { opacity: 0, y: 40, duration: 1, scrollTrigger: { trigger: card, start: 'top 90%' } });
-});
-
-// Formspree
-const form = document.querySelector('.waitlist-form');
-if(form){
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const res = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
-    if (res.ok) {
-      form.innerHTML = '<p class="thank-you">✨ Thank you for joining the waitlist! Nora will reach out soon.</p>';
-    } else {
-      form.innerHTML = '<p class="thank-you">Hmm... something went wrong. Try again later.</p>';
-    }
-  });
-}
-
-// Fade-in effect for dawn text
-const dawnTexts = document.querySelectorAll('.dawn p');
-function revealText() {
-  dawnTexts.forEach(p => {
-    const rect = p.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.85) {
-      p.classList.add('revealed');
-    }
-  });
-}
-window.addEventListener('scroll', revealText);
-revealText();
-// Fade-in on scroll for all section text
+// --- FADE-IN ON SCROLL ---
 const fadeElems = document.querySelectorAll('.section p, .section h2, .card');
 function revealOnScroll() {
   fadeElems.forEach(el => {
@@ -91,64 +44,45 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 revealOnScroll();
 
-// Fade stars as you scroll into daylight
+// --- FADE STARS OUT WHEN SCROLLING ---
 window.addEventListener('scroll', () => {
   const heroHeight = document.querySelector('.hero').offsetHeight;
   const scrollY = window.scrollY;
-  const stars = document.getElementById('stars');
   const opacity = Math.max(0, 1 - scrollY / (heroHeight * 0.8));
-  stars.style.opacity = opacity * 0.4;
+  canvas.style.opacity = opacity * 0.45;
 });
-// --- Ambient Audio ---
-const audio = document.getElementById('ambientAudio');
-const soundToggle = document.getElementById('soundToggle');
-let soundEnabled = true;
 
-// Many browsers block autoplay with sound; this ensures gentle fade-in after a small interaction
+// --- AUDIO TOGGLE WITH FADE ---
+const audio = document.getElementById('ambient-audio');
+const toggle = document.getElementById('audio-toggle');
+
 window.addEventListener('load', () => {
-  audio.volume = 0;
-  audio.play().then(() => {
-    gsap.to(audio, { volume: 0.25, duration: 3, ease: 'power1.inOut' });
-  }).catch(() => {
-    // Wait for first interaction if autoplay is blocked
-    const enable = () => {
-      audio.play();
-      gsap.to(audio, { volume: 0.25, duration: 3 });
-      window.removeEventListener('click', enable);
-    };
-    window.addEventListener('click', enable);
-  });
+  audio.volume = 0.25;
+  audio.play().catch(() => {});
 });
 
-// Toggle sound
-soundToggle.addEventListener('click', () => {
-  soundEnabled = !soundEnabled;
-  if (soundEnabled) {
-    soundToggle.textContent = '🔊';
-    gsap.to(audio, { volume: 0.25, duration: 1 });
-  } else {
-    soundToggle.textContent = '🔇';
-    gsap.to(audio, { volume: 0, duration: 1 });
-  }
-});
-// Fade-in on scroll for all section text
-const fadeElems = document.querySelectorAll('.section p, .section h2, .card');
-function revealOnScroll() {
-  fadeElems.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.85) {
-      el.classList.add('revealed');
+function fadeVolume(target, duration) {
+  const start = audio.volume;
+  const step = (target - start) / (duration / 50);
+  const fade = setInterval(() => {
+    audio.volume += step;
+    if ((step < 0 && audio.volume <= target) || (step > 0 && audio.volume >= target)) {
+      clearInterval(fade);
+      audio.volume = target;
     }
-  });
+  }, 50);
 }
-window.addEventListener('scroll', revealOnScroll);
-revealOnScroll();
 
-// Fade stars as you scroll into daylight
-window.addEventListener('scroll', () => {
-  const heroHeight = document.querySelector('.hero').offsetHeight;
-  const scrollY = window.scrollY;
-  const stars = document.getElementById('stars');
-  const opacity = Math.max(0, 1 - scrollY / (heroHeight * 0.8));
-  stars.style.opacity = opacity * 0.4;
+toggle.addEventListener('click', () => {
+  if (audio.muted) {
+    audio.muted = false;
+    fadeVolume(0.25, 800);
+    toggle.textContent = '🔊';
+    toggle.classList.remove('muted');
+  } else {
+    fadeVolume(0, 600);
+    setTimeout(() => { audio.muted = true; }, 600);
+    toggle.textContent = '🔇';
+    toggle.classList.add('muted');
+  }
 });
