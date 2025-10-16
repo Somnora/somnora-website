@@ -118,4 +118,30 @@ function typeLoop() {
 
   setTimeout(typeLoop, speed);
 }
-typeLoop();
+// --- Start typing only when Eureka enters the viewport ---
+const eurekaSection = document.getElementById('eureka');
+let typingStarted = false;
+
+function startTypingOnce() {
+  if (typingStarted) return;
+  typingStarted = true;
+  // add a class so CSS can fade-in the overlay
+  eurekaSection?.classList.add('typing-on');
+  typeLoop(); // calls your existing typing loop
+}
+
+if ('IntersectionObserver' in window && eurekaSection) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+        startTypingOnce();
+        io.unobserve(eurekaSection);
+      }
+    });
+  }, { threshold: [0, 0.35, 1] });
+  io.observe(eurekaSection);
+} else {
+  // Fallback for very old browsers
+  startTypingOnce();
+}
+
