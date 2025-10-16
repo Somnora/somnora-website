@@ -86,37 +86,36 @@ toggle?.addEventListener("click", () => {
   }
 });
 
-/* ========== TYPING EFFECT (EUREKA) ========== */
+/* Typing effect that appears above the caret */
 const phrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
-const typedText = document.getElementById("typed-text");
-let i = 0, j = 0, current = [], deleting = false;
+const typedTarget = document.getElementById("typed-overlay");
+
+let i = 0, j = 0, buf = [], deleting = false;
 
 function typeLoop() {
-  if (!typedText) return;
+  if (!typedTarget) return;
 
   const speed = deleting ? 50 : 110;
 
   if (!deleting && j <= phrases[i].length) {
-    current.push(phrases[i][j]);
-    typedText.textContent = current.join("");
+    buf.push(phrases[i][j]);
+    typedTarget.textContent = buf.join("");
     j++;
-  }
-
-  if (deleting && j >= 0) {
-    current.pop();
-    typedText.textContent = current.join("");
+  } else if (deleting && j >= 0) {
+    buf.pop();
+    typedTarget.textContent = buf.join("");
     j--;
   }
 
-  if (j === phrases[i].length) {
+  if (j === phrases[i].length) {        // pause at full word
     deleting = true;
-    setTimeout(typeLoop, 1200);
-    return;
+    return setTimeout(typeLoop, 1200);
   }
-  if (deleting && j === 0) {
+  if (deleting && j === 0) {            // next phrase
     deleting = false;
     i = (i + 1) % phrases.length;
   }
+
   setTimeout(typeLoop, speed);
 }
 typeLoop();
