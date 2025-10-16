@@ -5,7 +5,7 @@ let stars = []; let w, h;
 function resize() {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
-  stars = Array.from({ length: 120 }, () => ({
+  stars = Array.from({ length: 130 }, () => ({
     x: Math.random() * w, y: Math.random() * h,
     r: Math.random() * 1.3 + 0.3, o: Math.random() * 0.6 + 0.3
   }));
@@ -31,20 +31,24 @@ function draw() {
 }
 draw();
 
-const bulbGlow = document.querySelector('.bulb-glow');
-gsap.to(bulbGlow, { opacity: 0.4, scale: 1.05, duration: 3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
 gsap.registerPlugin(ScrollTrigger);
 
+const bulbGlow = document.querySelector('.bulb-glow');
+gsap.to(bulbGlow, { opacity: 0.4, scale: 1.05, duration: 3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+
+// Smooth color shift scroll
 gsap.to('body', {
   background: 'linear-gradient(180deg, #071022 0%, #121C33 40%, #F3EAD2 100%)',
   ease: 'none',
   scrollTrigger: { trigger: '.dawn', start: 'top bottom', end: 'bottom top', scrub: true }
 });
 
+// Animate cards in
 gsap.utils.toArray('.card').forEach(card => {
   gsap.from(card, { opacity: 0, y: 40, duration: 1, scrollTrigger: { trigger: card, start: 'top 90%' } });
 });
 
+// Formspree
 const form = document.querySelector('.waitlist-form');
 if(form){
   form.addEventListener('submit', async (e) => {
