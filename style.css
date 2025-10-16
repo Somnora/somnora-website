@@ -184,4 +184,31 @@ canvas#stars {
     backdrop-filter: blur(6px);
     border-radius: 14px;
   }
+/* Improve heading contrast on light sections/cards */
+.light h2,
+.light h3,
+.card h3 {
+  color: #1B273E;          /* deep navy */
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.card h3 {
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin-top: .25rem;
+  margin-bottom: .75rem;
+}
+
+/* Section heading inside .light/.dawn blocks */
+.light h2,
+.dawn h2 {
+  color: #121C33;
+  text-shadow: none;
+}
+
+/* Optional: slightly darken card background for more separation */
+.card {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 22px rgba(27,39,62,0.06);
 }
