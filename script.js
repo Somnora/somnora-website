@@ -78,3 +78,24 @@ function revealText() {
 }
 window.addEventListener('scroll', revealText);
 revealText();
+// Fade-in on scroll for all section text
+const fadeElems = document.querySelectorAll('.section p, .section h2, .card');
+function revealOnScroll() {
+  fadeElems.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.85) {
+      el.classList.add('revealed');
+    }
+  });
+}
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+
+// Fade stars as you scroll into daylight
+window.addEventListener('scroll', () => {
+  const heroHeight = document.querySelector('.hero').offsetHeight;
+  const scrollY = window.scrollY;
+  const stars = document.getElementById('stars');
+  const opacity = Math.max(0, 1 - scrollY / (heroHeight * 0.8));
+  stars.style.opacity = opacity * 0.4;
+});
