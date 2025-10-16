@@ -99,3 +99,35 @@ window.addEventListener('scroll', () => {
   const opacity = Math.max(0, 1 - scrollY / (heroHeight * 0.8));
   stars.style.opacity = opacity * 0.4;
 });
+// --- Ambient Audio ---
+const audio = document.getElementById('ambientAudio');
+const soundToggle = document.getElementById('soundToggle');
+let soundEnabled = true;
+
+// Many browsers block autoplay with sound; this ensures gentle fade-in after a small interaction
+window.addEventListener('load', () => {
+  audio.volume = 0;
+  audio.play().then(() => {
+    gsap.to(audio, { volume: 0.25, duration: 3, ease: 'power1.inOut' });
+  }).catch(() => {
+    // Wait for first interaction if autoplay is blocked
+    const enable = () => {
+      audio.play();
+      gsap.to(audio, { volume: 0.25, duration: 3 });
+      window.removeEventListener('click', enable);
+    };
+    window.addEventListener('click', enable);
+  });
+});
+
+// Toggle sound
+soundToggle.addEventListener('click', () => {
+  soundEnabled = !soundEnabled;
+  if (soundEnabled) {
+    soundToggle.textContent = '🔊';
+    gsap.to(audio, { volume: 0.25, duration: 1 });
+  } else {
+    soundToggle.textContent = '🔇';
+    gsap.to(audio, { volume: 0, duration: 1 });
+  }
+});
