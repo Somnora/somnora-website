@@ -1,88 +1,100 @@
-// --- STARFIELD ---
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
+// STARFIELD PARALLAX
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
 let stars = [];
 
-function resize() {
+function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  stars = Array.from({ length: 150 }, () => ({
+  stars = Array(180).fill().map(() => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     size: Math.random() * 1.5,
-    speed: Math.random() * 0.02 + 0.02
+    speed: 0.2 + Math.random() * 0.4
   }));
 }
-resize();
-window.addEventListener('resize', resize);
-
 function animateStars() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#fff";
-  stars.forEach(s => {
-    ctx.globalAlpha = 0.5 + Math.random() * 0.5;
+  ctx.fillStyle = "#FFF";
+  stars.forEach(star => {
+    ctx.globalAlpha = Math.random() * 0.6 + 0.4;
     ctx.beginPath();
-    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
     ctx.fill();
-    s.y += s.speed * 100;
-    if (s.y > canvas.height) s.y = 0;
+    star.y += star.speed;
+    if (star.y > canvas.height) star.y = 0;
   });
   requestAnimationFrame(animateStars);
 }
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 animateStars();
 
-// --- FADE-IN ON SCROLL ---
-const fadeElems = document.querySelectorAll('.section p, .section h2, .card');
-function revealOnScroll() {
-  fadeElems.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.85) {
-      el.classList.add('revealed');
-    }
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", e => {
+    e.preventDefault();
+    document.querySelector(anchor.getAttribute("href"))
+      .scrollIntoView({ behavior: "smooth" });
   });
-}
-window.addEventListener('scroll', revealOnScroll);
-revealOnScroll();
-
-// --- FADE STARS OUT WHEN SCROLLING ---
-window.addEventListener('scroll', () => {
-  const heroHeight = document.querySelector('.hero').offsetHeight;
-  const scrollY = window.scrollY;
-  const opacity = Math.max(0, 1 - scrollY / (heroHeight * 0.8));
-  canvas.style.opacity = opacity * 0.45;
 });
 
-// --- AUDIO TOGGLE WITH FADE ---
-const audio = document.getElementById('ambient-audio');
-const toggle = document.getElementById('audio-toggle');
+// FORM HANDLING
+const form = document.getElementById("waitlist-form");
+const responseEl = document.getElementById("form-response");
 
-window.addEventListener('load', () => {
-  audio.volume = 0.25;
-  audio.play().catch(() => {});
-});
-
-function fadeVolume(target, duration) {
-  const start = audio.volume;
-  const step = (target - start) / (duration / 50);
-  const fade = setInterval(() => {
-    audio.volume += step;
-    if ((step < 0 && audio.volume <= target) || (step > 0 && audio.volume >= target)) {
-      clearInterval(fade);
-      audio.volume = target;
-    }
-  }, 50);
-}
-
-toggle.addEventListener('click', () => {
-  if (audio.muted) {
-    audio.muted = false;
-    fadeVolume(0.25, 800);
-    toggle.textContent = '🔊';
-    toggle.classList.remove('muted');
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const formData = new FormData(form);
+  const res = await fetch(form.action, { method: "POST", body: formData });
+  if (res.ok) {
+    responseEl.textContent = "Nora will reach out soon!";
+    form.reset();
   } else {
-    fadeVolume(0, 600);
-    setTimeout(() => { audio.muted = true; }, 600);
-    toggle.textContent = '🔇';
-    toggle.classList.add('muted');
+    responseEl.textContent = "Something went wrong. Please try again later.";
   }
 });
+
+// AUDIO TOGGLE
+const audio = document.getElementById("ambientAudio");
+const toggle = document.getElementById("audioToggle");
+
+toggle.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    toggle.textContent = "🔊";
+  } else {
+    audio.pause();
+    toggle.textContent = "🔇";
+  }
+});
+
+// TYPING EFFECT (EUREKA)
+const phrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
+const typedText = document.getElementById("typed-text");
+let i = 0, j = 0, currentPhrase = [], isDeleting = false;
+
+function loop() {
+  const speed = isDeleting ? 50 : 120;
+  if (!isDeleting && j <= phrases[i].length) {
+    currentPhrase.push(phrases[i][j]);
+    typedText.textContent = currentPhrase.join('');
+    j++;
+  }
+  if (isDeleting && j >= 0) {
+    currentPhrase.pop();
+    typedText.textContent = currentPhrase.join('');
+    j--;
+  }
+  if (j === phrases[i].length) {
+    isDeleting = true;
+    setTimeout(loop, 1200);
+    return;
+  }
+  if (isDeleting && j === 0) {
+    isDeleting = false;
+    i = (i + 1) % phrases.length;
+  }
+  setTimeout(loop, speed);
+}
+if (typedText) loop();
