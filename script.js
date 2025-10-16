@@ -65,3 +65,16 @@ if(form){
     }
   });
 }
+
+// Fade-in effect for dawn text
+const dawnTexts = document.querySelectorAll('.dawn p');
+function revealText() {
+  dawnTexts.forEach(p => {
+    const rect = p.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.85) {
+      p.classList.add('revealed');
+    }
+  });
+}
+window.addEventListener('scroll', revealText);
+revealText();
