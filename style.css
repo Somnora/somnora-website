@@ -20,7 +20,7 @@ canvas#stars {
   pointer-events: none;
 }
 
-/* CLOUDS */
+/* CLOUDS (parallax within sections) */
 .cloud-layer {
   position: absolute;
   top: 0;
@@ -70,7 +70,7 @@ canvas#stars {
   width: 100%;
   height: 140px;
   background: linear-gradient(to bottom, rgba(7,16,34,1) 0%, rgba(250,239,189,0.3) 100%);
-  z-index: 2;
+  z-index: 2; /* sits above stars, below text */
 }
 .hero-content {
   z-index: 3;
@@ -212,6 +212,92 @@ canvas#stars {
 .audio-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.1); }
 .audio-toggle.muted { color: #888; opacity: 0.6; }
 
+/* ---------- ADDITIONS BELOW ---------- */
+
+/* Scroll indicator (bottom of hero) */
+.scroll-indicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.4rem;
+  color: rgba(255,255,255,0.8);
+  z-index: 3;
+  animation: bounce 3s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translate(-50%, 0); }
+  50%     { transform: translate(-50%, 8px); }
+}
+
+/* Floating hero bulb with nightcap */
+.hero-icon {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  width: clamp(160px, 20vw, 260px);
+  transform: translate(-50%, -50%);
+  z-index: 2;           /* behind hero text (z=3), above stars/clouds */
+  opacity: 0.18;
+  filter: drop-shadow(0 4px 18px rgba(226,198,122,0.3));
+  animation: float 10s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes float {
+  0%, 100% { transform: translate(-50%, -54%); }
+  50%      { transform: translate(-50%, -46%); }
+}
+/* Bulb palette */
+.hero-icon .bulb { fill: #E2C67A; }
+.hero-icon .base { fill: #7A5831; }
+.hero-icon .base-cap { fill: #6A4C2A; }
+.hero-icon .base-line { fill: #583F22; }
+.hero-icon .cap-top { fill: #4D73A9; }
+.hero-icon .cap-brim, .hero-icon .cap-pom { fill: #F2E7D0; }
+.hero-icon .glint { stroke: #fff; stroke-width: 4; fill: none; opacity: 0.6; }
+
+/* Eureka band (idea capture) */
+.eureka {
+  background: linear-gradient(to bottom, #FFF8E8, #F7EED3);
+  color: #1B273E;
+  padding: 6rem 2rem;
+}
+.eureka h2 {
+  color: #C6A95E;
+  margin-bottom: 0.75rem;
+}
+.eureka p {
+  max-width: 720px;
+  margin: 0 auto 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+.eureka .btn {
+  margin-top: 0.5rem;
+}
+
+/* Typing effect inside Eureka band */
+.typed-text {
+  font-weight: 600;
+  color: #C6A95E;
+  border-right: 2px solid #C6A95E;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: blink 0.9s infinite;
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* Inline form response message */
+.form-response {
+  margin-top: 1rem;
+  color: #1B273E;
+  font-weight: 600;
+}
+
+/* Responsive tweaks */
 @media (min-width: 900px) {
   .section h2 { font-size: 2.3rem; }
 }
