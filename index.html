@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Somnora — The Aura of Sleep</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>Somnora</title>
+  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;500;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;500;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;500;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-
 <body>
-  <header class="hero">
-    <canvas id="stars"></canvas>
-    <div class="bulb-glow"></div>
+
+  <!-- STARFIELD + CLOUDS -->
+  <canvas id="stars"></canvas>
+  <div class="cloud-layer layer1"></div>
+  <div class="cloud-layer layer2"></div>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
     <div class="hero-content">
       <h1>Somnora</h1>
       <p class="tagline">Where Science Meets the Subconscious</p>
@@ -24,14 +23,15 @@
         Track, interpret, and align your sleep patterns and dreams through a seamless connection between mind, body, and machine.
       </p>
       <div class="buttons">
-        <a href="#how" class="btn gold">Explore Insights</a>
+        <a href="#system" class="btn gold">Explore Insights</a>
         <a href="#waitlist" class="btn">Join the Waitlist</a>
       </div>
     </div>
-    <div class="scroll-cue">﹀</div>
-  </header>
+    <div class="scroll-cue">⌄</div>
+  </section>
 
-  <section id="how" class="section light">
+  <!-- SOMNORA SYSTEM SECTION -->
+  <section class="section light" id="system">
     <h2>The Somnora System</h2>
     <div class="cards">
       <div class="card">
@@ -49,34 +49,33 @@
     </div>
   </section>
 
+  <!-- REAL DREAMS SECTION -->
   <section class="section dawn">
     <h2>Real Dreams, Real Data</h2>
-    <p>Dreams aren’t random — they’re your mind’s nightly feedback loop. Somnora synchronizes dream narratives with real physiological data to reveal how emotion and rest intertwine.</p>
-    <p class="small">Backed by Apple HealthKit. Built for clarity, reflection, and better rest.</p>
+    <p>
+      Dreams aren’t random — they’re your mind’s nightly feedback loop.
+      Somnora synchronizes dream narratives with real physiological data to reveal how emotion and rest intertwine.
+    </p>
+    <p>Backed by Apple HealthKit. Built for clarity, reflection, and better rest.</p>
   </section>
 
-  <footer id="waitlist" class="footer">
+  <!-- FOOTER / WAITLIST -->
+  <footer class="footer" id="waitlist">
     <h2>Awaken to Yourself</h2>
     <p>Somnora helps you translate the language of your dreams into clarity, rest, and peace.</p>
-
-    <form action="https://formspree.io/f/xpwybqlp" method="POST" class="waitlist-form">
-      <input type="email" name="email" placeholder="Enter your email" required>
-      <input type="text" name="_gotcha" style="display:none">
-      <button type="submit" class="btn gold">Join the Waitlist</button>
+    <form class="waitlist-form" action="https://formspree.io/f/your_form_id" method="POST">
+      <input type="email" name="email" placeholder="Enter your email" required />
+      <button type="submit">Join the Waitlist</button>
     </form>
-
-    <p class="small">© 2025 Somnora</p>
+    <p>© 2025 Somnora</p>
   </footer>
+
+  <!-- AUDIO TOGGLE -->
+  <button id="audio-toggle" class="audio-toggle">🔊</button>
+  <audio id="ambient-audio" loop autoplay>
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_1fefcbbebb.mp3" type="audio/mpeg">
+  </audio>
 
   <script src="script.js"></script>
 </body>
-
-<audio id="ambientAudio" loop preload="auto">
-  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_34d1d2b76e.mp3" type="audio/mpeg">
-</audio>
-
-<button id="soundToggle" aria-label="Toggle sound">🔊</button>
-<script src="script.js"></script>
-</body>
 </html>
-
