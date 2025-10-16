@@ -13,6 +13,7 @@ h1, h2, h3 {
   letter-spacing: 0.5px;
 }
 
+/* --- HERO --- */
 .hero {
   position: relative;
   height: 100vh;
@@ -21,22 +22,15 @@ h1, h2, h3 {
   justify-content: center;
   text-align: center;
   overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(1200px 600px at 50% 45%, rgba(10,19,35,0.0) 0%, rgba(10,19,35,0.35) 55%, rgba(10,19,35,0.55) 100%),
-              linear-gradient(180deg, rgba(8,14,26,0.50) 0%, rgba(8,14,26,0.65) 100%);
-  z-index: 0;
+  background: linear-gradient(to bottom, rgba(5,10,30,0.9), rgba(15,25,45,0.95));
 }
 
 .hero-content {
   z-index: 2;
-  padding: 2rem;
-  max-width: 700px;
-  animation: fadeIn 2s ease forwards;
+  color: #F2E7D0;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 canvas#stars {
@@ -60,9 +54,48 @@ canvas#stars {
   pointer-events: none;
 }
 
-.tagline { color: #F5E3A8; text-shadow: 0 1px 2px rgba(0,0,0,.25); }
-.subtitle { color: #EFECE3; text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+/* --- Hero Text Animations --- */
+.hero h1 {
+  font-size: 3rem;
+  animation: glowPulse 6s ease-in-out infinite;
+}
 
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 12px rgba(255, 235, 190, 0.25); }
+  50% { text-shadow: 0 0 22px rgba(255, 235, 190, 0.5); }
+}
+
+.tagline {
+  color: #F5E3A8;
+  margin-top: 1rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,.25);
+  position: relative;
+}
+
+.tagline::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 2px;
+  background: #E2C67A;
+  margin: 12px auto 0;
+  opacity: 0.7;
+  animation: lineGlow 5s ease-in-out infinite;
+}
+
+@keyframes lineGlow {
+  0%,100% { opacity: 0.3; transform: scaleX(0.9); }
+  50% { opacity: 1; transform: scaleX(1); }
+}
+
+.subtitle {
+  color: #EFECE3;
+  text-shadow: 0 1px 2px rgba(0,0,0,.25);
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+/* Buttons */
 .btn {
   padding: 0.8rem 1.6rem;
   margin: 0.5rem;
@@ -84,10 +117,39 @@ canvas#stars {
   box-shadow: 0 0 12px rgba(226,198,122,0.4);
 }
 
-.section { padding: 6rem 2rem; text-align: center; }
-.light { background-color: #F5F3EE; color: #1B273E; }
-.dawn { background: linear-gradient(to bottom, #F5F3EE, #FDEFBD); color: #1B273E; }
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  animation: bounce 3s ease-in-out infinite;
+}
 
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 10px); }
+}
+
+/* --- SECTIONS --- */
+.section {
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.light {
+  background-color: #F5F3EE;
+  color: #1B273E;
+}
+
+.dawn {
+  background: linear-gradient(to bottom, #F5F3EE, #FDEFBD);
+  color: #1B273E;
+}
+
+/* --- Cards --- */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -97,19 +159,35 @@ canvas#stars {
 }
 
 .card {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.06);
   border-radius: 12px;
   padding: 1.5rem;
   width: 300px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 22px rgba(27,39,62,0.06);
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(226,198,122,0.2);
+  box-shadow: 0 8px 20px rgba(226,198,122,0.25);
 }
 
+.light h2,
+.light h3,
+.card h3 {
+  color: #1B273E;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.card h3 {
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin-top: .25rem;
+  margin-bottom: .75rem;
+}
+
+/* --- FOOTER --- */
 .footer {
   padding: 5rem 2rem;
   text-align: center;
@@ -173,42 +251,6 @@ canvas#stars {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 768px) {
-  h1 { font-size: 2.2rem; }
-  h2 { font-size: 1.6rem; }
-  .cards { flex-direction: column; align-items: center; }
-  .hero-content {
-    background: rgba(7,16,34,0.35);
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    backdrop-filter: blur(6px);
-    border-radius: 14px;
-  }
-/* Improve heading contrast on light sections/cards */
-.light h2,
-.light h3,
-.card h3 {
-  color: #1B273E;          /* deep navy */
-  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
-}
-
-.card h3 {
-  font-weight: 700;
-  letter-spacing: .2px;
-  margin-top: .25rem;
-  margin-bottom: .75rem;
-}
-
-/* Section heading inside .light/.dawn blocks */
-.light h2,
-.dawn h2 {
-  color: #121C33;
-  text-shadow: none;
-}
-
-/* Optional: slightly darken card background for more separation */
-.card {
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 8px 22px rgba(27,39,62,0.06);
+@media (min-width: 900px){
+  .light h2 { font-size: 2rem; }
 }
