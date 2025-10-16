@@ -224,25 +224,3 @@ p.revealed { opacity: 1; transform: translateY(0); }
 @media (min-width: 900px) {
   .section h2 { font-size: 2.3rem; }
 }
-#soundToggle {
-  position: fixed;
-  bottom: 22px;
-  right: 22px;
-  background: rgba(255, 255, 255, 0.15);
-  color: #F2E7D0;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
-  font-size: 1.1rem;
-  width: 46px;
-  height: 46px;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(6px);
-}
-
-#soundToggle:hover {
-  transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 0 10px rgba(226,198,122,0.4);
-}
