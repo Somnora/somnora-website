@@ -305,27 +305,26 @@ canvas#stars {
 }
 @keyframes caretBlink { 50% { opacity: .25; } }
 
-/* Hidden by default */
+/* Hidden by default: not rendered, so no flash */
 .typed-overlay{
   position: absolute;
   left: 50%;
-  bottom: 1.05em;                 /* your tuned spacing */
+  bottom: 1.05em;          /* your tuned spacing */
   transform: translateX(-50%);
   color: #C6A95E;
   font-weight: 600;
   white-space: nowrap;
   pointer-events: none;
   text-shadow: 0 1px 0 rgba(255,255,255,0.55);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .35s ease, visibility 0s linear .35s;
+  display: none;           /* <-- key change */
+  opacity: 0;              /* keep for fade-in */
+  transition: opacity .35s ease;
 }
 
-/* Only becomes visible after first character is rendered */
+/* Only show once first character is drawn */
 .eureka.typing-visible .typed-overlay{
+  display: inline-block;   /* <-- key change */
   opacity: 1;
-  visibility: visible;
-  transition: opacity .35s ease;
 }
 
 /* Inline form response message */
