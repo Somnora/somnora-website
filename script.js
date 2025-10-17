@@ -118,79 +118,75 @@ toggle?.addEventListener("click", () => {
 });
 
 /* ========== EUREKA TYPING (overlay above caret) ========== */
-const phrases = [
-  "voice notes",
-  "midnight ideas",
-  "sketches",
-  "thoughts on the go"
-];
-
+const phrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
 const typedTarget = document.getElementById("typed-overlay");
 const eurekaSection = document.getElementById("eureka");
 
-let pIdx = 0, charIdx = 0, buffer = "", deleting = false, typingStarted = false;
-function typeStep() {
+let pIdx = 0, charIdx = 0, deleting = false, typingStarted = false, overlayVisible = false;
+
+function typeStep(){
   if (!typedTarget) return;
 
-  // speeds (slower if reduce-motion)
-  const typeSpeed = prefersReduced ? 120 : 100;
-  const deleteSpeed = prefersReduced ? 65 : 50;
-  const pauseFull = prefersReduced ? 1400 : 1100;
+  const typeSpeed   = prefersReduced ? 120 : 100;
+  const deleteSpeed = prefersReduced ? 65  : 50;
+  const pauseFull   = prefersReduced ? 1400: 1100;
 
   const word = phrases[pIdx];
 
-  if (!deleting && charIdx <= word.length) {
-    buffer = word.slice(0, charIdx);
-    typedTarget.textContent = buffer;
+  // Reveal overlay only after first character is painted
+  if (!overlayVisible && charIdx === 1){
+    eurekaSection?.classList.add("typing-visible");
+    overlayVisible = true;
+  }
+
+  if (!deleting && charIdx <= word.length){
+    typedTarget.textContent = word.slice(0, charIdx);
     charIdx++;
-    setTimeout(typeStep, typeSpeed);
-    return;
+    return void setTimeout(typeStep, typeSpeed);
   }
 
-  if (!deleting && charIdx > word.length) {
+  if (!deleting && charIdx > word.length){
     deleting = true;
-    setTimeout(typeStep, pauseFull);
-    return;
+    return void setTimeout(typeStep, pauseFull);
   }
 
-  if (deleting && charIdx >= 0) {
-    buffer = word.slice(0, charIdx);
-    typedTarget.textContent = buffer;
+  if (deleting && charIdx >= 0){
+    typedTarget.textContent = word.slice(0, charIdx);
     charIdx--;
-    setTimeout(typeStep, deleteSpeed);
-    return;
+    return void setTimeout(typeStep, deleteSpeed);
   }
 
-  // move to next word
+  // Next word
   deleting = false;
   pIdx = (pIdx + 1) % phrases.length;
   setTimeout(typeStep, typeSpeed);
 }
 
-function startTypingOnce() {
+function startTypingOnce(){
   if (typingStarted) return;
   typingStarted = true;
 
-  if (typedTarget) typedTarget.textContent = ""; // ensure clean start
-  eurekaSection?.classList.add("typing-on");
+  overlayVisible = false;
+  if (typedTarget) typedTarget.textContent = "";
 
-  // Start on next paint to avoid one-frame flash
+  // Start on next frame to avoid prepaint flash
   requestAnimationFrame(() => requestAnimationFrame(typeStep));
 }
 
-if (eurekaSection) {
-  if ("IntersectionObserver" in window) {
+// Start when Eureka enters the viewport
+if (eurekaSection){
+  if ("IntersectionObserver" in window){
     const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+      for (const entry of entries){
+        if (entry.isIntersecting && entry.intersectionRatio > 0.35){
           startTypingOnce();
           io.disconnect();
+          break;
         }
-      });
+      }
     }, { threshold: [0, 0.35, 1] });
     io.observe(eurekaSection);
   } else {
-    // Fallback
     startTypingOnce();
   }
 }
