@@ -119,7 +119,7 @@ toggle?.addEventListener("click", () => {
 
 /* ========== EUREKA TYPING (overlay above caret) ========== */
 const phrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
-const typedTarget = document.getElementById("typed-overlay");
+const typedTarget   = document.getElementById("typed-overlay");
 const eurekaSection = document.getElementById("eureka");
 
 let pIdx = 0, charIdx = 0, deleting = false, typingStarted = false, overlayVisible = false;
@@ -133,23 +133,32 @@ function typeStep(){
 
   const word = phrases[pIdx];
 
-  // Reveal overlay only after first character is painted
-  if (!overlayVisible && charIdx === 1){
-    eurekaSection?.classList.add("typing-visible");
-    overlayVisible = true;
+  // FIRST CHARACTER path: paint 1st char, then reveal overlay
+  if (!deleting && charIdx === 0){
+    typedTarget.textContent = word.charAt(0);
+    charIdx = 1;
+
+    if (!overlayVisible){
+      eurekaSection?.classList.add("typing-visible"); // display:inline-block; opacity:1
+      overlayVisible = true;
+    }
+    return void setTimeout(typeStep, typeSpeed);
   }
 
+  // Normal typing forward
   if (!deleting && charIdx <= word.length){
     typedTarget.textContent = word.slice(0, charIdx);
     charIdx++;
     return void setTimeout(typeStep, typeSpeed);
   }
 
+  // Pause at full word
   if (!deleting && charIdx > word.length){
     deleting = true;
     return void setTimeout(typeStep, pauseFull);
   }
 
+  // Delete backward
   if (deleting && charIdx >= 0){
     typedTarget.textContent = word.slice(0, charIdx);
     charIdx--;
@@ -166,14 +175,16 @@ function startTypingOnce(){
   if (typingStarted) return;
   typingStarted = true;
 
+  // Hard reset: ensure nothing is visible/painted
   overlayVisible = false;
   if (typedTarget) typedTarget.textContent = "";
+  eurekaSection?.classList.remove("typing-visible");
 
-  // Start on next frame to avoid prepaint flash
+  // Start on next frame so layout settles before we paint the first char
   requestAnimationFrame(() => requestAnimationFrame(typeStep));
 }
 
-// Start when Eureka enters the viewport
+// Start when Eureka enters viewport (once)
 if (eurekaSection){
   if ("IntersectionObserver" in window){
     const io = new IntersectionObserver((entries) => {
