@@ -305,11 +305,11 @@ canvas#stars {
 }
 @keyframes caretBlink { 50% { opacity: .25; } }
 
-/* Popup phrase ABOVE the caret */
-.typed-overlay {
+/* Overlay hidden until typing starts */
+.typed-overlay{
   position: absolute;
   left: 50%;
-  bottom: 1.9em;              /* height above text line */
+  bottom: 1.05em;              /* your tuned spacing */
   transform: translateX(-50%);
   color: #C6A95E;
   font-weight: 600;
@@ -317,9 +317,14 @@ canvas#stars {
   pointer-events: none;
   text-shadow: 0 1px 0 rgba(255,255,255,0.55);
   opacity: 0;
+  visibility: hidden;          /* <-- add */
+  transition: opacity .35s ease, visibility 0s linear .35s;
+}
+.eureka.typing-on .typed-overlay{
+  opacity: 1;
+  visibility: visible;         /* <-- add */
   transition: opacity .35s ease;
 }
-.eureka.typing-on .typed-overlay { opacity: 1; }
 
 /* Inline form response message */
 .form-response {
