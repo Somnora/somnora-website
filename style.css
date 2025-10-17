@@ -9,6 +9,15 @@ html, body {
   scroll-behavior: smooth;
 }
 
+/* A11Y helper used in index.html */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
 /* STARFIELD (fixed under everything) */
 canvas#stars {
   position: fixed;
@@ -20,7 +29,7 @@ canvas#stars {
   pointer-events: none;
 }
 
-/* CLOUDS (parallax within sections) — single authoritative block */
+/* CLOUDS (parallax within sections) */
 .cloud-layer {
   position: absolute;
   top: 0;
@@ -81,7 +90,6 @@ canvas#stars {
   max-width: 720px;
   padding: 0 1.5rem;
 }
-
 .hero h1 {
   font-size: 3.5rem;
   margin-bottom: 0.5rem;
@@ -280,11 +288,11 @@ canvas#stars {
 }
 .eureka h2 {
   color: #C6A95E;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2rem;    /* extra breathing room from header */
 }
 .eureka p {
   max-width: 820px;
-  margin: 0 auto 1.25rem;
+  margin: 1.25rem auto 1.25rem;  /* space below header */
   font-size: 1.175rem;
   line-height: 1.75;
 }
@@ -296,24 +304,26 @@ canvas#stars {
   width: 1ch;                 /* keep inline flow tight */
   text-align: center;
 }
-/* Caret + overlay typing */
-.caret-wrap { position: relative; display: inline-block; width: 1ch; text-align: center; }
-.caret { color:#C6A95E; font-weight:700; display:inline-block; transform: translateY(0.12em); animation: caretBlink 1s step-end infinite; }
+.caret {
+  color:#C6A95E;
+  font-weight:700;
+  display:inline-block;
+  transform: translateY(0.12em);
+  animation: caretBlink 1s step-end infinite;
+}
 @keyframes caretBlink { 50% { opacity:.25; } }
 
-/* Hidden by default; will be created at runtime just before first char is shown */
+/* Hidden by default; created at runtime just before first char is shown */
 .typed-overlay{
   position:absolute; left:50%; bottom:1.05em; transform:translateX(-50%);
   color:#C6A95E; font-weight:600; white-space:nowrap; pointer-events:none;
   text-shadow:0 1px 0 rgba(255,255,255,.55);
   display:none; opacity:0; transition:opacity .35s ease;
 }
-.eureka.typing-visible .typed-overlay{ display:inline-block; opacity:1; }
-
 
 /* Only show once first character is drawn */
 .eureka.typing-visible .typed-overlay{
-  display: inline-block;   /* <-- key change */
+  display: inline-block;
   opacity: 1;
 }
 
