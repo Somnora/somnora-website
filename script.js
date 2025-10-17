@@ -170,8 +170,12 @@ function typeStep() {
 function startTypingOnce() {
   if (typingStarted) return;
   typingStarted = true;
-  eurekaSection?.classList.add("typing-on"); // fades overlay in
-  typeStep();
+
+  if (typedTarget) typedTarget.textContent = ""; // ensure clean start
+  eurekaSection?.classList.add("typing-on");
+
+  // Start on next paint to avoid one-frame flash
+  requestAnimationFrame(() => requestAnimationFrame(typeStep));
 }
 
 if (eurekaSection) {
