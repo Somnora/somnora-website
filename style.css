@@ -296,30 +296,20 @@ canvas#stars {
   width: 1ch;                 /* keep inline flow tight */
   text-align: center;
 }
-.caret {
-  color: #C6A95E;
-  font-weight: 700;
-  display: inline-block;
-  transform: translateY(0.05em);
-  animation: caretBlink 1s step-end infinite;
-}
-@keyframes caretBlink { 50% { opacity: .25; } }
+/* Caret + overlay typing */
+.caret-wrap { position: relative; display: inline-block; width: 1ch; text-align: center; }
+.caret { color:#C6A95E; font-weight:700; display:inline-block; transform: translateY(0.12em); animation: caretBlink 1s step-end infinite; }
+@keyframes caretBlink { 50% { opacity:.25; } }
 
-/* Hidden by default: not rendered, so no flash */
+/* Hidden by default; will be created at runtime just before first char is shown */
 .typed-overlay{
-  position: absolute;
-  left: 50%;
-  bottom: 1.05em;          /* your tuned spacing */
-  transform: translateX(-50%);
-  color: #C6A95E;
-  font-weight: 600;
-  white-space: nowrap;
-  pointer-events: none;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.55);
-  display: none;           /* <-- key change */
-  opacity: 0;              /* keep for fade-in */
-  transition: opacity .35s ease;
+  position:absolute; left:50%; bottom:1.05em; transform:translateX(-50%);
+  color:#C6A95E; font-weight:600; white-space:nowrap; pointer-events:none;
+  text-shadow:0 1px 0 rgba(255,255,255,.55);
+  display:none; opacity:0; transition:opacity .35s ease;
 }
+.eureka.typing-visible .typed-overlay{ display:inline-block; opacity:1; }
+
 
 /* Only show once first character is drawn */
 .eureka.typing-visible .typed-overlay{
