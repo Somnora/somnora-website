@@ -117,29 +117,41 @@ toggle?.addEventListener("click", () => {
   syncAudioToggle();
 });
 
-/* ========== EUREKA TYPING (overlay above caret) ========== */
+/* ========== EUREKA TYPING (overlay above caret, created dynamically) ========== */
 const phrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
-const typedTarget   = document.getElementById("typed-overlay");
 const eurekaSection = document.getElementById("eureka");
+const caretWrap = document.querySelector("#eureka .caret-wrap");
 
+let typedTarget = null;                // will be created on first char
 let pIdx = 0, charIdx = 0, deleting = false, typingStarted = false, overlayVisible = false;
 
-function typeStep(){
-  if (!typedTarget) return;
+function ensureOverlay(){
+  if (typedTarget || !caretWrap) return;
+  typedTarget = document.createElement("span");
+  typedTarget.id = "typed-overlay";
+  typedTarget.className = "typed-overlay";
+  typedTarget.setAttribute("aria-live", "polite");
+  typedTarget.setAttribute("aria-atomic", "true");
+  // Insert BEFORE the caret so it sits above it visually
+  caretWrap.insertBefore(typedTarget, caretWrap.firstChild);
+}
 
-  const typeSpeed   = prefersReduced ? 120 : 100;
-  const deleteSpeed = prefersReduced ? 65  : 50;
-  const pauseFull   = prefersReduced ? 1400: 1100;
+function typeStep(){
+  if (!caretWrap) return;
+
+  const typeSpeed   = (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) ? 120 : 100;
+  const deleteSpeed = (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) ? 65  : 50;
+  const pauseFull   = (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) ? 1400: 1100;
 
   const word = phrases[pIdx];
 
-  // FIRST CHARACTER path: paint 1st char, then reveal overlay
+  // First character: create overlay, set text, then reveal
   if (!deleting && charIdx === 0){
+    ensureOverlay();
     typedTarget.textContent = word.charAt(0);
     charIdx = 1;
-
     if (!overlayVisible){
-      eurekaSection?.classList.add("typing-visible"); // display:inline-block; opacity:1
+      eurekaSection?.classList.add("typing-visible"); // triggers display/opacity
       overlayVisible = true;
     }
     return void setTimeout(typeStep, typeSpeed);
@@ -174,17 +186,14 @@ function typeStep(){
 function startTypingOnce(){
   if (typingStarted) return;
   typingStarted = true;
-
-  // Hard reset: ensure nothing is visible/painted
   overlayVisible = false;
-  if (typedTarget) typedTarget.textContent = "";
+  if (typedTarget) typedTarget.textContent = "";    // safety
   eurekaSection?.classList.remove("typing-visible");
-
   // Start on next frame so layout settles before we paint the first char
   requestAnimationFrame(() => requestAnimationFrame(typeStep));
 }
 
-// Start when Eureka enters viewport (once)
+// Start when Eureka enters the viewport (once)
 if (eurekaSection){
   if ("IntersectionObserver" in window){
     const io = new IntersectionObserver((entries) => {
