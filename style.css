@@ -305,11 +305,11 @@ canvas#stars {
 }
 @keyframes caretBlink { 50% { opacity: .25; } }
 
-/* Overlay hidden until typing starts */
+/* Hidden by default */
 .typed-overlay{
   position: absolute;
   left: 50%;
-  bottom: 1.05em;              /* your tuned spacing */
+  bottom: 1.05em;                 /* your tuned spacing */
   transform: translateX(-50%);
   color: #C6A95E;
   font-weight: 600;
@@ -317,12 +317,14 @@ canvas#stars {
   pointer-events: none;
   text-shadow: 0 1px 0 rgba(255,255,255,0.55);
   opacity: 0;
-  visibility: hidden;          /* <-- add */
+  visibility: hidden;
   transition: opacity .35s ease, visibility 0s linear .35s;
 }
-.eureka.typing-on .typed-overlay{
+
+/* Only becomes visible after first character is rendered */
+.eureka.typing-visible .typed-overlay{
   opacity: 1;
-  visibility: visible;         /* <-- add */
+  visibility: visible;
   transition: opacity .35s ease;
 }
 
