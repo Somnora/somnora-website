@@ -1,41 +1,69 @@
 /* ========== PARALLAX STARFIELD (HERO) ========== */
 const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d", { alpha: true });
 let stars = [];
+let rafId = null;
+
+const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+
+function starCount() {
+  // Responsive density: cap to keep perf nice
+  const area = window.innerWidth * window.innerHeight;
+  return Math.min(260, Math.max(160, Math.round(area / 12000)));
+}
 
 function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  stars = Array(180).fill().map(() => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 1.5 + 0.2,
-    speed: 0.15 + Math.random() * 0.35
+  // DPR scaling for crisp glow
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(window.innerWidth * dpr);
+  canvas.height = Math.floor(window.innerHeight * dpr);
+  canvas.style.width = `${window.innerWidth}px`;
+  canvas.style.height = `${window.innerHeight}px`;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const N = starCount();
+  stars = Array(N).fill().map(() => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    size: Math.random() * 1.6 + 0.25,
+    speed: (prefersReduced ? 0.08 : 0.15) + Math.random() * (prefersReduced ? 0.18 : 0.35),
   }));
 }
+
 function animateStars() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   ctx.fillStyle = "#fff";
-  stars.forEach(s => {
-    ctx.globalAlpha = 0.45 + Math.random() * 0.4;
+
+  for (const s of stars) {
+    ctx.globalAlpha = 0.55 + Math.random() * 0.35; // gentle twinkle
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
     ctx.fill();
-    s.y += s.speed;          // slow drift downward
-    if (s.y > canvas.height) s.y = 0;
-  });
-  requestAnimationFrame(animateStars);
+
+    s.y += s.speed;
+    if (s.y > window.innerHeight) {
+      s.y = -2;
+      s.x = Math.random() * window.innerWidth;
+    }
+  }
+  rafId = requestAnimationFrame(animateStars);
 }
-window.addEventListener("resize", resizeCanvas);
+
+window.addEventListener("resize", () => {
+  cancelAnimationFrame(rafId);
+  resizeCanvas();
+  animateStars();
+});
 resizeCanvas();
 animateStars();
 
 /* ========== SMOOTH SCROLL ========== */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener("click", e => {
+    const target = document.querySelector(a.getAttribute("href"));
+    if (!target) return;
     e.preventDefault();
-    document.querySelector(a.getAttribute("href"))
-      .scrollIntoView({ behavior: "smooth" });
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 });
 
@@ -45,6 +73,7 @@ const responseEl = document.getElementById("form-response");
 if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    responseEl.textContent = "Sending…";
     try {
       const res = await fetch(form.action, {
         method: "POST",
@@ -55,7 +84,7 @@ if (form) {
         responseEl.textContent = "Nora will reach out soon! ✨";
         form.reset();
       } else {
-        responseEl.textContent = "Hmm… something went wrong. Please try again.";
+        responseEl.textContent = "Something went wrong. Please try again.";
       }
     } catch {
       responseEl.textContent = "Network error. Please try again.";
@@ -67,105 +96,97 @@ if (form) {
 const audio = document.getElementById("ambientAudio");
 const toggle = document.getElementById("audioToggle");
 
+function syncAudioToggle() {
+  if (!toggle || !audio) return;
+  const playing = !audio.paused;
+  toggle.textContent = playing ? "🔊" : "🔇";
+  toggle.classList.toggle("muted", !playing);
+  toggle.setAttribute("aria-pressed", playing ? "true" : "false");
+}
+
 window.addEventListener("load", () => {
-  if (audio) {
-    audio.volume = 0.25;
-    audio.play().catch(() => {}); // some browsers require interaction
-  }
+  if (!audio) return;
+  audio.volume = 0.22;
+  audio.play().catch(() => {
+    // Autoplay blocked until user interacts
+  }).finally(syncAudioToggle);
 });
-
 toggle?.addEventListener("click", () => {
-  if (audio.paused) {
-    audio.play();
-    toggle.textContent = "🔊";
-    toggle.classList.remove("muted");
-  } else {
-    audio.pause();
-    toggle.textContent = "🔇";
-    toggle.classList.add("muted");
-  }
+  if (!audio) return;
+  if (audio.paused) audio.play(); else audio.pause();
+  syncAudioToggle();
 });
 
-/* Typing effect that appears above the caret when the section enters view */
-const phrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
+/* ========== EUREKA TYPING (overlay above caret) ========== */
+const phrases = [
+  "voice notes",
+  "midnight ideas",
+  "sketches",
+  "thoughts on the go"
+];
+
 const typedTarget = document.getElementById("typed-overlay");
 const eurekaSection = document.getElementById("eureka");
 
-let i = 0, j = 0, buf = [], deleting = false, typingStarted = false;
-
-function typeLoop() {
+let pIdx = 0, charIdx = 0, buffer = "", deleting = false, typingStarted = false;
+function typeStep() {
   if (!typedTarget) return;
 
-  const speed = deleting ? 50 : 110;
+  // speeds (slower if reduce-motion)
+  const typeSpeed = prefersReduced ? 120 : 100;
+  const deleteSpeed = prefersReduced ? 65 : 50;
+  const pauseFull = prefersReduced ? 1400 : 1100;
 
-  if (!deleting && j <= phrases[i].length) {
-    buf.push(phrases[i][j]);
-    typedTarget.textContent = buf.join("");
-    j++;
-  } else if (deleting && j >= 0) {
-    buf.pop();
-    typedTarget.textContent = buf.join("");
-    j--;
+  const word = phrases[pIdx];
+
+  if (!deleting && charIdx <= word.length) {
+    buffer = word.slice(0, charIdx);
+    typedTarget.textContent = buffer;
+    charIdx++;
+    setTimeout(typeStep, typeSpeed);
+    return;
   }
 
-  if (j === phrases[i].length) {        // pause when full word printed
+  if (!deleting && charIdx > word.length) {
     deleting = true;
-    return setTimeout(typeLoop, 1200);
-  }
-  if (deleting && j === 0) {            // move to next phrase
-    deleting = false;
-    i = (i + 1) % phrases.length;
+    setTimeout(typeStep, pauseFull);
+    return;
   }
 
-  setTimeout(typeLoop, speed);
+  if (deleting && charIdx >= 0) {
+    buffer = word.slice(0, charIdx);
+    typedTarget.textContent = buffer;
+    charIdx--;
+    setTimeout(typeStep, deleteSpeed);
+    return;
+  }
+
+  // move to next word
+  deleting = false;
+  pIdx = (pIdx + 1) % phrases.length;
+  setTimeout(typeStep, typeSpeed);
 }
 
 function startTypingOnce() {
   if (typingStarted) return;
   typingStarted = true;
-  eurekaSection?.classList.add("typing-on");
-  typeLoop();
+  eurekaSection?.classList.add("typing-on"); // fades overlay in
+  typeStep();
 }
 
-if ("IntersectionObserver" in window && eurekaSection) {
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
-        startTypingOnce();
-        io.unobserve(eurekaSection);
-      }
-    });
-  }, { threshold: [0, 0.35, 1] });
-  io.observe(eurekaSection);
-} else {
-  // Fallback
-  startTypingOnce();
+if (eurekaSection) {
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+          startTypingOnce();
+          io.disconnect();
+        }
+      });
+    }, { threshold: [0, 0.35, 1] });
+    io.observe(eurekaSection);
+  } else {
+    // Fallback
+    startTypingOnce();
+  }
 }
-
-// --- Start typing only when Eureka enters the viewport ---
-const eurekaSection = document.getElementById('eureka');
-let typingStarted = false;
-
-function startTypingOnce() {
-  if (typingStarted) return;
-  typingStarted = true;
-  // add a class so CSS can fade-in the overlay
-  eurekaSection?.classList.add('typing-on');
-  typeLoop(); // calls your existing typing loop
-}
-
-if ('IntersectionObserver' in window && eurekaSection) {
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
-        startTypingOnce();
-        io.unobserve(eurekaSection);
-      }
-    });
-  }, { threshold: [0, 0.35, 1] });
-  io.observe(eurekaSection);
-} else {
-  // Fallback for very old browsers
-  startTypingOnce();
-}
-
