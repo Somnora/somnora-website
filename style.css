@@ -301,7 +301,7 @@ canvas#stars {
 .caret-wrap {
   position: relative;
   display: inline-block;
-  width: 1ch;                 /* keep inline flow tight */
+  width: 1ch;
   text-align: center;
 }
 .caret {
@@ -313,18 +313,17 @@ canvas#stars {
 }
 @keyframes caretBlink { 50% { opacity:.25; } }
 
-/* Hidden by default; created at runtime just before first char is shown */
+/* The overlay text (created by JS) */
 .typed-overlay{
   position:absolute; left:50%; bottom:1.05em; transform:translateX(-50%);
   color:#C6A95E; font-weight:600; white-space:nowrap; pointer-events:none;
   text-shadow:0 1px 0 rgba(255,255,255,.55);
   display:none; opacity:0; transition:opacity .35s ease;
+  will-change: opacity;   /* smoother fade */
 }
-
-/* Only show once first character is drawn */
 .eureka.typing-visible .typed-overlay{
-  display: inline-block;
-  opacity: 1;
+  display:inline-block;
+  opacity:1;
 }
 
 /* Inline form response message */
