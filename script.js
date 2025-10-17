@@ -86,11 +86,12 @@ toggle?.addEventListener("click", () => {
   }
 });
 
-/* Typing effect that appears above the caret */
+/* Typing effect that appears above the caret when the section enters view */
 const phrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
 const typedTarget = document.getElementById("typed-overlay");
+const eurekaSection = document.getElementById("eureka");
 
-let i = 0, j = 0, buf = [], deleting = false;
+let i = 0, j = 0, buf = [], deleting = false, typingStarted = false;
 
 function typeLoop() {
   if (!typedTarget) return;
@@ -107,17 +108,40 @@ function typeLoop() {
     j--;
   }
 
-  if (j === phrases[i].length) {        // pause at full word
+  if (j === phrases[i].length) {        // pause when full word printed
     deleting = true;
     return setTimeout(typeLoop, 1200);
   }
-  if (deleting && j === 0) {            // next phrase
+  if (deleting && j === 0) {            // move to next phrase
     deleting = false;
     i = (i + 1) % phrases.length;
   }
 
   setTimeout(typeLoop, speed);
 }
+
+function startTypingOnce() {
+  if (typingStarted) return;
+  typingStarted = true;
+  eurekaSection?.classList.add("typing-on");
+  typeLoop();
+}
+
+if ("IntersectionObserver" in window && eurekaSection) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+        startTypingOnce();
+        io.unobserve(eurekaSection);
+      }
+    });
+  }, { threshold: [0, 0.35, 1] });
+  io.observe(eurekaSection);
+} else {
+  // Fallback
+  startTypingOnce();
+}
+
 // --- Start typing only when Eureka enters the viewport ---
 const eurekaSection = document.getElementById('eureka');
 let typingStarted = false;
