@@ -2,91 +2,101 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Somnora — Where Science Meets the Subconscious</title>
 
   <!-- Fonts & Styles -->
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="color-scheme" content="light" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Parallax Starfield (sits under all content) -->
-  <canvas id="stars"></canvas>
+  <!-- Parallax Starfield (fixed under all content) -->
+  <canvas id="stars" aria-hidden="true"></canvas>
 
-  <!-- HERO -->
-  <section class="hero">
+  <main id="top" role="main">
 
-    <div class="hero-content">
-      <h1>Somnora</h1>
-      <p class="tagline">Where Science Meets the Subconscious</p>
-      <p class="subtitle">
-        Track, interpret, and align your sleep patterns and dreams through a seamless connection between mind, body, and machine.
+    <!-- HERO -->
+    <section class="hero" aria-label="Welcome">
+      <div class="hero-content">
+        <h1>Somnora</h1>
+        <p class="tagline">Where Science Meets the Subconscious</p>
+        <p class="subtitle">
+          Track, interpret, and align your sleep patterns and dreams through a seamless connection between mind, body, and machine.
+        </p>
+        <a href="#insights" class="btn gold">Explore Insights</a>
+        <a href="#waitlist" class="btn">Join the Waitlist</a>
+      </div>
+      <div class="scroll-indicator" aria-hidden="true">⌄</div>
+    </section>
+
+    <!-- THE SOMNORA SYSTEM (stars fade to clouds here) -->
+    <section id="insights" class="section light" aria-label="The Somnora System">
+      <!-- parallax clouds behind content -->
+      <div class="cloud-layer layer1" aria-hidden="true"></div>
+      <div class="cloud-layer layer2" aria-hidden="true"></div>
+
+      <h2>The Somnora System</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Sleep + Dream Connection</h3>
+          <p>Somnora integrates seamlessly with your Apple Watch and HealthKit to map REM, Deep, and Awake phases against your dream logs.</p>
+        </div>
+
+        <div class="card">
+          <h3>Dream Reflection</h3>
+          <p>Nora, your reflective AI companion, helps you unpack each dream’s meaning through calm, guided insight, grounded in science, not superstition.</p>
+        </div>
+
+        <div class="card">
+          <h3>Insight Over Time</h3>
+          <p>Somnora learns from your patterns, revealing how your emotional cycles align with your sleep quality.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EUREKA MOMENTS (typing above caret, starts on view) -->
+    <section id="eureka" class="section eureka" aria-label="Eureka Moments">
+      <h2>Eureka Moments</h2>
+      <p>
+        Somnora isn’t only for dreams. Capture
+        <span class="caret-wrap">
+          <span id="typed-overlay" class="typed-overlay" aria-live="polite"></span>
+          <span class="caret" aria-hidden="true">^</span>
+        </span>
+        hands free. Nora helps you unpack each idea, suggest next steps, and turn flashes into follow-through.
       </p>
-      <a href="#insights" class="btn gold">Explore Insights</a>
-      <a href="#waitlist" class="btn">Join the Waitlist</a>
-    </div>
+      <a href="#waitlist" class="btn gold">Get Early Access</a>
+    </section>
 
-    <div class="scroll-indicator">⌄</div>
-  </section>
+    <!-- FOOTER / WAITLIST -->
+    <footer id="waitlist" class="footer dawn" aria-label="Join the Waitlist">
+      <h2>Awaken to Yourself</h2>
+      <p>Somnora helps you translate the language of your dreams into clarity, rest, and peace.</p>
 
-  <section id="insights" class="section light">
-  <!-- parallax clouds behind content -->
-  <div class="cloud-layer layer1" aria-hidden="true"></div>
-  <div class="cloud-layer layer2" aria-hidden="true"></div>
+      <!-- Replace action with your real Formspree endpoint (already set) -->
+      <form id="waitlist-form" class="waitlist-form" action="https://formspree.io/f/xpwybqlp" method="POST">
+        <label class="visually-hidden" for="email">Email</label>
+        <input id="email" type="email" name="email" placeholder="Enter your email" required />
+        <button type="submit">Join the Waitlist</button>
+      </form>
 
-  <h2>The Somnora System</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Sleep + Dream Connection</h3>
-      <p>Somnora integrates seamlessly with your Apple Watch and HealthKit to map REM, Deep, and Awake phases against your dream logs.</p>
-    </div>
-    <div class="card">
-      <h3>Dream Reflection</h3>
-      <p>Nora, your reflective AI companion, helps you unpack each dream’s meaning through calm, guided insight, grounded in science, not superstition.</p>
-    </div>
-    <div class="card">
-      <h3>Insight Over Time</h3>
-      <p>Somnora learns from your patterns, revealing how your emotional cycles align with your sleep quality.</p>
-    </div>
-  </div>
-</section>
+      <p id="form-response" class="form-response" role="status" aria-live="polite"></p>
+      <p>© 2025 Somnora</p>
+    </footer>
 
-  <!-- EUREKA MOMENTS (typing effect) -->
-  <section id="eureka" class="section eureka">
-  <h2>Eureka Moments</h2>
-  <p>
-    Somnora isn’t only for dreams. Capture
-    <span class="caret-wrap">
-      <span id="typed-overlay" class="typed-overlay" aria-live="polite"></span>
-      <span class="caret" aria-hidden="true">^</span>
-    </span>
-    hands free. Nora helps you unpack each idea, suggest next steps, and turn flashes into follow-through.
-  </p>
-  <a href="#waitlist" class="btn gold">Get Early Access</a>
-</section>
-
-  <!-- FOOTER / WAITLIST -->
-  <footer id="waitlist" class="footer dawn">
-    <h2>Awaken to Yourself</h2>
-    <p>Somnora helps you translate the language of your dreams into clarity, rest, and peace.</p>
-
-    <!-- Replace action with your real Formspree endpoint -->
-    <form id="waitlist-form" class="waitlist-form" action="https://formspree.io/f/xpwybqlp" method="POST">
-      <input type="email" name="email" placeholder="Enter your email" required />
-      <button type="submit">Join the Waitlist</button>
-    </form>
-
-    <p id="form-response" class="form-response"></p>
-    <p>© 2025 Somnora</p>
-  </footer>
+  </main>
 
   <!-- Ambient Audio (on by default) + Toggle -->
-  <button id="audioToggle" class="audio-toggle" title="Toggle Ambient Sound">🔊</button>
+  <button id="audioToggle" class="audio-toggle" title="Toggle ambient sound" aria-pressed="false">🔊</button>
   <audio id="ambientAudio" loop autoplay>
     <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f9b8d20a87.mp3" type="audio/mpeg" />
   </audio>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
