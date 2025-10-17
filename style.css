@@ -9,7 +9,7 @@ html, body {
   scroll-behavior: smooth;
 }
 
-/* STARFIELD */
+/* STARFIELD (fixed under everything) */
 canvas#stars {
   position: fixed;
   top: 0; left: 0;
@@ -20,16 +20,17 @@ canvas#stars {
   pointer-events: none;
 }
 
-/* CLOUDS (parallax within sections) */
+/* CLOUDS (parallax within sections) — single authoritative block */
 .cloud-layer {
   position: absolute;
   top: 0;
   left: 0;
-  width: 200%;
-  height: 120%;
+  width: 300%;
+  height: 140%;
   background-repeat: repeat-x;
-  opacity: 0.25;
-  z-index: 1;
+  background-size: 900px auto;   /* noticeable motion */
+  opacity: 0.22;
+  z-index: 1;                     /* above section bg, below content */
   pointer-events: none;
 }
 .layer1 {
@@ -38,17 +39,11 @@ canvas#stars {
 }
 .layer2 {
   background-image: url('https://raw.githubusercontent.com/ChatGPTAssets/clouds-soft2.png');
-  opacity: 0.18;
+  opacity: 0.16;
   animation: moveClouds2 120s linear infinite;
 }
-@keyframes moveClouds1 {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-@keyframes moveClouds2 {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-70%); }
-}
+@keyframes moveClouds1 { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes moveClouds2 { 0% { transform: translateX(0); } 100% { transform: translateX(-70%); } }
 
 /* HERO */
 .hero {
@@ -62,21 +57,31 @@ canvas#stars {
   overflow: hidden;
   background: transparent;
 }
+
+/* Seam that does NOT hide stars */
 .hero::after {
   content: "";
   position: absolute;
-  bottom: -2px;
   left: 0;
+  bottom: -2px;
   width: 100%;
-  height: 140px;
-  background: linear-gradient(to bottom, rgba(7,16,34,1) 0%, rgba(250,239,189,0.3) 100%);
-  z-index: 2; /* sits above stars, below text */
+  height: 180px;
+  pointer-events: none;
+  z-index: 2; /* below text, above canvas */
+  background: linear-gradient(
+    to bottom,
+    rgba(7,16,34,0) 0%,
+    rgba(7,16,34,0.35) 45%,
+    rgba(7,16,34,0) 100%
+  );
 }
+
 .hero-content {
   z-index: 3;
   max-width: 720px;
   padding: 0 1.5rem;
 }
+
 .hero h1 {
   font-size: 3.5rem;
   margin-bottom: 0.5rem;
@@ -113,78 +118,71 @@ canvas#stars {
   text-align: center;
   padding: 8rem 2rem;
   position: relative;
-  z-index: 2;
+  z-index: 2; /* above stars */
 }
-/* soft blue -> dawn gradient for the Insights section */
+
+/* The Somnora System — soft night blue -> dawn + clouds behind content */
 .light {
   position: relative;
   overflow: hidden; /* hide cloud edges */
+  color: #1B273E;
   background: linear-gradient(
     to bottom,
-    #0E1A2F 0%,        /* soft night blue to catch the fade from hero */
+    #0E1A2F 0%,
     #F7F0D9 38%,
     #FDEFBD 100%
   );
-  color: #1B273E;
 }
-
-/* a very soft seam-fade at the top of the section for a cleaner handoff */
+/* subtle seam catcher (transparent so stars show) */
 .light::before {
   content: "";
   position: absolute;
   top: -120px;
   left: 0;
   right: 0;
-  height: 180px;
+  height: 160px;
+  pointer-events: none;
+  z-index: 0;
   background: linear-gradient(
     to bottom,
-    rgba(7,16,34,1) 0%,
-    rgba(7,16,34,0.0) 100%
+    rgba(7,16,34,0) 0%,
+    rgba(7,16,34,0.15) 40%,
+    rgba(7,16,34,0) 100%
   );
-  z-index: 0;
 }
 
-/* make sure clouds are visible and move */
-.cloud-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 300%;
-  height: 140%;
-  background-repeat: repeat-x;
-  background-size: 900px auto; /* scale so movement is noticeable */
-  opacity: 0.22;
-  z-index: 0;                  /* under cards/text */
-  pointer-events: none;
-}
-.layer1 { animation: moveClouds1 80s linear infinite; }
-.layer2 { opacity: 0.16; animation: moveClouds2 120s linear infinite; }
-}
+/* Dawn footer */
 .dawn {
   background: linear-gradient(to bottom, #FDEFBD 0%, #FFF8E8 100%);
   color: #1B273E;
 }
+
 .section h2 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
   position: relative;
-  z-index: 1;
+  z-index: 2; /* above clouds */
 }
+
 .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
   margin-top: 2rem;
+  position: relative;
+  z-index: 2; /* above clouds */
 }
 .card {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.92);
   border-radius: 12px;
   width: 300px;
   padding: 1.5rem;
   box-shadow: 0 8px 22px rgba(27,39,62,0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 2; /* above clouds */
 }
 .card:hover { transform: translateY(-6px); box-shadow: 0 8px 20px rgba(226,198,122,0.25); }
 .card h3 { color: #1B273E; margin-bottom: 1rem; }
@@ -212,7 +210,7 @@ canvas#stars {
   padding: 0.8rem 1rem;
   border-radius: 6px;
   border: 1px solid rgba(0,0,0,0.2);
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   color: #1B273E;
 }
 .waitlist-form button {
@@ -253,7 +251,7 @@ canvas#stars {
 .audio-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.1); }
 .audio-toggle.muted { color: #888; opacity: 0.6; }
 
-/* ---------- ADDITIONS BELOW ---------- */
+/* ---------- ADDITIONS ---------- */
 
 /* Scroll indicator (bottom of hero) */
 .scroll-indicator {
@@ -271,31 +269,8 @@ canvas#stars {
   50%     { transform: translate(-50%, 8px); }
 }
 
-/* Floating hero bulb with nightcap */
-.hero-icon {
-  position: absolute;
-  top: 54%;
-  left: 50%;
-  width: clamp(160px, 20vw, 260px);
-  transform: translate(-50%, -50%);
-  z-index: 2;           /* behind hero text (z=3), above stars/clouds */
-  opacity: 0.18;
-  filter: drop-shadow(0 4px 18px rgba(226,198,122,0.3));
-  animation: float 10s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes float {
-  0%, 100% { transform: translate(-50%, -54%); }
-  50%      { transform: translate(-50%, -46%); }
-}
-/* Bulb palette */
-.hero-icon .bulb { fill: #E2C67A; }
-.hero-icon .base { fill: #7A5831; }
-.hero-icon .base-cap { fill: #6A4C2A; }
-.hero-icon .base-line { fill: #583F22; }
-.hero-icon .cap-top { fill: #4D73A9; }
-.hero-icon .cap-brim, .hero-icon .cap-pom { fill: #F2E7D0; }
-.hero-icon .glint { stroke: #fff; stroke-width: 4; fill: none; opacity: 0.6; }
+/* Floating hero bulb — hidden per request */
+.hero-icon { display: none !important; }
 
 /* Eureka band (idea capture) */
 .eureka {
@@ -315,11 +290,10 @@ canvas#stars {
 }
 
 /* Caret + overlay typing */
-/* Caret + overlay typing */
 .caret-wrap {
   position: relative;
   display: inline-block;
-  width: 1ch;                 /* keeps inline flow tight */
+  width: 1ch;                 /* keep inline flow tight */
   text-align: center;
 }
 .caret {
