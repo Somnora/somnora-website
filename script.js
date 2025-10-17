@@ -117,50 +117,55 @@ toggle?.addEventListener("click", () => {
   syncAudioToggle();
 });
 
-/* ========== EUREKA TYPING (overlay above caret, created dynamically) ========== */
+/* ========== EUREKA TYPING (no-flash overlay) ========== */
 const phrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
 const eurekaSection = document.getElementById("eureka");
-const caretWrap = document.querySelector("#eureka .caret-wrap");
+const caretWrap = eurekaSection?.querySelector(".caret-wrap");
 
-let typedTarget = null;                // will be created on first char
-let pIdx = 0, charIdx = 0, deleting = false, typingStarted = false, overlayVisible = false;
+let typedTarget = null;              // created on demand
+let pIdx = 0, charIdx = 0, deleting = false, typingStarted = false;
 
+/* Create overlay but keep it invisible until we’re ready */
 function ensureOverlay(){
   if (typedTarget || !caretWrap) return;
   typedTarget = document.createElement("span");
-  typedTarget.id = "typed-overlay";
   typedTarget.className = "typed-overlay";
-  typedTarget.setAttribute("aria-live", "polite");
-  typedTarget.setAttribute("aria-atomic", "true");
-  // Insert BEFORE the caret so it sits above it visually
+  typedTarget.setAttribute("aria-live","polite");
+  typedTarget.setAttribute("aria-atomic","true");
   caretWrap.insertBefore(typedTarget, caretWrap.firstChild);
+}
+
+/* Two-frame reveal avoids a 1-frame paint on iOS Safari */
+function revealOverlaySafely(){
+  if (!typedTarget) return;
+  requestAnimationFrame(()=>{        // frame 1
+    requestAnimationFrame(()=>{      // frame 2
+      eurekaSection?.classList.add("typing-visible");
+    });
+  });
 }
 
 function typeStep(){
   if (!caretWrap) return;
-
-  const typeSpeed   = (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) ? 120 : 100;
-  const deleteSpeed = (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) ? 65  : 50;
-  const pauseFull   = (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) ? 1400: 1100;
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+  const typeSpeed   = reduce ? 120 : 100;
+  const deleteSpeed = reduce ?  65 :  50;
+  const pauseFull   = reduce ? 1400 : 1100;
 
   const word = phrases[pIdx];
 
-  // First character: create overlay, set text, then reveal
+  // First character: make overlay, set first char, then reveal after 2 frames
   if (!deleting && charIdx === 0){
     ensureOverlay();
     typedTarget.textContent = word.charAt(0);
     charIdx = 1;
-    if (!overlayVisible){
-      eurekaSection?.classList.add("typing-visible"); // triggers display/opacity
-      overlayVisible = true;
-    }
+    revealOverlaySafely();
     return void setTimeout(typeStep, typeSpeed);
   }
 
-  // Normal typing forward
+  // Type forward
   if (!deleting && charIdx <= word.length){
-    typedTarget.textContent = word.slice(0, charIdx);
-    charIdx++;
+    typedTarget.textContent = word.slice(0, charIdx++);
     return void setTimeout(typeStep, typeSpeed);
   }
 
@@ -172,8 +177,7 @@ function typeStep(){
 
   // Delete backward
   if (deleting && charIdx >= 0){
-    typedTarget.textContent = word.slice(0, charIdx);
-    charIdx--;
+    typedTarget.textContent = word.slice(0, charIdx--);
     return void setTimeout(typeStep, deleteSpeed);
   }
 
@@ -186,14 +190,17 @@ function typeStep(){
 function startTypingOnce(){
   if (typingStarted) return;
   typingStarted = true;
-  overlayVisible = false;
-  if (typedTarget) typedTarget.textContent = "";    // safety
+
+  // Start with a clean, hidden overlay
+  ensureOverlay();
+  if (typedTarget) typedTarget.textContent = "";
   eurekaSection?.classList.remove("typing-visible");
-  // Start on next frame so layout settles before we paint the first char
-  requestAnimationFrame(() => requestAnimationFrame(typeStep));
+
+  // Defer to next paint to avoid any initial paint/flicker
+  requestAnimationFrame(()=> requestAnimationFrame(typeStep));
 }
 
-// Start when Eureka enters the viewport (once)
+// Begin when Eureka enters viewport (once)
 if (eurekaSection){
   if ("IntersectionObserver" in window){
     const io = new IntersectionObserver((entries) => {
@@ -210,3 +217,4 @@ if (eurekaSection){
     startTypingOnce();
   }
 }
+
