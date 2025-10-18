@@ -288,14 +288,6 @@ canvas#stars {
   font-size: 1.175rem;
   line-height: 1.75;
 }
-
-/* Caret + (new) word rotator */
-.caret-wrap {
-  position: relative;
-  display: inline-block;
-  width: 1.3ch;               /* a hair wider for the ^ and centered words */
-  text-align: center;
-}
 .caret {
   color:#C6A95E;
   font-weight:700;
@@ -304,6 +296,23 @@ canvas#stars {
   animation: caretBlink 1s step-end infinite;
 }
 @keyframes caretBlink { 50% { opacity:.25; } }
+/* Inline word rotator (no overlay, no caret) */
+.rotate{
+  display:inline-block;
+  font-weight:600;
+  color:#C6A95E;
+  transition: opacity .28s ease, transform .28s ease;
+  will-change: opacity, transform;
+}
+.rotate.fade-out{ opacity:0; transform: translateY(-0.25em); }
+.rotate.fade-in { opacity:1; transform: translateY(0); }
+
+/* Give the line a bit more breathing room on small screens */
+#eureka p { line-height: 1.75; }
+@media (max-width: 640px){
+  #eureka h2 { margin-bottom: 1.25rem; }
+  #eureka p  { margin-top: .25rem; }
+}
 
 /* Rotating words above the caret (CSS-only) */
 .word-rotator {
