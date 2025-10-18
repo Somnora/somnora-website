@@ -367,30 +367,11 @@ canvas#stars {
   .word-rotator { animation-duration: 16s; }
 }
 
-/* The overlay text (JS creates it dynamically) */
-.typed-overlay{
-  position:absolute;
-  left:50%;
-  bottom:.95em;              /* sits a bit closer to the body text */
-  transform:translateX(-50%);
-  color:#C6A95E;
-  font-weight:600;
-  white-space:nowrap;
-  pointer-events:none;
-  text-shadow:0 1px 0 rgba(255,255,255,.55);
-
   /* key: don’t use display:none; keep it in flow but invisible */
   opacity:0;
   visibility:hidden;
   transition: opacity .35s ease, visibility 0s linear .35s;
   will-change: opacity;
-}
-
-/* becomes visible only after JS flips the class */
-.eureka.typing-visible .typed-overlay{
-  opacity:1;
-  visibility:visible;          /* no delayed visibility once visible */
-  transition: opacity .35s ease;
 }
 
 /* More headroom for the overlay on mobile */
