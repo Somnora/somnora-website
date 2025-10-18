@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Somnora · Where Science Meets the Subconscious</title>
+  <title>Somnora — Where Science Meets the Subconscious</title>
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -11,6 +11,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <meta name="color-scheme" content="light" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Optional Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 
@@ -33,7 +38,7 @@
       <div class="scroll-indicator" aria-hidden="true">⌄</div>
     </section>
 
-    <!-- THE SOMNORA SYSTEM (stars fade to clouds here) -->
+    <!-- THE SOMNORA SYSTEM -->
     <section id="insights" class="section light" aria-label="The Somnora System">
       <!-- parallax clouds behind content -->
       <div class="cloud-layer layer1" aria-hidden="true"></div>
@@ -59,23 +64,22 @@
       </div>
     </section>
 
-    <!-- EUREKA MOMENTS (typing above caret, starts on view) -->
+    <!-- EUREKA MOMENTS -->
     <section id="eureka" class="section eureka" aria-label="Eureka Moments">
       <h2>Eureka Moments</h2>
-<p>
-  Somnora isn’t only for dreams. Capture
-  <span class="caret-wrap">
-    <span class="word-rotator" aria-hidden="true">
-      <span>voice notes</span>
-      <span>midnight ideas</span>
-      <span>sketches</span>
-      <span>thoughts on the go</span>
-    </span>
-    <span class="caret" aria-hidden="true">^</span>
-  </span>
-  hands free. Nora helps you unpack each idea, suggest next steps, and turn flashes of brilliance into follow-through.
-</p>
-
+      <p>
+        Somnora isn’t only for dreams. Capture
+        <span class="caret-wrap">
+          <span class="word-rotator" aria-hidden="true">
+            <span>voice notes</span>
+            <span>midnight ideas</span>
+            <span>sketches</span>
+            <span>thoughts on the go</span>
+          </span>
+          <span class="caret" aria-hidden="true">^</span>
+        </span>
+        hands free. Nora helps you unpack each idea, suggest next steps, and turn flashes of brilliance into follow-through.
+      </p>
       <a href="#waitlist" class="btn gold">Get Early Access</a>
     </section>
 
@@ -84,6 +88,7 @@
       <h2>Awaken to Yourself</h2>
       <p>Somnora helps you translate the language of your dreams into clarity, rest, and peace.</p>
 
+      <!-- Replace action with your real Formspree endpoint -->
       <form id="waitlist-form" class="waitlist-form" action="https://formspree.io/f/xpwybqlp" method="POST">
         <label class="visually-hidden" for="email">Email</label>
         <input id="email" type="email" name="email" placeholder="Enter your email" required />
