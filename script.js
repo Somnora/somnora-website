@@ -114,3 +114,43 @@ toggle?.addEventListener("click", () => {
   if (audio.paused) audio.play(); else audio.pause();
   syncAudioToggle();
 });
+
+/* === Inline word rotator (simple, mobile-stable) === */
+const rotatePhrases = ["voice notes", "midnight ideas", "sketches", "thoughts on the go"];
+const rotEl = document.getElementById("idea-rotate");
+const eureka = document.getElementById("eureka");
+
+let rotIndex = 0;
+function rotateWord(){
+  if (!rotEl) return;
+  rotEl.classList.remove("fade-in");
+  rotEl.classList.add("fade-out");
+  setTimeout(() => {
+    rotIndex = (rotIndex + 1) % rotatePhrases.length;
+    rotEl.textContent = rotatePhrases[rotIndex];
+    rotEl.classList.remove("fade-out");
+    rotEl.classList.add("fade-in");
+  }, 180); // brief crossfade
+}
+
+let rotTimer = null;
+function startRotate(){
+  if (rotTimer || !rotEl) return;
+  // start with a clean state
+  rotEl.classList.add("fade-in");
+  rotTimer = setInterval(rotateWord, 2400);
+}
+
+// Start when Eureka enters the viewport (once)
+if (eureka && "IntersectionObserver" in window){
+  const io = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting){
+      startRotate();
+      io.disconnect();
+    }
+  }, { threshold: 0.2 });
+  io.observe(eureka);
+} else {
+  startRotate();
+}
+
