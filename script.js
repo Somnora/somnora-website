@@ -7,13 +7,11 @@ let rafId = null;
 const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
 
 function starCount() {
-  // Responsive density: cap to keep perf nice
   const area = window.innerWidth * window.innerHeight;
   return Math.min(260, Math.max(160, Math.round(area / 12000)));
 }
 
 function resizeCanvas() {
-  // DPR scaling for crisp glow
   const dpr = window.devicePixelRatio || 1;
   canvas.width = Math.floor(window.innerWidth * dpr);
   canvas.height = Math.floor(window.innerHeight * dpr);
@@ -35,7 +33,7 @@ function animateStars() {
   ctx.fillStyle = "#fff";
 
   for (const s of stars) {
-    ctx.globalAlpha = 0.55 + Math.random() * 0.35; // gentle twinkle
+    ctx.globalAlpha = 0.55 + Math.random() * 0.35;
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
     ctx.fill();
@@ -116,4 +114,3 @@ toggle?.addEventListener("click", () => {
   if (audio.paused) audio.play(); else audio.pause();
   syncAudioToggle();
 });
-
