@@ -298,13 +298,14 @@ canvas#stars {
 }
 
 /* Caret + overlay typing */
-.caret-wrap {
+.caret-wrap{
   position: relative;
   display: inline-block;
-  width: 1ch;
+  width: 1ch;                 /* tight anchor */
   text-align: center;
+  vertical-align: text-bottom; /* better baseline on mobile */
 }
-.caret {
+.caret{
   color:#C6A95E;
   font-weight:700;
   display:inline-block;
@@ -312,28 +313,91 @@ canvas#stars {
   animation: caretBlink 1s step-end infinite;
 }
 @keyframes caretBlink { 50% { opacity:.25; } }
-
-/* The overlay text (created by JS) */
-.typed-overlay{
-  position:absolute; left:50%; bottom:1.05em; transform:translateX(-50%);
-  color:#C6A95E; font-weight:600; white-space:nowrap; pointer-events:none;
-  text-shadow:0 1px 0 rgba(255,255,255,.55);
-  display:none; opacity:0; transition:opacity .35s ease;
-  will-change: opacity;   /* smoother fade */
-}
-.eureka.typing-visible .typed-overlay{
-  display:inline-block;
-  opacity:1;
+/* Rotating words above the caret (CSS-only) */
+.word-rotator {
+  position: absolute;
+  left: 50%;
+  bottom: 1.05em;             /* matches your tuned spacing */
+  transform: translateX(-50%);
+  display: block;
+  height: 1.2em;              /* single line height for the viewport window */
+  overflow: hidden;
+  will-change: transform;
 }
 
-/* Inline form response message */
-.form-response {
-  margin-top: 1rem;
-  color: #1B273E;
+.word-rotator > span {
+  display: block;
+  line-height: 1.2em;
+  text-align: center;
+  color: #C6A95E;
   font-weight: 600;
+  white-space: nowrap;
 }
 
-/* Responsive tweaks */
-@media (min-width: 900px) {
-  .section h2 { font-size: 2.3rem; }
+/* Stack the words vertically and slide them upward */
+.word-rotator {
+  /* 4 words; 12s loop with gentle pauses at each stop */
+  animation: rotateWords 12s ease-in-out infinite;
+}
+
+/* Keyframes pause at each word for readability */
+@keyframes rotateWords {
+  /* show 1st */
+  0%   { transform: translate(-50%, 0%); }
+  18%  { transform: translate(-50%, 0%); }
+
+  /* slide to 2nd */
+  25%  { transform: translate(-50%, -100%); }
+  43%  { transform: translate(-50%, -100%); }
+
+  /* slide to 3rd */
+  50%  { transform: translate(-50%, -200%); }
+  68%  { transform: translate(-50%, -200%); }
+
+  /* slide to 4th */
+  75%  { transform: translate(-50%, -300%); }
+  93%  { transform: translate(-50%, -300%); }
+
+  /* loop back to 1st (snap) */
+  100% { transform: translate(-50%, 0%); }
+}
+
+/* (Optional) reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .word-rotator { animation-duration: 16s; }
+}
+
+/* The overlay text (JS creates it dynamically) */
+.typed-overlay{
+  position:absolute;
+  left:50%;
+  bottom:.95em;              /* sits a bit closer to the body text */
+  transform:translateX(-50%);
+  color:#C6A95E;
+  font-weight:600;
+  white-space:nowrap;
+  pointer-events:none;
+  text-shadow:0 1px 0 rgba(255,255,255,.55);
+
+  /* key: don’t use display:none; keep it in flow but invisible */
+  opacity:0;
+  visibility:hidden;
+  transition: opacity .35s ease, visibility 0s linear .35s;
+  will-change: opacity;
+}
+
+/* becomes visible only after JS flips the class */
+.eureka.typing-visible .typed-overlay{
+  opacity:1;
+  visibility:visible;          /* no delayed visibility once visible */
+  transition: opacity .35s ease;
+}
+
+/* More headroom for the overlay on mobile */
+.eureka{
+  padding-top: 9.5rem;         /* was 8rem */
+}
+@media (max-width: 420px){
+  .typed-overlay{ bottom:.80em; font-size:.95em; }
+  .eureka{ padding-top: 10.25rem; }  /* gives the overlay extra air */
 }
