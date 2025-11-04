@@ -433,6 +433,27 @@ canvas#stars {
   line-height: 1.6;
 }
 
+/* Force white text on sections with dark backgrounds */
+.how-it-works h2,
+.how-it-works .section-subtitle {
+  color: var(--soft-cream);
+}
+
+/* Force dark text on light sections */
+.light h2,
+.light .section-subtitle {
+  color: #1B273E;
+}
+
+/* Ensure team section headers are white on dark gradient */
+.team h2 {
+  color: var(--soft-cream);
+}
+
+.team .section-subtitle {
+  color: var(--light-mist);
+}
+
 /* ========== HOW IT WORKS ========== */
 .how-it-works {
   background: linear-gradient(to bottom, #071022 0%, #0E1A2F 100%);
@@ -528,9 +549,23 @@ canvas#stars {
   background: linear-gradient(
     to bottom,
     #0E1A2F 0%,
-    #F7F0D9 38%,
+    #1B273E 20%,
+    #F7F0D9 50%,
     #FDEFBD 100%
   );
+}
+
+/* Ensure headers are white when on dark part of gradient */
+.light .section-header {
+  color: var(--soft-cream);
+}
+
+.light .section-header h2 {
+  color: var(--soft-cream);
+}
+
+.light .section-header .section-subtitle {
+  color: var(--light-mist);
 }
 
 .features {
@@ -800,7 +835,7 @@ canvas#stars {
 
 /* ========== TEAM ========== */
 .team {
-  background: linear-gradient(to bottom, #0E1A2F 0%, #F7F0D9 50%, #FDEFBD 100%);
+  background: linear-gradient(to bottom, #0E1A2F 0%, #1B273E 30%, #F7F0D9 70%, #FDEFBD 100%);
 }
 
 .team-grid {
