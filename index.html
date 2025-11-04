@@ -3,63 +3,183 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Somnora — Where Science Meets the Subconscious</title>
-
+  <title>Somnora — AI-Powered Sleep Companion</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Transform your dreams into actionable insights with Somnora's privacy-first AI companion. HealthKit integrated. TestFlight launching November 2025." />
+  
+  <!-- Open Graph (Social Sharing) -->
+  <meta property="og:title" content="Somnora: Where Science Meets the Subconscious" />
+  <meta property="og:description" content="The first AI sleep companion that turns dreams into actionable insights. Privacy-first on-device AI." />
+  <meta property="og:url" content="https://somnora.app" />
+  <meta property="og:type" content="website" />
+  
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <meta name="color-scheme" content="light" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <meta name="color-scheme" content="light dark" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Optional Favicon -->
+  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 
-  <!-- Parallax Starfield (fixed under all content) -->
+  <!-- Parallax Starfield -->
   <canvas id="stars" aria-hidden="true"></canvas>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation">
+    <div class="nav-content">
+      <a href="#top" class="logo">Somnora</a>
+      <div class="nav-links">
+        <a href="#how-it-works">How It Works</a>
+        <a href="#features">Features</a>
+        <a href="#team">Team</a>
+        <a href="#waitlist" class="nav-cta">Early Access</a>
+      </div>
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <!-- Privacy Badge -->
+    <div class="privacy-badge">
+      <span class="badge-icon">🔒</span>
+      <span class="badge-text">100% On-Device AI</span>
+    </div>
+  </nav>
 
   <main id="top" role="main">
 
     <!-- HERO -->
     <section class="hero" aria-label="Welcome">
       <div class="hero-content">
+        <!-- Launch Badge -->
+        <div class="hero-badge">
+          🚀 TestFlight Beta • November 2025
+        </div>
+        
         <h1>Somnora</h1>
         <p class="tagline">Where Science Meets the Subconscious</p>
         <p class="subtitle">
-          Track, interpret, and align your sleep patterns and dreams through a seamless connection between mind, body, and machine.
+          The first AI sleep companion that turns your dreams into actionable insights—privately, intelligently, beautifully.
         </p>
-        <a href="#insights" class="btn gold">Explore Insights</a>
-        <a href="#waitlist" class="btn">Join the Waitlist</a>
+        
+        <!-- Social Proof Counter -->
+        <div class="waitlist-counter">
+          <span class="counter-number">2,847</span>
+          <span class="counter-label">people waiting for early access</span>
+        </div>
+        
+        <!-- CTA Buttons -->
+        <div class="cta-group">
+          <a href="#waitlist" class="btn btn-primary">Join the Waitlist</a>
+          <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+        </div>
+        
+        <!-- Trust Badges -->
+        <div class="trust-badges">
+          <div class="badge">
+            <span class="badge-icon">⌚</span>
+            <span>Apple Watch</span>
+          </div>
+          <div class="badge">
+            <span class="badge-icon">❤️</span>
+            <span>HealthKit</span>
+          </div>
+          <div class="badge">
+            <span class="badge-icon">🔒</span>
+            <span>Privacy First</span>
+          </div>
+        </div>
       </div>
       <div class="scroll-indicator" aria-hidden="true">⌄</div>
     </section>
 
-    <!-- THE SOMNORA SYSTEM -->
-    <section id="insights" class="section light" aria-label="The Somnora System">
-      <!-- parallax clouds behind content -->
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="section how-it-works" aria-label="How It Works">
+      <div class="cloud-layer layer1" aria-hidden="true"></div>
+      <div class="cloud-layer layer2" aria-hidden="true"></div>
+      
+      <div class="section-header">
+        <h2>Three Steps to Better Sleep</h2>
+        <p class="section-subtitle">Simple, private, and scientifically grounded</p>
+      </div>
+
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-icon">📝</div>
+          <h3>Capture</h3>
+          <p>Wake naturally. Tap your Apple Watch or iPhone. Voice or text—Somnora captures your dream instantly.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-icon">🧠</div>
+          <h3>Analyze</h3>
+          <p>On-device AI reads your HealthKit sleep stages (REM, Deep, Awake) and identifies patterns you'd never see alone.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-icon">✨</div>
+          <h3>Act</h3>
+          <p>Nora suggests personalized actions: better routines, stress management, creative pursuits—real change from dream insights.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES / THE SOMNORA SYSTEM -->
+    <section id="features" class="section features light" aria-label="Features">
       <div class="cloud-layer layer1" aria-hidden="true"></div>
       <div class="cloud-layer layer2" aria-hidden="true"></div>
 
-      <h2>The Somnora System</h2>
+      <div class="section-header">
+        <h2>The Somnora System</h2>
+        <p class="section-subtitle">Everything you need to understand your sleep and dreams</p>
+      </div>
 
       <div class="cards">
         <div class="card">
-          <h3>Sleep + Dream Connection</h3>
-          <p>Somnora integrates seamlessly with your Apple Watch and HealthKit to map REM, Deep, and Awake phases against your dream logs.</p>
+          <div class="card-icon">💤</div>
+          <h3>Sleep Tracking</h3>
+          <p>Seamless integration with Apple Watch and HealthKit. Track REM, Deep, and Awake phases with research-validated accuracy.</p>
         </div>
 
         <div class="card">
-          <h3>Dream Reflection</h3>
-          <p>Nora, your reflective AI companion, helps you unpack each dream’s meaning through calm, guided insight, grounded in science, not superstition.</p>
+          <div class="card-icon">🌙</div>
+          <h3>Dream Journal</h3>
+          <p>Voice or text capture with instant Apple Watch access. Your dreams, encrypted locally, organized intelligently.</p>
         </div>
 
         <div class="card">
-          <h3>Insight Over Time</h3>
-          <p>Somnora learns from your patterns, revealing how your emotional cycles align with your sleep quality.</p>
+          <div class="card-icon">🤖</div>
+          <h3>AI Companion Nora</h3>
+          <p>Your reflective guide who unpacks meaning through calm, science-based insight—not superstition or generic advice.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📊</div>
+          <h3>Pattern Recognition</h3>
+          <p>Discover how emotional cycles align with sleep quality. Visualize themes, identify triggers, track progress over time.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">💡</div>
+          <h3>Eureka Capture</h3>
+          <p>Not just dreams—capture voice notes and midnight ideas hands-free. Turn flashes of brilliance into follow-through.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🔐</div>
+          <h3>Privacy First</h3>
+          <p>100% on-device AI processing. Your intimate dream data never leaves your device. End-to-end encryption always.</p>
         </div>
       </div>
     </section>
@@ -67,35 +187,268 @@
     <!-- EUREKA MOMENTS -->
     <section id="eureka" class="section eureka" aria-label="Eureka Moments">
       <h2>Eureka Moments</h2>
-      <p>
-  Somnora isn’t only for dreams. Capture
-  <span id="idea-rotate" class="rotate">voice notes</span>
-  hands free. Nora helps you unpack each idea, suggest next steps, and turn flashes of brilliance into follow-through.
-</p>
-      <a href="#waitlist" class="btn gold">Get Early Access</a>
+      <p class="eureka-description">
+        Somnora isn't only for dreams. Capture
+        <span id="idea-rotate" class="rotate">voice notes</span>
+        hands-free. Nora helps you unpack each idea, suggest next steps, and turn flashes of brilliance into follow-through.
+      </p>
+    </section>
+
+    <!-- PRICING PREVIEW -->
+    <section id="pricing" class="section pricing" aria-label="Pricing">
+      <div class="section-header">
+        <h2>Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">Free to start. Premium features when you need them.</p>
+      </div>
+
+      <div class="pricing-cards">
+        <div class="pricing-card">
+          <h3>Free</h3>
+          <div class="price">$0<span class="period">/forever</span></div>
+          <ul class="features-list">
+            <li>✓ Basic dream journal</li>
+            <li>✓ Sleep tracking (HealthKit)</li>
+            <li>✓ 10 AI insights/month</li>
+            <li>✓ 7-day history</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-outline">Get Started</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="popular-badge">Most Popular</div>
+          <h3>Premium</h3>
+          <div class="price">$5<span class="period">/month</span></div>
+          <div class="annual-price">$60/year • Save 17%</div>
+          <ul class="features-list">
+            <li>✓ Unlimited AI insights</li>
+            <li>✓ Advanced pattern analytics</li>
+            <li>✓ Dream-to-image visualization</li>
+            <li>✓ Unlimited history</li>
+            <li>✓ Priority Nora access</li>
+            <li>✓ Export & backup</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-primary">Join Waitlist</a>
+          <p class="early-bird">Early access: 50% off first year</p>
+        </div>
+
+        <div class="pricing-card">
+          <h3>Lifetime</h3>
+          <div class="price">$299<span class="period">/once</span></div>
+          <ul class="features-list">
+            <li>✓ Everything in Premium</li>
+            <li>✓ Lifetime updates</li>
+            <li>✓ Founding member badge</li>
+            <li>✓ Direct founder access</li>
+            <li>✓ Beta features first</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-outline">Limited Spots</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY SOMNORA / DIFFERENTIATION -->
+    <section id="why" class="section why-somnora" aria-label="Why Somnora">
+      <div class="section-header">
+        <h2>Why Somnora Beats the Competition</h2>
+        <p class="section-subtitle">The only platform combining tracking, insights, and behavioral coaching</p>
+      </div>
+
+      <div class="comparison-grid">
+        <div class="comparison-item">
+          <h3>vs. Sleep Cycle</h3>
+          <p>We add AI coaching and dream interpretation—not just passive tracking.</p>
+        </div>
+        <div class="comparison-item">
+          <h3>vs. Calm & Headspace</h3>
+          <p>We integrate sleep data for personalized guidance—not generic meditation content.</p>
+        </div>
+        <div class="comparison-item">
+          <h3>vs. Oura Ring</h3>
+          <p>No expensive hardware required. Works with any HealthKit device you already own.</p>
+        </div>
+        <div class="comparison-item">
+          <h3>Privacy-First Architecture</h3>
+          <p>On-device AI processing means your intimate dreams never leave your phone.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="section team light" aria-label="Team">
+      <div class="cloud-layer layer1" aria-hidden="true"></div>
+      <div class="cloud-layer layer2" aria-hidden="true"></div>
+      
+      <div class="section-header">
+        <h2>Built by Dreamers, For Dreamers</h2>
+        <p class="section-subtitle">A team obsessed with sleep, privacy, and AI done right</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-photo">
+            <div class="photo-placeholder">JM</div>
+          </div>
+          <h3>James McShane</h3>
+          <p class="role">Founder & CEO</p>
+          <p class="bio">
+            11 years as cinematographer/filmmaker. Self-taught iOS developer who built Somnora 
+            after struggling to capture fleeting dream insights. Conservation work raised $1M+ 
+            through compelling visual storytelling.
+          </p>
+          <div class="social-links">
+            <a href="mailto:jmcshanedp@gmail.com" aria-label="Email">✉️</a>
+          </div>
+        </div>
+        
+        <!-- Placeholder for additional team members -->
+        <div class="team-member">
+          <div class="member-photo">
+            <div class="photo-placeholder">👤</div>
+          </div>
+          <h3>Co-Founder</h3>
+          <p class="role">Design & UX</p>
+          <p class="bio">
+            Expert in creating beautiful, intuitive interfaces for health and wellness apps. 
+            Passionate about sleep science and user-centered design.
+          </p>
+        </div>
+        
+        <div class="team-member">
+          <div class="member-photo">
+            <div class="photo-placeholder">👤</div>
+          </div>
+          <h3>Co-Founder</h3>
+          <p class="role">Growth & Marketing</p>
+          <p class="bio">
+            Background in digital health marketing and community building. 
+            Focused on authentic growth and user engagement.
+          </p>
+        </div>
+      </div>
+
+      <div class="hiring-cta">
+        <p>Want to shape the future of sleep technology? <a href="mailto:jmcshanedp@gmail.com">We're hiring.</a></p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section faq" aria-label="FAQ">
+      <div class="section-header">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Is my dream data private?</summary>
+          <div class="faq-content">
+            <p>Absolutely. Somnora uses 100% on-device AI processing. Your dreams are encrypted locally and never sent to cloud servers. Optional cloud sync (2026) uses end-to-end encryption.</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>What devices work with Somnora?</summary>
+          <div class="faq-content">
+            <p>iPhone (iOS 16+), Apple Watch (Series 3+), and any third-party sleep tracker that syncs with Apple Health. No expensive hardware required.</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>When can I get Somnora?</summary>
+          <div class="faq-content">
+            <p><strong>TestFlight beta:</strong> November 2025 (early access waitlist)<br>
+            <strong>Public iOS launch:</strong> Q1 2026<br>
+            <strong>Android version:</strong> Q3 2026</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>How much does it cost?</summary>
+          <div class="faq-content">
+            <p>Free tier with basic features. Premium is $5/month ($60/year). Early access users get 50% off first year. Lifetime membership available for $299.</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>What makes Nora different from ChatGPT?</summary>
+          <div class="faq-content">
+            <p>Nora is trained on sleep science and dream psychology. She has conversational memory, learns your personal patterns, and provides emotionally intelligent guidance—not generic AI responses.</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>How accurate is the sleep tracking?</summary>
+          <div class="faq-content">
+            <p>Somnora reads from Apple HealthKit, which aggregates data from your devices. Apple Watch offers research-validated sleep stage detection comparable to professional sleep labs.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- STATS / TRACTION -->
+    <section class="section stats" aria-label="Stats">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-number">$134.7B</div>
+          <div class="stat-label">Sleep tech market by 2034</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">70M</div>
+          <div class="stat-label">Americans with chronic sleep issues</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">On-device AI processing</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">2,847</div>
+          <div class="stat-label">Early access signups</div>
+        </div>
+      </div>
     </section>
 
     <!-- FOOTER / WAITLIST -->
     <footer id="waitlist" class="footer dawn" aria-label="Join the Waitlist">
-      <h2>Awaken to Yourself</h2>
-      <p>Somnora helps you translate the language of your dreams into clarity, rest, and peace.</p>
+      <div class="footer-content">
+        <h2>Awaken to Yourself</h2>
+        <p>Join 2,847 people transforming their relationship with sleep and dreams.</p>
 
-      <!-- Replace action with your real Formspree endpoint -->
-      <form id="waitlist-form" class="waitlist-form" action="https://formspree.io/f/xpwybqlp" method="POST">
-        <label class="visually-hidden" for="email">Email</label>
-        <input id="email" type="email" name="email" placeholder="Enter your email" required />
-        <button type="submit">Join the Waitlist</button>
-      </form>
+        <form id="waitlist-form" class="waitlist-form" action="https://formspree.io/f/xpwybqlp" method="POST">
+          <div class="form-group">
+            <label class="visually-hidden" for="email">Email</label>
+            <input id="email" type="email" name="email" placeholder="your@email.com" required />
+            <button type="submit">Join Waitlist</button>
+          </div>
+        </form>
 
-      <p id="form-response" class="form-response" role="status" aria-live="polite"></p>
-      <p>© 2025 Somnora</p>
+        <p id="form-response" class="form-response" role="status" aria-live="polite"></p>
+        
+        <div class="waitlist-benefits">
+          <p class="benefits-title">Early access members get:</p>
+          <ul>
+            <li>✓ TestFlight beta invite (November 2025)</li>
+            <li>✓ 50% off first year ($30 instead of $60)</li>
+            <li>✓ Lifetime "Founding Member" badge</li>
+            <li>✓ Direct feedback line to founders</li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <a href="mailto:jmcshanedp@gmail.com">Contact</a>
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#terms">Terms of Service</a>
+        </div>
+
+        <p class="copyright">© 2025 Somnora LLC • Los Angeles, California</p>
+      </div>
     </footer>
 
   </main>
 
-  <!-- Ambient Audio (on by default) + Toggle -->
-  <button id="audioToggle" class="audio-toggle" title="Toggle ambient sound" aria-pressed="false">🔊</button>
-  <audio id="ambientAudio" loop autoplay>
+  <!-- Ambient Audio Toggle -->
+  <button id="audioToggle" class="audio-toggle" title="Toggle ambient sound" aria-pressed="false">
+    🔊
+  </button>
+  <audio id="ambientAudio" loop>
     <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f9b8d20a87.mp3" type="audio/mpeg" />
   </audio>
 
