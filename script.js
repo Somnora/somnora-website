@@ -8,13 +8,13 @@ const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.
 
 function starCount() {
   const area = window.innerWidth * window.innerHeight;
-  return Math.min(260, Math.max(160, Math.round(area / 12000)));
+  return Math.min(200, Math.max(120, Math.round(area / 15000))); // Optimized for performance
 }
 
 function resizeCanvas() {
   if (!canvas || !ctx) return;
   
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x for performance
   canvas.width = Math.floor(window.innerWidth * dpr);
   canvas.height = Math.floor(window.innerHeight * dpr);
   canvas.style.width = `${window.innerWidth}px`;
@@ -25,8 +25,8 @@ function resizeCanvas() {
   stars = Array(N).fill().map(() => ({
     x: Math.random() * window.innerWidth,
     y: Math.random() * window.innerHeight,
-    size: Math.random() * 1.6 + 0.25,
-    speed: (prefersReduced ? 0.08 : 0.15) + Math.random() * (prefersReduced ? 0.18 : 0.35),
+    size: Math.random() * 1.4 + 0.2,
+    speed: (prefersReduced ? 0.05 : 0.12) + Math.random() * (prefersReduced ? 0.12 : 0.28),
   }));
 }
 
@@ -37,7 +37,7 @@ function animateStars() {
   ctx.fillStyle = "#fff";
 
   for (const s of stars) {
-    ctx.globalAlpha = 0.55 + Math.random() * 0.35;
+    ctx.globalAlpha = 0.5 + Math.random() * 0.3;
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
     ctx.fill();
@@ -51,14 +51,23 @@ function animateStars() {
   rafId = requestAnimationFrame(animateStars);
 }
 
+// Delay starfield init to prioritize content rendering
 if (canvas && ctx) {
+  let resizeTimeout;
   window.addEventListener("resize", () => {
-    cancelAnimationFrame(rafId);
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      cancelAnimationFrame(rafId);
+      resizeCanvas();
+      animateStars();
+    }, 150);
+  }, { passive: true });
+  
+  // Start after initial paint
+  requestAnimationFrame(() => {
     resizeCanvas();
     animateStars();
   });
-  resizeCanvas();
-  animateStars();
 }
 
 /* ========== MOBILE MENU ========== */
@@ -69,6 +78,10 @@ if (mobileMenuToggle && navLinks) {
   mobileMenuToggle.addEventListener('click', () => {
     navLinks.classList.toggle('active');
     mobileMenuToggle.classList.toggle('active');
+    
+    // Update ARIA attribute
+    const isExpanded = navLinks.classList.contains('active');
+    mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
   });
 
   // Close menu when clicking a link
@@ -76,6 +89,7 @@ if (mobileMenuToggle && navLinks) {
     link.addEventListener('click', () => {
       navLinks.classList.remove('active');
       mobileMenuToggle.classList.remove('active');
+      mobileMenuToggle.setAttribute('aria-expanded', 'false');
     });
   });
 }
@@ -102,20 +116,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 /* ========== NAV SCROLL EFFECT ========== */
 const nav = document.querySelector('.nav');
 let lastScroll = 0;
+let ticking = false;
+
+function updateNav() {
+  const currentScroll = window.pageYOffset;
+  
+  if (nav) {
+    if (currentScroll > 50) {
+      nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+      nav.style.background = 'rgba(7, 16, 34, 0.95)';
+    } else {
+      nav.style.boxShadow = 'none';
+      nav.style.background = 'rgba(7, 16, 34, 0.85)';
+    }
+  }
+  
+  lastScroll = currentScroll;
+  ticking = false;
+}
 
 if (nav) {
   window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    // Add shadow when scrolled
-    if (currentScroll > 50) {
-      nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-    } else {
-      nav.style.boxShadow = 'none';
+    if (!ticking) {
+      requestAnimationFrame(updateNav);
+      ticking = true;
     }
-    
-    lastScroll = currentScroll;
-  });
+  }, { passive: true });
 }
 
 /* ========== WAITLIST FORM ========== */
@@ -127,7 +153,16 @@ if (form && responseEl) {
     e.preventDefault();
     
     const button = form.querySelector('button[type="submit"]');
+    const emailInput = form.querySelector('input[type="email"]');
     const originalText = button.textContent;
+    
+    // Basic validation
+    if (!emailInput.value || !emailInput.value.includes('@')) {
+      responseEl.textContent = "Please enter a valid email address.";
+      responseEl.style.color = "#d9534f";
+      emailInput.focus();
+      return;
+    }
     
     button.textContent = "Sending...";
     button.disabled = true;
@@ -153,12 +188,14 @@ if (form && responseEl) {
           });
         }
       } else {
-        responseEl.textContent = "Something went wrong. Please try again or email us directly.";
+        const errorData = await res.json().catch(() => ({}));
+        responseEl.textContent = errorData.error || "Something went wrong. Please try again or email us directly.";
         responseEl.style.color = "#d9534f";
       }
     } catch (error) {
       responseEl.textContent = "Network error. Please check your connection and try again.";
       responseEl.style.color = "#d9534f";
+      console.error('Form submission error:', error);
     } finally {
       button.textContent = originalText;
       button.disabled = false;
@@ -324,7 +361,7 @@ faqItems.forEach(item => {
   const summary = item.querySelector('summary');
   
   summary?.addEventListener('click', (e) => {
-    // Close other FAQs when opening one (optional)
+    // Close other FAQs when opening one (optional - uncomment if desired)
     // faqItems.forEach(otherItem => {
     //   if (otherItem !== item && otherItem.open) {
     //     otherItem.open = false;
@@ -360,8 +397,33 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && navLinks?.classList.contains('active')) {
     navLinks.classList.remove('active');
     mobileMenuToggle?.classList.remove('active');
+    mobileMenuToggle?.setAttribute('aria-expanded', 'false');
   }
 });
+
+/* ========== DETECT SYSTEM DARK MODE (FUTURE USE) ========== */
+const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+function handleDarkModeChange(e) {
+  // Future: Could adjust colors or themes based on system preference
+  // For now, Somnora is designed as a dark-theme site
+}
+
+darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
+
+/* ========== SERVICE WORKER REGISTRATION (FUTURE PWA) ========== */
+// Uncomment when you have a service worker ready
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/sw.js')
+//       .then(registration => {
+//         console.log('SW registered:', registration);
+//       })
+//       .catch(error => {
+//         console.log('SW registration failed:', error);
+//       });
+//   });
+// }
 
 /* ========== CONSOLE EASTER EGG ========== */
 console.log(
@@ -375,4 +437,8 @@ console.log(
 console.log(
   '%cInterested in joining our team? Email: jmcshanedp@gmail.com',
   'font-size: 12px; color: #F9E9D2; font-style: italic;'
+);
+console.log(
+  '%cTestFlight Beta: December 2025',
+  'font-size: 12px; color: #C6A95E; font-weight: bold;'
 );
