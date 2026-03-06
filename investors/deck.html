@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Somnora: Investor Briefing</title>
+  <link rel="icon" href="../somnora-favicons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../somnora-favicons/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="../somnora-favicons/apple-touch-icon.png">
+  <link rel="manifest" href="../somnora-favicons/site.webmanifest">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            midnight: '#070C14',
+            matte: '#101622',
+            peach: '#F0B39A',
+            ice: '#86C5E1',
+            sage: '#86A693',
+            cream: '#F4F1DE',
+            mist: '#94A3B8'
+          },
+          fontFamily: {
+            serif: ['"Source Serif 4"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #070C14; color: #F4F1DE; overflow-x: hidden; }
+    .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 250px; }
+    @media (min-width: 768px) { .chart-container { height: 280px; } }
+    .matte-panel { background-color: rgba(16, 22, 34, 0.95); backdrop-filter: blur(6px); border: 1px solid rgba(148, 163, 184, 0.18); box-shadow: 0 10px 28px rgba(0,0,0,0.35), inset 0 1px 0 rgba(244, 241, 222, 0.04); }
+    .ambient-glow { position: relative; }
+    .ambient-glow::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(600px 420px at 20% 15%, rgba(240, 179, 154, 0.12), transparent 60%), radial-gradient(520px 360px at 80% 20%, rgba(134, 197, 225, 0.10), transparent 62%), radial-gradient(700px 520px at 55% 85%, rgba(134, 166, 147, 0.08), transparent 62%); filter: blur(10px); pointer-events: none; z-index: 0; }
+    .ambient-glow > * { position: relative; z-index: 1; }
+    .pop-title { background: linear-gradient(90deg, rgba(240,179,154,1), rgba(134,197,225,1)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #070C14; }
+    ::-webkit-scrollbar-thumb { background: #101622; border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 4px; }
+    html { scroll-snap-type: y proximity; scroll-padding-top: 72px; }
+    header, section, footer { scroll-snap-align: start; scroll-snap-stop: always; }
+    header, section { min-height: calc(100vh - 72px); }
+    section { padding-top: 3rem; padding-bottom: 3rem; }
+    .pipe-node { position: relative; background: rgba(7, 12, 20, 0.8); border: 1px solid rgba(148,163,184,0.18); border-radius: 0.75rem; padding: 1.25rem 1rem; text-align: center; box-shadow: 0 10px 24px rgba(0,0,0,0.25); min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 0.5rem; }
+    .pipe-node:not(:last-child)::after { content: "➔"; position: absolute; right: -18px; top: 50%; transform: translateY(-50%); color: rgba(148,163,184,0.35); font-weight: 300; }
+    @media (max-width: 767px) { .pipe-node:not(:last-child)::after { content: ""; } }
+    .pipe-kicker { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; margin-bottom: 0.75rem; }
+    .pipe-title { font-weight: 500; letter-spacing: 0.02em; font-size: clamp(0.9rem, 1.3vw, 1.1rem); white-space: nowrap; margin: 0.25rem 0 0.75rem 0; line-height: 1.1; }
+    @media (max-width: 420px) { .pipe-title { white-space: normal; } }
+    .pipe-bar { width: 32px; height: 4px; border-radius: 999px; opacity: 0.9; margin-top: auto; }
+  </style>
+</head>
+<body class="font-sans antialiased selection:bg-peach selection:text-midnight text-base">
+  <!-- Sticky Navigation -->
+  <nav class="sticky top-0 z-50 bg-midnight/95 backdrop-blur-md border-b border-mist/10 py-4 px-6 shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center overflow-x-auto no-scrollbar">
+      <a href="../index.html#top" class="font-serif text-peach font-bold text-lg mr-8 shrink-0 tracking-wide">SOMNORA</a>
+      <div class="flex space-x-6 text-sm text-mist font-medium whitespace-nowrap items-center">
+        <a href="#problem" class="hover:text-cream transition">Market Gap</a>
+        <a href="#pipeline" class="hover:text-cream transition">The Pipeline</a>
+        <a href="#system" class="hover:text-cream transition">The System</a>
+        <a href="#experience" class="hover:text-cream transition">Experience</a>
+        <a href="#moat" class="hover:text-cream transition">Architecture</a>
+        <a href="#traction" class="hover:text-cream transition">Traction</a>
+        <a href="#economics" class="hover:text-cream transition">Economics</a>
+        <a href="#trust" class="hover:text-cream transition">Trust</a>
+        <a href="./deck.html" download="Somnora_Investor_Briefing.html" class="hover:text-cream transition">Download</a>
+        <a href="mailto:james@somnora.app" class="shrink-0 text-peach hover:text-cream transition ml-4 border border-peach/30 px-3 py-1 rounded-full">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="relative w-full px-6 text-center bg-gradient-to-b from-[#0a111f] to-midnight border-b border-mist/5 py-20 flex flex-col justify-center">
+    <div class="max-w-4xl mx-auto">
+      <div class="w-16 h-16 mx-auto mb-10 border-[1.5px] border-peach/80 rounded-full flex items-center justify-center relative">
+        <div class="w-8 h-8 border border-ice/60 rounded-full absolute -top-2 -right-2"></div>
+        <div class="w-2 h-2 bg-sage rounded-full absolute bottom-3 left-3"></div>
+      </div>
+      <h1 class="font-serif text-5xl md:text-6xl font-bold text-cream mb-6 tracking-wide"> SOMNORA </h1>
+      <p class="text-2xl md:text-3xl text-mist font-light tracking-wide mb-10"> Measure the body, understand the mind. </p>
+      <div class="inline-block px-6 py-2 rounded-full border border-mist/20 bg-matte text-mist text-xs font-mono uppercase tracking-widest"> Wellness Intelligence System • 2026 </div>
+      <p class="mt-4 text-xs text-mist/70 font-mono uppercase tracking-widest"> Apple Watch + HealthKit native • Passive signals meet reflection </p>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-16 space-y-24">
+    <section id="problem">
+      <div class="mb-10 max-w-3xl">
+        <h2 class="font-serif text-3xl md:text-4xl text-cream mb-4">The Context Deficit</h2>
+        <p class="text-mist text-lg font-light leading-relaxed">
+          The mental wellness market is broken into two isolated halves. Somnora bridges the gap between raw biometrics and actionable psychological context.
+        </p>
+      </div>
+      <div class="matte-panel rounded-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-midnight/60 border-b border-mist/10 text-xs uppercase tracking-widest text-mist font-mono">
+                <th class="p-6 font-medium w-1/4">Category</th>
+                <th class="p-6 font-medium w-1/4">Optimization Trackers<br><span class="text-[10px] font-light normal-case opacity-70">(Oura, Apple Watch)</span></th>
+                <th class="p-6 font-medium w-1/4">Meditation Apps<br><span class="text-[10px] font-light normal-case opacity-70">(Calm, Headspace)</span></th>
+                <th class="p-6 font-medium w-1/4 text-peach">Somnora System</th>
+              </tr>
+            </thead>
+            <tbody class="text-sm md:text-base">
+              <tr class="border-b border-mist/5 hover:bg-white/5 transition">
+                <td class="p-6 font-medium text-cream">Data Accuracy</td>
+                <td class="p-6 text-ice">Strong (Biometrics)</td>
+                <td class="p-6 text-mist/40">None</td>
+                <td class="p-6 text-ice">Strong (HealthKit Sync)</td>
+              </tr>
+              <tr class="border-b border-mist/5 hover:bg-white/5 transition">
+                <td class="p-6 font-medium text-cream">Psychological Context</td>
+                <td class="p-6 text-mist/40">None</td>
+                <td class="p-6 text-mist">Self-Reported Only</td>
+                <td class="p-6 text-ice">Strong (Context Synthesis)</td>
+              </tr>
+              <tr class="border-b border-mist/5 hover:bg-white/5 transition">
+                <td class="p-6 font-medium text-cream">Actionability</td>
+                <td class="p-6 text-mist/40">Low</td>
+                <td class="p-6 text-mist">Generic</td>
+                <td class="p-6 text-ice">Highly Personalized</td>
+              </tr>
+              <tr class="bg-midnight/40">
+                <td class="p-6 font-serif text-mist italic">User Outcome</td>
+                <td class="p-6 text-mist font-medium text-sm">Data without meaning</td>
+                <td class="p-6 text-mist font-medium text-sm">Generic intervention</td>
+                <td class="p-6 text-peach font-bold text-sm">Context &amp; Clarity</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="pipeline">
+      <div class="mb-12 max-w-3xl">
+        <h2 class="font-serif text-3xl md:text-4xl pop-title mb-4">The Intelligence Pipeline</h2>
+        <p class="text-mist text-lg font-light leading-relaxed">
+          Somnora turns passive wearable signals and self-reflection into clear insights, then converts those insights into small actions that reduce mental load, sharpen cognition, and improve sleep habits.
+        </p>
+      </div>
+      <div class="matte-panel ambient-glow p-8 md:p-12 rounded-[2rem]">
+        <div class="max-w-5xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 items-stretch">
+            <div class="pipe-node border-mist/20">
+              <p class="pipe-kicker text-mist/60">Phase 1</p>
+              <h4 class="pipe-title text-cream">Reflection</h4>
+              <div class="pipe-bar bg-mist/30"></div>
+            </div>
+            <div class="pipe-node border-ice/30">
+              <p class="pipe-kicker text-ice/70">Phase 2</p>
+              <h4 class="pipe-title text-ice">Conversation</h4>
+              <div class="pipe-bar bg-ice/40"></div>
+            </div>
+            <div class="pipe-node border-peach/40">
+              <p class="pipe-kicker text-peach/70">Phase 3</p>
+              <h4 class="pipe-title text-peach">Realization</h4>
+              <div class="pipe-bar bg-peach/50"></div>
+            </div>
+            <div class="pipe-node border-sage/40">
+              <p class="pipe-kicker text-sage/70">Phase 4</p>
+              <h4 class="pipe-title text-sage">Action</h4>
+              <div class="pipe-bar bg-sage/50"></div>
+            </div>
+            <div class="pipe-node border-mist/20">
+              <p class="pipe-kicker text-cream/50">Outcome</p>
+              <h4 class="pipe-title text-cream">Wellness</h4>
+              <div class="pipe-bar bg-cream/30"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="system">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="font-serif text-3xl md:text-4xl text-cream mb-6">A Mechanism-Driven System</h2>
+          <div class="border-l-[3px] border-peach pl-6 mb-8">
+            <p class="text-peach font-medium text-lg mb-2">Dream recall is optional.</p>
+            <p class="text-mist font-light leading-relaxed">
+              Somnora is architected for anyone seeking peace of mind. The system operates effectively across multiple vectors of interaction, translating physiology and self-reflection into targeted behavioral reinforcement.
+            </p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="matte-panel p-6 rounded-xl">
+            <h4 class="text-sm font-mono uppercase tracking-widest text-ice mb-3">01. Detection</h4>
+            <p class="text-cream font-medium mb-1">Sleep &amp; Stress Patterns</p>
+            <p class="text-xs text-mist leading-relaxed">Using Apple Watch and HealthKit to track sleep stages, HRV, resting heart rate, and stress proxies, then mapping patterns to mental load.</p>
+          </div>
+          <div class="matte-panel p-6 rounded-xl">
+            <h4 class="text-sm font-mono uppercase tracking-widest text-ice mb-3">02. Reflection</h4>
+            <p class="text-cream font-medium mb-1">Reflection Capture</p>
+            <p class="text-xs text-mist leading-relaxed">Minimal friction prompts designed to externalize cognitive load.</p>
+          </div>
+          <div class="matte-panel p-6 rounded-xl relative">
+            <div class="absolute top-0 right-0 w-12 h-12 bg-peach/10 rounded-bl-full rounded-tr-xl"></div>
+            <h4 class="text-sm font-mono uppercase tracking-widest text-peach mb-3">03. Reframing</h4>
+            <p class="text-cream font-medium mb-1">State Change Interventions</p>
+            <p class="text-xs text-mist leading-relaxed">Interactive "write and release" exercises (burn, dissolve, shred) for immediate, tactile stress reduction.</p>
+          </div>
+          <div class="matte-panel p-6 rounded-xl relative">
+            <div class="absolute top-0 right-0 w-12 h-12 bg-sage/10 rounded-bl-full rounded-tr-xl"></div>
+            <h4 class="text-sm font-mono uppercase tracking-widest text-sage mb-3">04. Reinforcement</h4>
+            <p class="text-cream font-medium mb-1">Micro-Interventions</p>
+            <p class="text-xs text-mist leading-relaxed">Short, guided behavioral resets triggered precisely when needed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="font-serif text-3xl md:text-4xl text-cream mb-6">The Experience</h2>
+          <p class="text-mist text-lg font-light leading-relaxed mb-8">A frictionless daily loop designed for minimal screen time and maximum psychological impact.</p>
+          <ul class="space-y-6 text-sm text-cream/90 font-light">
+            <li class="flex items-start">
+              <span class="text-ice font-bold mr-4 text-lg">01</span>
+              <div>
+                <strong class="font-medium text-cream text-base">10-Second Capture</strong><br>
+                <span class="text-mist mt-1 block">Voice-first capture, or a one-line text entry.</span>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-peach font-bold mr-4 text-lg">02</span>
+              <div>
+                <strong class="font-medium text-cream text-base">Passive Sync</strong><br>
+                <span class="text-mist mt-1 block">Automatic background HealthKit biometric integration.</span>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-sage font-bold mr-4 text-lg">03</span>
+              <div>
+                <strong class="font-medium text-cream text-base">Targeted Interventions</strong><br>
+                <span class="text-mist mt-1 block">2-minute actionable resets based directly on overnight physiological load.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="flex justify-center gap-6 items-center">
+            <div class="w-48 h-[22rem] matte-panel rounded-[2rem] border border-ice/20 relative overflow-hidden flex flex-col justify-end p-5">
+              <div class="w-14 h-14 rounded-full bg-ice/10 border border-ice/30 mx-auto mb-10 flex items-center justify-center shadow-[0_0_20px_rgba(134,197,225,0.2)]">
+                <div class="w-4 h-4 bg-ice rounded-full"></div>
+              </div>
+              <div class="w-3/4 h-2 bg-mist/20 rounded-full mx-auto mb-4"></div>
+              <div class="w-1/2 h-2 bg-mist/20 rounded-full mx-auto mb-8"></div>
+            </div>
+            <div class="w-48 h-[22rem] matte-panel rounded-[2rem] border border-peach/20 relative overflow-hidden flex flex-col p-5 mt-12">
+              <div class="w-full bg-peach/10 rounded-xl border border-peach/20 mb-4 p-4 shadow-[0_0_15px_rgba(240,179,154,0.1)]">
+                <div class="w-1/3 h-2 bg-peach/60 rounded-full mb-4"></div>
+                <div class="w-full h-1.5 bg-cream/40 rounded-full mb-2.5"></div>
+                <div class="w-full h-1.5 bg-cream/40 rounded-full mb-2.5"></div>
+                <div class="w-4/5 h-1.5 bg-cream/40 rounded-full"></div>
+              </div>
+              <div class="w-full h-12 bg-sage/15 rounded-xl border border-sage/30 mt-auto flex items-center justify-center transition">
+                <div class="w-1/2 h-2 bg-sage/60 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+          <p class="text-[10px] text-mist/60 font-mono uppercase tracking-widest text-center mt-6">Illustrative UI, native iOS build</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="moat">
+      <div class="mb-12 max-w-3xl">
+        <h2 class="font-serif text-3xl md:text-4xl pop-title mb-4">Cost-Efficient Architecture</h2>
+        <p class="text-mist text-lg font-light leading-relaxed">Cost per active user can decrease with routing and caching. We avoid expensive, redundant LLM calls for predictable context themes.</p>
+      </div>
+      <div class="matte-panel ambient-glow p-8 rounded-2xl overflow-x-auto">
+        <div class="min-w-[800px] flex items-center justify-between space-x-6">
+          <div class="text-center w-48 shrink-0">
+            <div class="bg-midnight border border-mist/20 p-4 rounded-xl shadow-lg mb-3">
+              <p class="text-cream text-sm">User Input &amp;<br>Health Vitals</p>
+            </div>
+            <span class="text-[10px] text-mist font-mono uppercase tracking-widest">Request</span>
+          </div>
+          <div class="flex-1 min-w-[80px] h-px bg-mist/20 relative">
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 border-t-[3px] border-b-[3px] border-l-[6px] border-transparent border-l-mist/50"></div>
+          </div>
+          <div class="text-center w-56 shrink-0 relative">
+            <div class="bg-ice/5 border border-ice/30 p-5 rounded-xl shadow-[0_0_20px_rgba(134,197,225,0.05)] mb-3 z-10 relative">
+              <h4 class="text-ice font-medium mb-1">Semantic Cache</h4>
+              <p class="text-mist text-xs leading-relaxed">De-identified templates &amp; logic scaffolds.</p>
+            </div>
+            <span class="text-[10px] text-ice font-mono uppercase tracking-widest">First Pass (Low Cost)</span>
+            <div class="absolute top-1/2 left-1/2 w-full h-32 border-b border-r border-ice/40 rounded-br-xl rounded-tr-xl -translate-y-1/2 translate-x-1/2 border-dashed"></div>
+          </div>
+          <div class="flex-1 min-w-[120px] h-px bg-mist/20 relative">
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 border-t-[3px] border-b-[3px] border-l-[6px] border-transparent border-l-mist/50"></div>
+            <span class="absolute -top-10 left-1/2 -translate-x-1/2 text-[10px] text-mist font-mono bg-matte px-3 py-1 rounded-md border border-mist/20 shadow-md whitespace-nowrap">Cache Miss</span>
+          </div>
+          <div class="text-center w-48 shrink-0">
+            <div class="bg-midnight border border-peach/30 p-5 rounded-xl shadow-lg mb-3">
+              <h4 class="text-peach font-medium mb-1">Vertex AI</h4>
+              <p class="text-mist text-xs leading-relaxed">Reasoning &amp; Generation</p>
+            </div>
+            <span class="text-[10px] text-peach font-mono uppercase tracking-widest">Fallback (High Value)</span>
+          </div>
+        </div>
+      </div>
+      <p class="text-right text-xs text-mist/50 mt-4 italic">Illustrative architecture model</p>
+    </section>
+
+    <section id="traction">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="font-serif text-3xl md:text-4xl text-peach mb-8">Quiet Growth, Loud Validation</h2>
+          <div class="space-y-6">
+            <div class="border-l-[2px] border-mist/40 pl-6">
+              <h4 class="text-base text-cream font-medium mb-1">Qualitative Beta Phase</h4>
+              <p class="text-mist font-light text-sm">Active TestFlight cohort (50+ users) with early retention signals across 4 weeks, consistently engaging with the core intelligence loop to prove value and drive system iteration.</p>
+            </div>
+            <div class="border-l-[2px] border-peach pl-6">
+              <h4 class="text-base text-cream font-medium mb-1">Infrastructure Backing</h4>
+              <p class="text-mist font-light text-sm">Secured foundational cloud credits to safely bootstrap AI architecture and scale data privacy layers.</p>
+            </div>
+            <div class="border-l-[2px] border-ice pl-6">
+              <h4 class="text-base text-cream font-medium mb-1">Public Health Pipeline</h4>
+              <p class="text-mist font-light text-sm">Early pilot explorations with health departments regarding system deployment for high-stress populations.</p>
+            </div>
+          </div>
+        </div>
+        <div class="matte-panel p-10 rounded-3xl flex flex-col items-center justify-center min-h-[400px]">
+          <h3 class="font-serif text-2xl text-cream mb-10 text-center w-full">Owning the Intersection</h3>
+          <div class="relative w-64 h-64 flex items-center justify-center isolate">
+            <div class="absolute w-48 h-48 rounded-full border border-ice/40 bg-ice/5 flex items-center justify-start pl-6 -translate-x-12 backdrop-blur-sm">
+              <span class="text-[10px] text-ice font-mono tracking-widest uppercase rotate-[-15deg]">Sleep<br>Tech</span>
+            </div>
+            <div class="absolute w-48 h-48 rounded-full border border-peach/40 bg-peach/5 flex items-center justify-end pr-6 translate-x-12 backdrop-blur-sm">
+              <span class="text-[10px] text-peach font-mono tracking-widest uppercase text-right rotate-[15deg]">Mental<br>Wellness</span>
+            </div>
+            <div class="absolute z-10 w-24 h-24 rounded-full bg-matte border border-mist/30 shadow-[0_0_20px_rgba(240,179,154,0.1)] flex items-center justify-center backdrop-blur-md">
+              <span class="font-serif text-cream font-medium text-sm">Somnora</span>
+            </div>
+          </div>
+          <div class="mt-10 border-t border-mist/10 pt-6 w-full text-center">
+            <p class="text-[10px] text-mist font-mono uppercase tracking-widest mb-2">Why Now</p>
+            <p class="text-xs text-cream/80 font-light leading-relaxed px-4">Surging wearables adoption + advanced LLM reasoning capabilities + increasing consumer focus on proactive mental wellness.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="economics">
+      <div class="mb-10 text-center max-w-3xl mx-auto">
+        <h2 class="font-serif text-3xl md:text-4xl text-cream mb-4">Target Unit Economics</h2>
+        <div class="text-mist text-lg font-light leading-relaxed mb-6">
+          <p>Freemium subscription, $9.99/mo premium tier.</p>
+          <p>Premium unlocks deeper insights, voice context, and advanced interventions.</p>
+        </div>
+        <p class="text-mist/70 text-sm">Comparing monthly COGS stack vs. Premium revenue distribution.</p>
+      </div>
+      <div class="matte-panel p-8 md:p-12 rounded-[2rem] max-w-4xl mx-auto">
+        <div class="chart-container">
+          <canvas id="cogsChart"></canvas>
+        </div>
+        <p class="text-[10px] text-mist/50 text-center mt-6 uppercase tracking-widest font-mono">Modeled with 15% platform fee assumption.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 pt-8 border-t border-mist/10">
+          <div class="bg-midnight/30 p-6 rounded-xl border border-mist/10">
+            <h4 class="text-mist text-xs font-mono uppercase tracking-widest mb-3">Free User (Modeled)</h4>
+            <p class="text-sm text-cream/80 font-light leading-relaxed">Includes basic tracking &amp; insights. COGS kept low via strict multimodal limits and heavy semantic cache utilization.</p>
+          </div>
+          <div class="bg-midnight/30 p-6 rounded-xl border border-peach/20">
+            <h4 class="text-peach text-xs font-mono uppercase tracking-widest mb-3">Premium User @ $9.99</h4>
+            <p class="text-sm text-cream/80 font-light leading-relaxed">Includes modeled limits on voice context synthesis. Architected to support a <strong>target gross margin >65%</strong> at scale.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="trust">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="matte-panel ambient-glow p-10 rounded-[2rem] relative">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-ice/5 rounded-bl-full rounded-tr-[2rem]"></div>
+          <h3 class="font-serif text-3xl text-ice mb-6">Privacy as Foundation</h3>
+          <p class="text-mist mb-8 font-light leading-relaxed">We process sensitive psychological context. System trust is a mandatory feature.</p>
+          <ul class="space-y-6 text-sm text-cream/90 font-light">
+            <li class="flex items-start">
+              <span class="text-ice font-bold mr-4">✓</span>
+              <div>
+                <strong class="font-medium text-cream">Data Storage:</strong><br>
+                <span class="text-mist mt-1 block">Encrypted user reflection capture, plus optional embeddings isolated for personalization.</span>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-ice font-bold mr-4">✓</span>
+              <div>
+                <strong class="font-medium text-cream">Model Training:</strong><br>
+                <span class="text-mist mt-1 block">We do not train public models on user content. We do not sell user data.</span>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-ice font-bold mr-4">✓</span>
+              <div>
+                <strong class="font-medium text-cream">User Control:</strong><br>
+                <span class="text-mist mt-1 block">Comprehensive data export and one-tap cryptographic deletion protocols.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="matte-panel ambient-glow p-10 rounded-[2rem] relative">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-peach/5 rounded-bl-full rounded-tr-[2rem]"></div>
+          <h3 class="font-serif text-3xl text-peach mb-6">Leadership</h3>
+          <div class="mb-8">
+            <p class="text-cream text-xl font-medium mb-1">James McShane</p>
+            <p class="text-[10px] text-mist font-mono uppercase tracking-widest">Founder &amp; CEO</p>
+          </div>
+          <ul class="space-y-5 text-sm text-cream/90 font-light">
+            <li class="flex items-start">
+              <span class="text-peach font-bold mr-4">➜</span>
+              <div>
+                <strong class="font-medium text-cream">The Storyteller:</strong><br>
+                <span class="text-mist mt-1 block">12 years executing documentary cinematography, contributing to projects that raised $4M+ for conservation.</span>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-peach font-bold mr-4">➜</span>
+              <div>
+                <strong class="font-medium text-cream">The Builder:</strong><br>
+                <span class="text-mist mt-1 block">Self-taught iOS &amp; Python engineer. Built the entire native application, HealthKit integration, and AI logic pipeline.</span>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-peach font-bold mr-4">➜</span>
+              <div>
+                <strong class="font-medium text-cream">The Origin:</strong><br>
+                <span class="text-mist mt-1 block">After years filming in high-stress environments, journaling became a practical tool to process vivid dreams and daily pressure. That practice evolved into a structured system, and LLMs became the tool to connect physiological signals with mental load.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer id="ask" class="text-center py-24 border-t border-mist/10 flex flex-col justify-center min-h-[calc(100vh-72px)]">
+      <div class="inline-block matte-panel ambient-glow px-8 py-16 md:px-20 md:py-20 rounded-[3rem] shadow-2xl relative">
+        <h2 class="font-serif text-4xl md:text-5xl pop-title mb-6 relative z-10">Capital to Scale</h2>
+        <p class="text-mist text-lg mb-10 font-light max-w-lg mx-auto relative z-10">
+          Seeking <strong class="text-peach font-normal">$250k Pre-Seed</strong> to solidify enterprise-grade privacy compliance and initiate organic engagement funnels.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 relative z-10">
+          <div class="px-5 py-3 bg-midnight border border-mist/20 rounded-xl text-xs text-mist font-mono tracking-wide uppercase">HIPAA / Security Ops</div>
+          <div class="px-5 py-3 bg-midnight border border-mist/20 rounded-xl text-xs text-mist font-mono tracking-wide uppercase">Interactive Roadmap</div>
+          <div class="px-5 py-3 bg-midnight border border-mist/20 rounded-xl text-xs text-mist font-mono tracking-wide uppercase">Local Inference Pilots</div>
+        </div>
+      </div>
+      <p class="mt-20 text-[10px] text-mist/40 uppercase tracking-widest font-mono">© 2026 Somnora LLC. Confidential &amp; Proprietary.</p>
+    </footer>
+  </main>
+
+  <script>
+    function wrapLabel(str, maxChars) {
+      const words = str.split(' ');
+      const lines = [];
+      let currentLine = words[0];
+      for (let i = 1; i < words.length; i++) {
+        if (currentLine.length + 1 + words[i].length <= maxChars) {
+          currentLine += ' ' + words[i];
+        } else {
+          lines.push(currentLine);
+          currentLine = words[i];
+        }
+      }
+      lines.push(currentLine);
+      return lines;
+    }
+
+    Chart.defaults.font.family = '"Inter", sans-serif';
+    Chart.defaults.color = '#94A3B8';
+
+    const ctxEcon = document.getElementById('cogsChart').getContext('2d');
+    new Chart(ctxEcon, {
+      type: 'bar',
+      data: {
+        labels: [
+          wrapLabel('Free User (Target Monthly COGS)', 20),
+          wrapLabel('Premium User ($9.99 Monthly Rev)', 20)
+        ],
+        datasets: [
+          {
+            label: 'LLM Reasoning',
+            data: [0.10, 0.40],
+            backgroundColor: '#86C5E1',
+            stack: 'Stack 0',
+          },
+          {
+            label: 'Voice/Multimodal',
+            data: [0.05, 0.60],
+            backgroundColor: '#F0B39A',
+            stack: 'Stack 0',
+          },
+          {
+            label: 'Infrastructure/DB',
+            data: [0.05, 0.15],
+            backgroundColor: '#94A3B8',
+            stack: 'Stack 0',
+            borderRadius: { topRight: 4, bottomRight: 4 }
+          },
+          {
+            label: 'Platform Fee',
+            data: [0, 1.50],
+            backgroundColor: '#334155',
+            stack: 'Stack 0',
+          },
+          {
+            label: 'Modeled Gross Margin',
+            data: [0, 7.34],
+            backgroundColor: '#86A693',
+            stack: 'Stack 0',
+            borderRadius: { topRight: 4, bottomRight: 4 }
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#F4F1DE',
+              usePointStyle: true,
+              boxWidth: 8
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(16, 22, 34, 0.98)',
+            titleColor: '#F4F1DE',
+            bodyColor: '#94A3B8',
+            borderColor: '#F0B39A',
+            borderWidth: 1,
+            padding: 12,
+            callbacks: {
+              title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+              },
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.x !== null) {
+                  label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.x);
+                }
+                return label;
+              }
+            }
+          },
+          title: {
+            display: false
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            grid: {
+              color: 'rgba(148, 163, 184, 0.1)'
+            },
+            ticks: {
+              callback: function(value) {
+                return '$' + value;
+              }
+            }
+          },
+          y: {
+            stacked: true,
+            grid: {
+              display: false
+            },
+            ticks: {
+              color: '#F4F1DE',
+              font: {
+                size: 13
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
