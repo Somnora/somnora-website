@@ -236,47 +236,58 @@ p {
   z-index: 1;
 }
 
-.hero-copy {
+.hero .hero-copy {
   position: relative;
   max-width: 760px;
   padding: 1.7rem 2rem 1.45rem;
   margin-bottom: 0.95rem;
 }
 
-.hero-copy::before {
+.hero .hero-copy::before {
   content: "";
   position: absolute;
-  inset: -1rem -1.6rem -0.7rem;
+  inset: -1.1rem -1.7rem -0.85rem;
   background:
-    radial-gradient(circle at 50% 20%, rgba(15, 12, 10, 0.86) 0%, rgba(15, 12, 10, 0.64) 48%, rgba(15, 12, 10, 0.18) 74%, rgba(15, 12, 10, 0) 100%),
-    linear-gradient(180deg, rgba(22, 18, 16, 0.56) 0%, rgba(22, 18, 16, 0.2) 68%, rgba(22, 18, 16, 0) 100%);
-  filter: blur(18px);
-  border-radius: 36px;
-  opacity: 0.98;
+    radial-gradient(circle at 50% 22%, rgba(18, 14, 12, 0.5) 0%, rgba(18, 14, 12, 0.34) 46%, rgba(18, 14, 12, 0.1) 72%, rgba(18, 14, 12, 0) 100%),
+    linear-gradient(180deg, rgba(24, 20, 17, 0.28) 0%, rgba(24, 20, 17, 0.08) 66%, rgba(24, 20, 17, 0) 100%);
+  filter: blur(20px);
+  border-radius: 42px;
+  opacity: 0.72;
   pointer-events: none;
 }
 
-.hero-copy > * {
+.hero .hero-copy::after {
+  content: "";
+  position: absolute;
+  inset: -0.5rem -0.9rem 0;
+  background: radial-gradient(circle at 50% 28%, rgba(249, 244, 238, 0.16) 0%, rgba(249, 244, 238, 0.07) 34%, rgba(249, 244, 238, 0) 74%);
+  filter: blur(16px);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.hero .hero-copy > * {
   position: relative;
   z-index: 1;
 }
 
 .hero h1 {
-  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  font-size: clamp(2.3rem, 5.7vw, 3.95rem);
   margin-bottom: 0.85rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f3efec 56%, #dcd6cf 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
+  background: none;
+  color: #f8f3ed;
+  -webkit-background-clip: border-box;
+  -webkit-text-fill-color: #f8f3ed;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.34), 0 12px 28px rgba(0, 0, 0, 0.22);
 }
 
 .hero p.subtitle {
   font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-  color: rgba(245, 245, 247, 0.84);
+  color: rgba(245, 245, 247, 0.88);
   max-width: 55ch;
   margin: 0 auto;
-  line-height: 1.5;
-  text-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+  line-height: 1.54;
+  text-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
 }
 
 .pill-badge {
@@ -977,15 +988,15 @@ p {
     border-radius: 999px;
   }
   .hero { min-height: 72vh; padding: 4.2rem 1rem 0.85rem; }
-  .hero-copy {
+  .hero .hero-copy {
     padding: 1.25rem 0.75rem 1rem;
     margin-bottom: 0.75rem;
   }
-  .hero-copy::before {
+  .hero .hero-copy::before {
     inset: -0.75rem -0.45rem -0.45rem;
     filter: blur(14px);
   }
-  .hero h1 { font-size: clamp(2rem, 9vw, 2.6rem); }
+  .hero h1 { font-size: clamp(2.1rem, 9.2vw, 2.75rem); }
   .section-header {
     margin-bottom: 1.4rem;
   }
