@@ -1,7 +1,7 @@
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PRICING = {
-  founders: { monthly: "9.99", quarterly: "20.99", yearly: "44.99" },
-  standard: { monthly: "9.99", quarterly: "26.99", yearly: "59.99" }
+  founders: { monthly: "9.99", yearly: "59.99" },
+  standard: { monthly: "9.99", yearly: "79.99" }
 };
 
 /* ========== MODES STEPPER ========== */
@@ -15,42 +15,41 @@ const MODE_DETAILS = {
   dream: {
     label: "Mode 01 · Dream",
     title: "Dream",
-    purpose: "Purpose: optional reflection when a night leaves emotional residue.",
+    purpose: "Purpose: capture dream fragments, emotional residue, and whatever still feels present in the morning.",
     points: [
-      "Log the night in one short reflection, no pressure for perfect wording.",
-      "Receive a concise summary that helps separate emotion from noise.",
-      "Carry one actionable note into the next day with less mental clutter."
+      "Begin with an image, feeling, or line of dialogue, no perfect memory required.",
+      "Let Nora reflect back the thread without overexplaining it.",
+      "Leave with one clearer thought to carry into the day."
     ]
   },
   eureka: {
     label: "Mode 02 · Eureka",
     title: "Eureka",
-    purpose: "Purpose: capture half-formed ideas and turn them into a realistic next step.",
+    purpose: "Purpose: catch late-night ideas while they still have energy.",
     points: [
-      "Core Loop: capture idea, pressure-test assumptions, choose one concrete move.",
-      "Unique Hook: short-first prompts keep momentum without forcing hype.",
-      "Risks: surface weak points early before they become expensive distractions.",
-      "Next Step: finish with one realistic action for tomorrow."
+      "Drop in the loose thought before it slips away.",
+      "Use Nora to shape the signal without sanding off its edge.",
+      "End with a clearer thread worth following in daylight."
     ]
   },
   analytics: {
     label: "Mode 03 · Analytics",
     title: "Analytics",
-    purpose: "Purpose: trends over time, framed as signals, not conclusions.",
+    purpose: "Purpose: notice what repeats across nights, moods, and ideas.",
     points: [
-      "Track sleep and reflection patterns across nights with clear visual summaries.",
-      "Highlight gentle correlations to explore, no overreach and no hard claims.",
-      "Use signals to adjust evening routines with calmer expectations."
+      "Review patterns across sleep, reflection, mood, and what keeps resurfacing.",
+      "Spot gentle relationships worth paying attention to.",
+      "Build context over time without forcing a conclusion."
     ]
   },
   mindful: {
     label: "Mode 04 · Mindful",
     title: "Mindful",
-    purpose: "Purpose: short breathing loop plus grounding prompt.",
+    purpose: "Purpose: close the day with a steadier body and a quieter mental field.",
     points: [
-      "Start a brief breath cycle with a simple rhythm, inhale 4, hold 4, exhale 6.",
-      "Follow one grounding prompt to settle thought loops before rest.",
-      "Exit with a calmer state and one clear intention for sleep."
+      "Follow a brief breathing rhythm that asks very little of you.",
+      "Use one grounding prompt to set down mental noise before sleep.",
+      "Finish with a steadier handoff into the night."
     ]
   }
 };
@@ -103,6 +102,12 @@ function setPricing(mode) { // 'founders' or 'standard'
   const slider = document.querySelector('.toggle-slider');
   if(slider) {
     slider.style.transform = isStandard ? 'translateX(100%)' : 'translateX(0)';
+  }
+
+  // Show/hide founder reference price on yearly card
+  const refPrice = document.getElementById('yearly-ref-price');
+  if (refPrice) {
+    refPrice.style.display = isStandard ? 'none' : '';
   }
 
   // Update numbers for ALL cards
