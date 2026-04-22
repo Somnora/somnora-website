@@ -3,336 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Somnora | Private AI Companion for Reflection</title>
-  <meta name="description" content="Somnora is a private AI companion for dreams, patterns, and late-night ideas, combining sleep context, reflection, and conversation." />
-  <meta property="og:title" content="Somnora | Where Reflection Meets Creation" />
-  <meta property="og:description" content="Capture dreams, patterns, and late-night ideas with Nora, the private companion for what your mind is still carrying." />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Somnora | Where Reflection Meets Creation" />
-  <meta name="twitter:description" content="A private AI companion for dreams, patterns, and late-night ideas, built for the in-between moments." />
-  
+  <title>Terms of Service | Somnora</title>
+  <meta name="description" content="Somnora terms of service for public beta and early access users." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" href="somnora-favicons/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="somnora-favicons/favicon-32x32.png">
   <link rel="apple-touch-icon" href="somnora-favicons/apple-touch-icon.png">
   <link rel="manifest" href="somnora-favicons/site.webmanifest">
 </head>
-<body id="top">
-
-  <!-- Dynamic Background -->
+<body class="legal-page">
+  
   <div id="ambient-bg">
-    <div class="gradient-blob" id="blob"></div>
+    <div class="gradient-blob" aria-hidden="true"></div>
   </div>
 
   <nav class="nav">
     <a href="index.html#top" class="logo">Somnora</a>
-    <div class="nav-links" id="primary-nav">
-      <a href="#how-it-works">How it Works</a>
-      <a href="#modes">Modes</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-      <a href="#waitlist" class="nav-cta">Early Access</a>
+    <div class="nav-links" id="legal-nav">
+      <a href="index.html#how-it-works">Features</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="index.html#waitlist" class="nav-cta">Early Access</a>
     </div>
-    <button class="mobile-toggle" aria-label="Menu" aria-controls="primary-nav" aria-expanded="false">
+    <button class="mobile-toggle" aria-label="Menu" aria-controls="legal-nav" aria-expanded="false">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
     </button>
   </nav>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="pill-badge">Understand what you&apos;re carrying.</div>
-        <h1>Where reflection<br>meets creation.</h1>
-        <p class="subtitle">Capture dreams, patterns, and late-night ideas with Nora, the private companion for what your mind is still carrying. Built for the in-between moments.</p>
-      </div>
-      
-      <div class="btn-group">
-        <a href="#waitlist" class="btn btn-primary">Join Waitlist</a>
-        <a href="#how-it-works" class="btn btn-secondary">See How it Works</a>
-      </div>
+  <main class="legal-content legal-main legal-stack">
+    <a href="index.html#top" class="legal-back-link">← Back</a>
+
+    <p class="modes-eyebrow">Public Beta Terms</p>
+    <h1>Terms of Service</h1>
+    <p class="legal-updated">Last updated April 4, 2026.</p>
+    <p class="legal-intro">Somnora is a wellness product for reflection, not a clinical service. These terms focus on the practical boundaries of using the product during public beta.</p>
+
+    <section class="legal-section">
+      <h2>Product Scope</h2>
+      <ul class="legal-list">
+        <li>Somnora provides journaling, sleep context, and AI-assisted reflection for wellness purposes only.</li>
+        <li>The service does not provide medical advice, diagnosis, crisis support, or emergency intervention.</li>
+        <li>You are responsible for how you use the product and for seeking professional care when needed.</li>
+      </ul>
     </section>
 
-    <!-- WHAT SOMNORA DOES -->
-    <section id="how-it-works" class="section">
-      <div class="section-header">
-        <p class="modes-eyebrow">The 90-Second Tour</p>
-        <h2>Capture what lingers. Shape what returns.</h2>
-      </div>
-      <div class="product-features-grid">
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M12 2l4 4M12 2l-4 4M12 22l4-4M12 22l-4-4"/></svg>
-          </div>
-          <h3>Sleep Context</h3>
-          <p>HealthKit adds timing, stages, and rhythm, so what you felt sits beside what your body recorded.</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </div>
-          <h3>Quiet Capture</h3>
-          <p>Dream fragments, emotional residue, and almost-ideas all have a place to land before they disappear.</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5zM16 8L2 22M17.5 15H9"/></svg>
-          </div>
-          <h3>Eureka Threads</h3>
-          <p>Catch the idea that arrives at 1:13 a.m. and give it a shape you&apos;d still respect in daylight.</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          </div>
-          <h3>Pattern Awareness</h3>
-          <p>Over time, Nora notices recurring themes across nights, moods, and ideas, helping you see what keeps returning.</p>
-        </div>
-      </div>
+    <section class="legal-section">
+      <h2>Billing and Access</h2>
+      <ul class="legal-list">
+        <li>If Somnora offers paid subscriptions or purchases, billing is handled through Apple, including changes, renewals, cancellations, and platform billing rules.</li>
+        <li>Pricing and feature availability may change as the product evolves, especially during public beta and early access.</li>
+        <li>We may update, pause, or remove features as the product evolves.</li>
+      </ul>
     </section>
 
-    <!-- DATA IN, VALUE OUT -->
-    <section class="section data-value">
-      <div class="section-header">
-        <h2>What you capture becomes context.</h2>
-        <p>Private inputs, wearable context, and a clearer record of what keeps returning.</p>
-      </div>
-      <div class="io-grid">
-        <div class="io-card inputs">
-          <h3>Inputs</h3>
-          <ul>
-            <li>Sleep duration &amp; stages (via HealthKit)</li>
-            <li>Dream fragments and recurring images</li>
-            <li>Emotional residue and daily reflections</li>
-            <li>Late-night ideas and loose notes</li>
-          </ul>
-        </div>
-        <div class="io-card outputs">
-          <h3>Outputs</h3>
-          <ul>
-            <li>Clear summaries in plain language</li>
-            <li>Gentle pattern awareness over time</li>
-            <li>A clearer thread to follow next</li>
-            <li>A private record of what keeps returning</li>
-          </ul>
-        </div>
-      </div>
+    <section class="legal-section">
+      <h2>Appropriate Use</h2>
+      <ul class="legal-list">
+        <li>Please use Somnora for lawful, personal use and do not attempt to disrupt the service or misuse account access.</li>
+        <li>You retain ownership of your entries, but you are responsible for the content you choose to store.</li>
+        <li>Some features may send content you provide to Somnora services in order to generate AI responses, voice playback, or dream imagery.</li>
+        <li>If you believe your account has been compromised, contact us promptly so we can help secure it.</li>
+      </ul>
     </section>
 
-    <!-- MODES STEPPER -->
-    <section id="modes" class="section modes-stepper-section">
-      <div class="modes-header">
-        <p class="modes-eyebrow">Story Mode</p>
-        <h2>One companion. Four ways in.</h2>
-        <p>Move between dream recall, idea capture, pattern review, and a steadier landing before sleep.</p>
-      </div>
-
-      <div class="modes-layout">
-        <div class="modes-steps" role="list">
-          <button class="mode-step is-active" type="button" data-mode="dream" aria-pressed="true">
-            <span class="mode-step-label">Mode 01</span>
-            <h3>Dream</h3>
-            <p>Notice what the night is still carrying.</p>
-          </button>
-          <button class="mode-step" type="button" data-mode="eureka" aria-pressed="false">
-            <span class="mode-step-label">Mode 02</span>
-            <h3>Eureka</h3>
-            <p>Catch the idea before daylight edits it.</p>
-          </button>
-          <button class="mode-step" type="button" data-mode="analytics" aria-pressed="false">
-            <span class="mode-step-label">Mode 03</span>
-            <h3>Analytics</h3>
-            <p>See themes across sleep, mood, and ideas.</p>
-          </button>
-          <button class="mode-step" type="button" data-mode="mindful" aria-pressed="false">
-            <span class="mode-step-label">Mode 04</span>
-            <h3>Mindful</h3>
-            <p>Close the day with less noise.</p>
-          </button>
-        </div>
-
-        <article class="mode-detail-card" id="mode-detail-card" aria-live="polite">
-          <p class="mode-detail-kicker" id="mode-detail-label">Mode 01 · Dream</p>
-          <h3 id="mode-detail-title">Dream</h3>
-          <p class="mode-detail-purpose" id="mode-detail-purpose">Purpose: capture dream fragments, emotional residue, and whatever still feels present in the morning.</p>
-          <ul class="mode-detail-list" id="mode-detail-list">
-            <li>Begin with an image, feeling, or line of dialogue, no perfect memory required.</li>
-            <li>Let Nora reflect back the thread without overexplaining it.</li>
-            <li>Leave with one clearer thought to carry into the day.</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="modes-mobile-stack">
-        <article class="mode-mobile-card">
-          <p class="mode-detail-kicker">Mode 01 · Dream</p>
-          <h3>Dream</h3>
-          <p class="mode-detail-purpose">Purpose: capture dream fragments, emotional residue, and whatever still feels present in the morning.</p>
-          <ul class="mode-detail-list">
-            <li>Begin with an image, feeling, or line of dialogue, no perfect memory required.</li>
-            <li>Let Nora reflect back the thread without overexplaining it.</li>
-            <li>Leave with one clearer thought to carry into the day.</li>
-          </ul>
-        </article>
-
-        <article class="mode-mobile-card">
-          <p class="mode-detail-kicker">Mode 02 · Eureka</p>
-          <h3>Eureka</h3>
-          <p class="mode-detail-purpose">Purpose: catch late-night ideas while they still have energy.</p>
-          <ul class="mode-detail-list">
-            <li>Drop in the loose thought before it slips away.</li>
-            <li>Use Nora to shape the signal without sanding off its edge.</li>
-            <li>End with a clearer thread worth following in daylight.</li>
-          </ul>
-        </article>
-
-        <article class="mode-mobile-card">
-          <p class="mode-detail-kicker">Mode 03 · Analytics</p>
-          <h3>Analytics</h3>
-          <p class="mode-detail-purpose">Purpose: notice what repeats across nights, moods, and ideas.</p>
-          <ul class="mode-detail-list">
-            <li>Review patterns across sleep, reflection, mood, and what keeps resurfacing.</li>
-            <li>Spot gentle relationships worth paying attention to.</li>
-            <li>Build context over time without forcing a conclusion.</li>
-          </ul>
-        </article>
-
-        <article class="mode-mobile-card">
-          <p class="mode-detail-kicker">Mode 04 · Mindful</p>
-          <h3>Mindful</h3>
-          <p class="mode-detail-purpose">Purpose: close the day with a steadier body and a quieter mental field.</p>
-          <ul class="mode-detail-list">
-            <li>Follow a brief breathing rhythm that asks very little of you.</li>
-            <li>Use one grounding prompt to set down mental noise before sleep.</li>
-            <li>Finish with a steadier handoff into the night.</li>
-          </ul>
-        </article>
-      </div>
+    <section class="legal-section">
+      <h2>Beta Expectations</h2>
+      <ul class="legal-list">
+        <li>Somnora is still evolving, which means features, copy, and workflows may change during beta.</li>
+        <li>We aim for reliability, but we cannot guarantee uninterrupted access or that every insight will be perfect.</li>
+      </ul>
     </section>
 
-    <!-- PRICING -->
-    <section id="pricing" class="section">
-      <div class="section-header">
-        <h2>Simple Pricing</h2>
-        <p>Private reflection, wearable context, and Nora&apos;s companionship in a shape that fits your rhythm.</p>
-      </div>
-
-      <div class="toggle-wrapper">
-        <div class="toggle-btn" role="radiogroup" aria-label="Pricing Tier">
-          <div class="toggle-slider"></div>
-          <button class="toggle-option" aria-pressed="true" id="btn-founders">Founders</button>
-          <button class="toggle-option" aria-pressed="false" id="btn-standard">Standard</button>
-        </div>
-      </div>
-
-      <div class="pricing-grid">
-        <!-- Monthly -->
-        <div class="pricing-card">
-          <h3>Monthly</h3>
-          <div class="price">
-            <span class="currency">$</span><span class="price-value" data-price-period="monthly">9.99</span><span class="period">/mo</span>
-          </div>
-          <ul class="features-list">
-            <li>Private capture &amp; reflection</li>
-            <li>Sleep context from HealthKit</li>
-            <li>Core pattern awareness</li>
-          </ul>
-          <a href="#waitlist" class="btn btn-secondary">Get Started</a>
-        </div>
-
-        <!-- Yearly -->
-        <div class="pricing-card featured">
-          <h3>Yearly</h3>
-          <div class="price">
-            <span class="ref-price" id="yearly-ref-price">$79.99</span>
-            <span class="currency">$</span><span class="price-value" data-price-period="yearly">59.99</span><span class="period">/yr</span>
-          </div>
-          <ul class="features-list">
-            <li><strong>Best value</strong></li>
-            <li>Everything in Monthly</li>
-            <li>Priority access to new modes</li>
-          </ul>
-          <a href="#waitlist" class="btn btn-primary">Reserve</a>
-        </div>
-      </div>
+    <section class="legal-section">
+      <h2>Contact</h2>
+      <p>Questions about these terms can be sent to <a class="legal-inline-link" href="mailto:support@somnora.app">support@somnora.app</a>.</p>
     </section>
-
-    <!-- PRIVACY IN PLAIN ENGLISH -->
-    <section class="section privacy-block">
-      <div class="legal-content privacy-bullet-box">
-        <h3>Privacy, by design.</h3>
-        <ul class="privacy-bullets">
-          <li><strong>You control what you capture.</strong> You choose what to record and what permissions to grant.</li>
-          <li><strong>Export and local clearing are available.</strong> Available data export lives in the app, and local data can be cleared from Settings.</li>
-          <li><strong>We do not sell private entries.</strong> Somnora is built on trust, not ads.</li>
-          <li><strong>Nora offers reflective AI support.</strong> Some features send content to Somnora services to generate responses, voice, or imagery.</li>
-          <li><strong>Not for urgent situations.</strong> If you need immediate help, please seek real-time support right away.</li>
-        </ul>
-        <p class="privacy-links">Read our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a> for full details.</p>
-      </div>
-    </section>
-
-    <!-- FOUNDER TRUST NOTE -->
-    <section class="section founder-note-section">
-      <div class="legal-content founder-note-panel">
-        <p class="modes-eyebrow">Founder&apos;s Note</p>
-        <h2>Your life is your life.</h2>
-        <div class="founder-note-body">
-          <p>Your dreams, memories, reflections, ideas, and motivations belong to you. They are not something to be extracted, mined, or fed into targeted advertising and data broker systems. We will never sell your data or quietly turn your private journaling into ad-targeting inventory. Some Somnora features do send content to our services so Nora can respond, speak, or generate imagery, but that should feel like product function, not hidden exploitation. If you choose to share feedback on individual responses, that choice is yours.</p>
-          <p>I made Somnora to distract myself from what I now know is PTSD, so I always had someone around. Seeing testers grow from their experience, like I did, showed me that even a crazy idea is worth indulging. It&apos;s hard enough to be vulnerable with your own circle. Trusting a company with your inner life should not mean watching that trust get packaged, mined, and sold. That is gross. It is a betrayal. And it is not who we are.</p>
-        </div>
-        <p class="founder-note-signoff">James McShane, Founder</p>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section">
-      <div class="section-header">
-        <h2>Common Questions</h2>
-      </div>
-      <div class="faq-list">
-        <details class="faq-item">
-          <summary>Is this therapy?</summary>
-          <div class="faq-content">No. Somnora is a private companion for sleep and reflection, not therapy or medical care. It helps you capture what lingers and revisit it with context.</div>
-        </details>
-        <details class="faq-item">
-          <summary>Do I need to remember full dreams?</summary>
-          <div class="faq-content">Not at all. A feeling, image, sentence, or strange detail is enough. Somnora is built for fragments as much as full stories.</div>
-        </details>
-        <details class="faq-item">
-          <summary>What does HealthKit add?</summary>
-          <div class="faq-content">It gives Nora sleep duration, stages, and timing context, so your reflections sit beside something measurable instead of floating on their own.</div>
-        </details>
-        <details class="faq-item">
-          <summary>Can I export my reflections?</summary>
-          <div class="faq-content">Yes. Somnora lets you export available data from the app, and you can clear local data from Settings.</div>
-        </details>
-        <details class="faq-item">
-          <summary>How does Nora adjust its tone?</summary>
-          <div class="faq-content">Nora adapts between reflective, structured, and calm modes depending on context, while staying short-first and non-clinical.</div>
-        </details>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer id="waitlist" class="footer">
-      <h2>A private companion for what follows you out of the night.</h2>
-      <div class="btn-group">
-        <a href="mailto:support@somnora.app" class="btn btn-primary">Contact Us</a>
-      </div>
-      <div class="footer-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="/investors/">Investors</a>
-      </div>
-      <p class="copyright">© Somnora LLC</p>
-    </footer>
-
   </main>
+
+  <footer class="footer">
+    <p class="copyright">© Somnora LLC</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
