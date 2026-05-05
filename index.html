@@ -23,10 +23,8 @@
 </head>
 <body id="top">
 
-  <!-- Dynamic Background -->
-  <div id="ambient-bg">
-    <div class="gradient-blob" id="blob"></div>
-  </div>
+  <!-- Atmospheric Background -->
+  <div id="ambient-bg"></div>
 
   <nav class="nav">
     <a href="index.html#top" class="logo">Somnora</a>
@@ -45,15 +43,38 @@
   <main>
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-copy">
-        <div class="pill-badge">Understand what you&apos;re carrying.</div>
-        <h1>Where reflection<br>meets creation.</h1>
-        <p class="subtitle">Capture dreams, patterns, and late-night ideas with Nora, the private companion for what your mind is still carrying. Built for the in-between moments.</p>
-      </div>
-      
-      <div class="btn-group">
-        <a href="#waitlist" class="btn btn-primary">Join Waitlist</a>
-        <a href="#how-it-works" class="btn btn-secondary">See How it Works</a>
+      <div class="hero-shell">
+        <div class="hero-copy">
+          <div class="pill-badge">Understand what you&apos;re carrying.</div>
+          <h1>Somnora</h1>
+          <p class="hero-line">Where reflection meets creation.</p>
+          <p class="subtitle">Capture dreams, patterns, and late-night ideas with Nora, the private companion for what your mind is still carrying. Built for the in-between moments.</p>
+        </div>
+
+        <div class="btn-group">
+          <a href="#waitlist" class="btn btn-primary">Request Early Access</a>
+          <a href="#how-it-works" class="btn btn-secondary">See How it Works</a>
+        </div>
+
+        <div class="hero-signals" aria-label="Somnora focus areas">
+          <span>Dream recall</span>
+          <span>Sleep context</span>
+          <span>Pattern awareness</span>
+        </div>
+
+        <div class="hero-preview" aria-hidden="true">
+          <div class="preview-topline">
+            <span>Tonight&apos;s Thread</span>
+            <span>02:14</span>
+          </div>
+          <h2>Rain in the hallway again.</h2>
+          <p>Nora links the image with a lighter sleep window and a recurring feeling of unfinished decisions.</p>
+          <div class="preview-metrics">
+            <span><strong>6h 48m</strong> sleep</span>
+            <span><strong>REM</strong> late cycle</span>
+            <span><strong>3</strong> returns</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -241,7 +262,7 @@
             <li>Sleep context from HealthKit</li>
             <li>Core pattern awareness</li>
           </ul>
-          <a href="#waitlist" class="btn btn-secondary">Get Started</a>
+          <a href="#waitlist" class="btn btn-secondary">Join Waitlist</a>
         </div>
 
         <!-- Yearly -->
@@ -256,7 +277,7 @@
             <li>Everything in Monthly</li>
             <li>Priority access to new modes</li>
           </ul>
-          <a href="#waitlist" class="btn btn-primary">Reserve</a>
+          <a href="#waitlist" class="btn btn-primary">Reserve Early Access</a>
         </div>
       </div>
     </section>
@@ -322,7 +343,7 @@
     <footer id="waitlist" class="footer">
       <h2>A private companion for what follows you out of the night.</h2>
       <div class="btn-group">
-        <a href="mailto:support@somnora.app" class="btn btn-primary">Contact Us</a>
+        <a href="mailto:support@somnora.app" class="btn btn-primary">Request Early Access</a>
       </div>
       <div class="footer-links">
         <a href="privacy.html">Privacy</a>
