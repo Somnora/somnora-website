@@ -1,4 +1,6 @@
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.documentElement.classList.add('has-js');
+
 const PRICING = {
   founders: { monthly: "9.99", yearly: "59.99" },
   standard: { monthly: "9.99", yearly: "79.99" }
