@@ -3,193 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - SquadSync</title>
+    <title>Privacy Policy — SquadSync</title>
+    <!-- Modern Gaming & Tech Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        * { box-sizing: border-box; }
+        /* Modern CSS Custom Properties & Reset */
+        :root {
+            --bg-dark: #07090e;
+            --bg-card: rgba(16, 21, 30, 0.6);
+            --bg-card-hover: rgba(25, 33, 47, 0.8);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(114, 137, 218, 0.4);
+            --text-primary: #ffffff;
+            --text-secondary: #949ba4;
+            --accent-blurple: #5865f2;
+            --accent-cyan: #00f2fe;
+            --accent-purple: #8a2387;
+            --accent-glow: rgba(88, 101, 242, 0.35);
+            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
             line-height: 1.7;
-            color: #333;
-            background: #fafafa;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(88, 101, 242, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(138, 35, 135, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.04) 0%, transparent 50%);
+            background-attachment: fixed;
         }
+
         .container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        h1 { 
-            color: #1a1a1a; 
-            font-size: 2em;
-            margin-bottom: 5px;
+
+        /* Premium Nav Bar */
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(7, 9, 14, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .app-name {
-            color: #007AFF;
-            font-size: 0.9em;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        h2 { 
-            color: #444; 
-            margin-top: 35px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        h2:first-of-type { border-top: none; padding-top: 0; }
-        .last-updated { 
-            color: #888; 
-            font-size: 0.9em;
-            margin-bottom: 30px;
-        }
-        .highlight {
-            background: linear-gradient(135deg, #e8f4fd 0%, #f0f7ff 100%);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 25px 0;
-            border-left: 4px solid #007AFF;
-        }
-        .highlight strong { color: #007AFF; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
-        a { color: #007AFF; }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #007AFF;
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5em;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-blurple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
-            font-size: 0.9em;
         }
-        .back-link:hover { text-decoration: underline; }
+
+        .logo svg {
+            fill: url(#logo-grad);
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 0 6px var(--accent-blurple));
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: var(--transition-smooth);
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn-nav {
+            background: var(--accent-blurple);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+            background-color: #6a76f5;
+        }
+
+        /* Policy Layout */
+        .policy-section {
+            padding: 80px 0 120px 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-blurple);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            transition: var(--transition-smooth);
+        }
+
+        .back-link:hover {
+            color: #7289da;
+            transform: translateX(-4px);
+        }
+
+        .policy-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 48px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .policy-card {
+                padding: 24px;
+            }
+        }
+
+        .policy-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(88, 101, 242, 0.3), transparent, rgba(138, 35, 135, 0.2));
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .app-name {
+            color: var(--accent-cyan);
+            font-family: var(--font-display);
+            font-size: 0.9em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #ffffff, #d5e0ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+        }
+
+        .last-updated {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .highlight-banner {
+            background: linear-gradient(135deg, rgba(88, 101, 242, 0.15) 0%, rgba(0, 242, 254, 0.05) 100%);
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.1);
+        }
+
+        .highlight-banner strong {
+            color: #9cb1ff;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            font-size: 1rem;
+        }
+
+        ul {
+            padding-left: 24px;
+            margin-bottom: 24px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        li strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-blurple);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        a:hover {
+            color: #7289da;
+            text-decoration: underline;
+        }
+
+        /* Glassmorphic Tables */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin: 24px 0;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.01);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
-        }
-        th, td {
             text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
         }
-        th { 
-            background: #f8f9fa; 
-            font-weight: 600;
+
+        th, td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: #fff;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td strong {
+            color: #fff;
+        }
+
+        /* Premium Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0;
+            text-align: center;
+            background: #040508;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.4em;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            font-size: 0.95em;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        footer p.copy {
+            font-size: 0.85em;
+            color: #585f67;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">← SquadSync</a>
-        <div class="app-name">SquadSync</div>
-        <h1>Privacy Policy</h1>
-        <p class="last-updated">Last Updated: June 16, 2026</p>
-        
-        <div class="highlight">
-            <strong>Your Privacy Matters:</strong> SquadSync is built to help gamers connect safely. We only collect the information necessary to provide our coordination services, and we never sell your personal data to third parties.
+
+    <!-- Logo Gradient SVG Definition -->
+    <svg style="display:none">
+        <defs>
+            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#5865f2"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <!-- Nav Header -->
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+                SquadSync
+            </a>
+            <nav>
+                <a href="index.html#features">Features</a>
+                <a href="index.html#safety">Safety</a>
+                <a href="privacy.html" style="color: var(--text-primary)">Privacy</a>
+                <a href="terms.html">Terms</a>
+                <a href="#" class="btn-nav">Download App</a>
+            </nav>
         </div>
-        
-        <h2>1. Information We Collect</h2>
-        <p>To provide the SquadSync service, we collect the following types of information:</p>
-        <ul>
-            <li><strong>Account Information:</strong> When you sign in via Apple, Google, or Email, we receive your email address, display name, and profile picture (if provided).</li>
-            <li><strong>User Content:</strong> We store the messages, media attachments, squad details, and session information you create within the app to sync them across your devices and with your squad members.</li>
-            <li><strong>Social Interaction Data:</strong> We collect data on your squad memberships, friend requests, and session RSVPs to facilitate the social features of the app.</li>
-            <li><strong>Reputation & Safety Data:</strong> We store community ratings and reports to maintain a safe environment and provide reputation scores.</li>
-            <li><strong>Device & Usage Info:</strong> We collect timezone information and device tokens for push notifications to ensure you receive timely alerts.</li>
-        </ul>
-        
-        <h2>2. How We Use Your Information</h2>
-        <p>Your data is used strictly for:</p>
-        <ul>
-            <li>Providing and maintaining the SquadSync service.</li>
-            <li>Facilitating communication between squad members and friends.</li>
-            <li>Sending push notifications for session reminders and messages.</li>
-            <li>Ensuring community safety through moderation and reputation tracking.</li>
-            <li>Improving app performance and fixing bugs.</li>
-        </ul>
-        
-        <h2>3. Information Sharing</h2>
-        <p>We do NOT sell your personal information. Your data is shared only in the following contexts:</p>
-        <ul>
-            <li><strong>With Other Users:</strong> Your display name, avatar, and squad-related activity are visible to other members of the squads you join and to your friends within the app.</li>
-            <li><strong>Third-Party Service Providers:</strong> We use industry-standard services (like Apple and Google) for authentication and push notifications. These providers only receive the data necessary to perform their specific functions.</li>
-        </ul>
-        
-        <h2>4. Data Storage and Security</h2>
-        <table>
-            <tr>
-                <th>Data Type</th>
-                <th>Storage Location</th>
-                <th>Who Can Access</th>
-            </tr>
-            <tr>
-                <td>Account Info (Email, Name)</td>
-                <td>Secure Server</td>
-                <td>You & System Admin</td>
-            </tr>
-            <tr>
-                <td>Chat & Squad Data</td>
-                <td>Secure Server + Device</td>
-                <td>You & Squad Members</td>
-            </tr>
-            <tr>
-                <td>Media Attachments</td>
-                <td>Secure Cloud Storage</td>
-                <td>You & Squad Members</td>
-            </tr>
-            <tr>
-                <td>Device Tokens</td>
-                <td>Secure Server</td>
-                <td>System Admin (for notifications)</td>
-            </tr>
-        </table>
-        
-        <h2>5. Device Permissions</h2>
-        <p>The App may request the following permissions to function correctly:</p>
-        <table>
-            <tr>
-                <th>Permission</th>
-                <th>Purpose</th>
-                <th>Data Sent Externally?</th>
-            </tr>
-            <tr>
-                <td>Notifications</td>
-                <td>Session reminders & new messages</td>
-                <td>Push Token only</td>
-            </tr>
-            <tr>
-                <td>Photo Library</td>
-                <td>Uploading avatars or chat media</td>
-                <td>Only selected media</td>
-            </tr>
-            <tr>
-                <td>Camera</td>
-                <td>Taking photos for avatars or chat</td>
-                <td>Only captured photos</td>
-            </tr>
-        </table>
-        
-        <h2>6. Your Rights and Choices</h2>
-        <p>You have full control over your data:</p>
-        <ul>
-            <li><strong>Access & Update:</strong> You can update your profile information directly within the app settings.</li>
-            <li><strong>Data Deletion:</strong> You can delete your account and all associated personal data at any time via the "Delete Account" option in settings. This will remove your profile, squad memberships, and personal information from our active servers.</li>
-            <li><strong>Notification Controls:</strong> You can manage or disable push notifications through your device settings.</li>
-        </ul>
-        
-        <h2>7. Children's Privacy</h2>
-        <p>SquadSync is not intended for children under 13. We do not knowingly collect personal information from children under 13. If we discover that a child under 13 has provided us with personal information, we will delete it immediately.</p>
-        
-        <h2>8. Changes to This Policy</h2>
-        <p>We may update this Privacy Policy from time to time. We will notify you of any significant changes by updating the "Last Updated" date at the top of this policy and through in-app notifications where appropriate.</p>
-        
-        <h2>9. Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-        <p><a href="mailto:support@squadsync.app">support@squadsync.app</a></p>
-    </div>
+    </header>
+
+    <!-- Main Content Policy Body -->
+    <section class="container policy-section">
+        <a href="index.html" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: middle;">
+                <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Home
+        </a>
+
+        <div class="policy-card">
+            <div class="app-name">SquadSync</div>
+            <h1>Privacy Policy</h1>
+            <p class="last-updated">Last Updated: June 16, 2026</p>
+            
+            <div class="highlight-banner">
+                <strong>Your Privacy Matters:</strong> SquadSync is built to help gamers connect safely. We only collect the information necessary to provide our coordination services, and we never sell your personal data to third parties.
+            </div>
+            
+            <h2>1. Information We Collect</h2>
+            <p>To provide the SquadSync service, we collect the following types of information:</p>
+            <ul>
+                <li><strong>Account Information:</strong> When you sign in via Apple, Google, or Email, we receive your email address, display name, and profile picture (if provided).</li>
+                <li><strong>User Content:</strong> We store the messages, media attachments, squad details, and session information you create within the app to sync them across your devices and with your squad members.</li>
+                <li><strong>Social Interaction Data:</strong> We collect data on your squad memberships, friend requests, and session RSVPs to facilitate the social features of the app.</li>
+                <li><strong>Reputation & Safety Data:</strong> We store community ratings and reports to maintain a safe environment and provide reputation scores.</li>
+                <li><strong>Device & Usage Info:</strong> We collect timezone information and device tokens for push notifications to ensure you receive timely alerts.</li>
+            </ul>
+            
+            <h2>2. How We Use Your Information</h2>
+            <p>Your data is used strictly for:</p>
+            <ul>
+                <li>Providing and maintaining the SquadSync service.</li>
+                <li>Facilitating communication between squad members and friends.</li>
+                <li>Sending push notifications for session reminders and messages.</li>
+                <li>Ensuring community safety through moderation and reputation tracking.</li>
+                <li>Improving app performance and fixing bugs.</li>
+            </ul>
+            
+            <h2>3. Information Sharing</h2>
+            <p>We do NOT sell your personal information. Your data is shared only in the following contexts:</p>
+            <ul>
+                <li><strong>With Other Users:</strong> Your display name, avatar, and squad-related activity are visible to other members of the squads you join and to your friends within the app.</li>
+                <li><strong>Third-Party Service Providers:</strong> We use industry-standard services (like Apple and Google) for authentication and push notifications. These providers only receive the data necessary to perform their specific functions.</li>
+            </ul>
+            
+            <h2>4. Data Storage and Security</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Storage Location</th>
+                            <th>Who Can Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Account Info (Email, Name)</strong></td>
+                            <td>Secure Server</td>
+                            <td>You & System Admin</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chat & Squad Data</strong></td>
+                            <td>Secure Server + Device</td>
+                            <td>You & Squad Members</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Media Attachments</strong></td>
+                            <td>Secure Cloud Storage</td>
+                            <td>You & Squad Members</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Device Tokens</strong></td>
+                            <td>Secure Server</td>
+                            <td>System Admin (for notifications)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h2>5. Device Permissions</h2>
+            <p>The App may request the following permissions to function correctly:</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Permission</th>
+                            <th>Purpose</th>
+                            <th>Data Sent Externally?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Notifications</strong></td>
+                            <td>Session reminders & new messages</td>
+                            <td>Push Token only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Photo Library</strong></td>
+                            <td>Uploading avatars or chat media</td>
+                            <td>Only selected media</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Camera</strong></td>
+                            <td>Taking photos for avatars or chat</td>
+                            <td>Only captured photos</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h2>6. Your Rights and Choices</h2>
+            <p>You have full control over your data:</p>
+            <ul>
+                <li><strong>Access & Update:</strong> You can update your profile information directly within the app settings.</li>
+                <li><strong>Data Deletion:</strong> You can delete your account and all associated personal data at any time via the "Delete Account" option in settings. This will remove your profile, squad memberships, and personal information from our active servers.</li>
+                <li><strong>Notification Controls:</strong> You can manage or disable push notifications through your device settings.</li>
+            </ul>
+            
+            <h2>7. Children's Privacy</h2>
+            <p>SquadSync is not intended for children under 13. We do not knowingly collect personal information from children under 13. If we discover that a child under 13 has provided us with personal information, we will delete it immediately.</p>
+            
+            <h2>8. Changes to This Policy</h2>
+            <p>We may update this Privacy Policy from time to time. We will notify you of any significant changes by updating the "Last Updated" date at the top of this policy and through in-app notifications where appropriate.</p>
+            
+            <h2>9. Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+            <p><a href="mailto:support@squadsync.app">support@squadsync.app</a></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">SquadSync</div>
+            <div class="footer-links">
+                <a href="index.html#features">Features</a>
+                <a href="index.html#safety">Safety</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+            </div>
+            <p class="copy">&copy; 2026 SquadSync. Built for gamers, by gamers.</p>
+        </div>
+    </footer>
+
 </body>
 </html>

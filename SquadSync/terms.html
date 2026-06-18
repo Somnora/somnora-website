@@ -3,118 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service - SquadSync</title>
+    <title>Terms of Service — SquadSync</title>
+    <!-- Modern Gaming & Tech Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        * { box-sizing: border-box; }
+        /* Modern CSS Custom Properties & Reset */
+        :root {
+            --bg-dark: #07090e;
+            --bg-card: rgba(16, 21, 30, 0.6);
+            --bg-card-hover: rgba(25, 33, 47, 0.8);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(114, 137, 218, 0.4);
+            --text-primary: #ffffff;
+            --text-secondary: #949ba4;
+            --accent-blurple: #5865f2;
+            --accent-cyan: #00f2fe;
+            --accent-purple: #8a2387;
+            --accent-glow: rgba(88, 101, 242, 0.35);
+            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
             line-height: 1.7;
-            color: #333;
-            background: #fafafa;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(88, 101, 242, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(138, 35, 135, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.04) 0%, transparent 50%);
+            background-attachment: fixed;
         }
+
         .container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        h1 { 
-            color: #1a1a1a; 
-            font-size: 2em;
-            margin-bottom: 5px;
+
+        /* Premium Nav Bar */
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(7, 9, 14, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .app-name {
-            color: #007AFF;
-            font-size: 0.9em;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        h2 { 
-            color: #444; 
-            margin-top: 35px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        h2:first-of-type { border-top: none; padding-top: 0; }
-        .last-updated { 
-            color: #888; 
-            font-size: 0.9em;
-            margin-bottom: 30px;
-        }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
-        a { color: #007AFF; }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #007AFF;
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5em;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-blurple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
-            font-size: 0.9em;
         }
-        .back-link:hover { text-decoration: underline; }
+
+        .logo svg {
+            fill: url(#logo-grad);
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 0 6px var(--accent-blurple));
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: var(--transition-smooth);
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn-nav {
+            background: var(--accent-blurple);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+            background-color: #6a76f5;
+        }
+
+        /* Policy Layout */
+        .policy-section {
+            padding: 80px 0 120px 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-blurple);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            transition: var(--transition-smooth);
+        }
+
+        .back-link:hover {
+            color: #7289da;
+            transform: translateX(-4px);
+        }
+
+        .policy-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 48px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .policy-card {
+                padding: 24px;
+            }
+        }
+
+        .policy-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(88, 101, 242, 0.3), transparent, rgba(138, 35, 135, 0.2));
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .app-name {
+            color: var(--accent-cyan);
+            font-family: var(--font-display);
+            font-size: 0.9em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #ffffff, #d5e0ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+        }
+
+        .last-updated {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            font-size: 1rem;
+        }
+
+        ul {
+            padding-left: 24px;
+            margin-bottom: 24px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        li strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-blurple);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        a:hover {
+            color: #7289da;
+            text-decoration: underline;
+        }
+
+        /* Premium Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0;
+            text-align: center;
+            background: #040508;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.4em;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            font-size: 0.95em;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        footer p.copy {
+            font-size: 0.85em;
+            color: #585f67;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">← SquadSync</a>
-        <div class="app-name">SquadSync</div>
-        <h1>Terms of Service</h1>
-        <p class="last-updated">Last Updated: June 16, 2026</p>
-        
-        <h2>1. Acceptance of Terms</h2>
-        <p>By downloading, installing, or using SquadSync ("the App"), you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use the App.</p>
-        
-        <h2>2. Description of Service</h2>
-        <p>SquadSync is a social coordination platform designed for gamers to organize squads, find players (LFG), schedule sessions, and communicate with community members.</p>
-        
-        <h2>3. User Accounts</h2>
-        <p>You are responsible for maintaining the security of your account and for all activities that occur under your account. You must provide accurate and complete information when creating an account.</p>
-        
-        <h2>4. User Conduct</h2>
-        <p>You agree to use the App in a respectful and lawful manner. You are prohibited from:</p>
-        <ul>
-            <li>Harassing, bullying, or intimidating other users.</li>
-            <li>Posting or sharing content that is illegal, offensive, or violates the rights of others.</li>
-            <li>Using the App for any unauthorized commercial purposes.</li>
-            <li>Attempting to interfere with the proper functioning of the App or its servers.</li>
-            <li>Impersonating other users or individuals.</li>
-        </ul>
-        
-        <h2>5. Content Ownership and Responsibility</h2>
-        <p>You retain ownership of the content you post to the App. However, by posting content, you grant SquadSync a non-exclusive, worldwide, royalty-free license to use, store, and display that content for the purpose of providing the service. You are solely responsible for the content you share.</p>
-        
-        <h2>6. Community Safety and Moderation</h2>
-        <p>SquadSync includes tools for blocking and reporting users who violate these terms. We reserve the right to remove content or suspend accounts that we determine, in our sole discretion, violate these Terms of Service or are otherwise harmful to the community.</p>
-        
-        <h2>7. Privacy</h2>
-        <p>Your use of the App is also governed by our Privacy Policy, which is incorporated into these terms by reference. Please review the Privacy Policy to understand how we handle your data.</p>
-        
-        <h2>8. Intellectual Property</h2>
-        <p>The App, including its design, features, and original content (excluding user-generated content), is the property of SquadSync and is protected by copyright and other intellectual property laws.</p>
-        
-        <h2>9. Disclaimer of Warranties</h2>
-        <p>The App is provided "as is" and "as available" without warranties of any kind. We do not guarantee that the App will always be secure, error-free, or available at all times.</p>
-        
-        <h2>10. Limitation of Liability</h2>
-        <p>To the maximum extent permitted by law, SquadSync shall not be liable for any indirect, incidental, or consequential damages arising from your use of the App, including but not limited to loss of data or interruptions in service.</p>
-        
-        <h2>11. Changes to Terms</h2>
-        <p>We reserve the right to modify these terms at any time. We will notify you of material changes through the App. Your continued use of the App after changes are made constitutes acceptance of the new terms.</p>
-        
-        <h2>12. Termination</h2>
-        <p>We may terminate or suspend your access to the App at any time, without prior notice, for conduct that we believe violates these Terms or is harmful to other users or the App.</p>
-        
-        <h2>13. Governing Law</h2>
-        <p>These Terms shall be governed by the laws of the State of California, United States, without regard to its conflict of law principles.</p>
-        
-        <h2>14. Contact</h2>
-        <p>For questions regarding these Terms of Service, please contact us at:</p>
-        <p><a href="mailto:support@squadsync.app">support@squadsync.app</a></p>
-    </div>
+
+    <!-- Logo Gradient SVG Definition -->
+    <svg style="display:none">
+        <defs>
+            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#5865f2"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <!-- Nav Header -->
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+                SquadSync
+            </a>
+            <nav>
+                <a href="index.html#features">Features</a>
+                <a href="index.html#safety">Safety</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html" style="color: var(--text-primary)">Terms</a>
+                <a href="#" class="btn-nav">Download App</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Policy Body -->
+    <section class="container policy-section">
+        <a href="index.html" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: middle;">
+                <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Home
+        </a>
+
+        <div class="policy-card">
+            <div class="app-name">SquadSync</div>
+            <h1>Terms of Service</h1>
+            <p class="last-updated">Last Updated: June 16, 2026</p>
+            
+            <h2>1. Acceptance of Terms</h2>
+            <p>By downloading, installing, or using SquadSync ("the App"), you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use the App.</p>
+            
+            <h2>2. Description of Service</h2>
+            <p>SquadSync is a social coordination platform designed for gamers to organize squads, find players (LFG), schedule sessions, and communicate with community members.</p>
+            
+            <h2>3. User Accounts</h2>
+            <p>You are responsible for maintaining the security of your account and for all activities that occur under your account. You must provide accurate and complete information when creating an account.</p>
+            
+            <h2>4. User Conduct</h2>
+            <p>You agree to use the App in a respectful and lawful manner. You are prohibited from:</p>
+            <ul>
+                <li>Harassing, bullying, or intimidating other users.</li>
+                <li>Posting or sharing content that is illegal, offensive, or violates the rights of others.</li>
+                <li>Using the App for any unauthorized commercial purposes.</li>
+                <li>Attempting to interfere with the proper functioning of the App or its servers.</li>
+                <li>Impersonating other users or individuals.</li>
+            </ul>
+            
+            <h2>5. Content Ownership and Responsibility</h2>
+            <p>You retain ownership of the content you post to the App. However, by posting content, you grant SquadSync a non-exclusive, worldwide, royalty-free license to use, store, and display that content for the purpose of providing the service. You are solely responsible for the content you share.</p>
+            
+            <h2>6. Community Safety and Moderation</h2>
+            <p>SquadSync includes tools for blocking and reporting users who violate these terms. We reserve the right to remove content or suspend accounts that we determine, in our sole discretion, violate these Terms of Service or are otherwise harmful to the community.</p>
+            
+            <h2>7. Privacy</h2>
+            <p>Your use of the App is also governed by our Privacy Policy, which is incorporated into these terms by reference. Please review the Privacy Policy to understand how we handle your data.</p>
+            
+            <h2>8. Intellectual Property</h2>
+            <p>The App, including its design, features, and original content (excluding user-generated content), is the property of SquadSync and is protected by copyright and other intellectual property laws.</p>
+            
+            <h2>9. Disclaimer of Warranties</h2>
+            <p>The App is provided "as is" and "as available" without warranties of any kind. We do not guarantee that the App will always be secure, error-free, or available at all times.</p>
+            
+            <h2>10. Limitation of Liability</h2>
+            <p>To the maximum extent permitted by law, SquadSync shall not be liable for any indirect, incidental, or consequential damages arising from your use of the App, including but not limited to loss of data or interruptions in service.</p>
+            
+            <h2>11. Changes to Terms</h2>
+            <p>We reserve the right to modify these terms at any time. We will notify you of material changes through the App. Your continued use of the App after changes are made constitutes acceptance of the new terms.</p>
+            
+            <h2>12. Termination</h2>
+            <p>We may terminate or suspend your access to the App at any time, without prior notice, for conduct that we believe violates these Terms or is harmful to other users or the App.</p>
+            
+            <h2>13. Governing Law</h2>
+            <p>These Terms shall be governed by the laws of the State of California, United States, without regard to its conflict of law principles.</p>
+            
+            <h2>14. Contact</h2>
+            <p>For questions regarding these Terms of Service, please contact us at:</p>
+            <p><a href="mailto:support@squadsync.app">support@squadsync.app</a></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">SquadSync</div>
+            <div class="footer-links">
+                <a href="index.html#features">Features</a>
+                <a href="index.html#safety">Safety</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+            </div>
+            <p class="copy">&copy; 2026 SquadSync. Built for gamers, by gamers.</p>
+        </div>
+    </footer>
+
 </body>
 </html>
