@@ -16,13 +16,13 @@
             --bg-card: rgba(16, 21, 30, 0.6);
             --bg-card-hover: rgba(25, 33, 47, 0.8);
             --border-color: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(114, 137, 218, 0.4);
+            --border-hover: rgba(59, 130, 246, 0.4);
             --text-primary: #ffffff;
             --text-secondary: #949ba4;
-            --accent-blurple: #5865f2;
-            --accent-cyan: #00f2fe;
-            --accent-purple: #8a2387;
-            --accent-glow: rgba(88, 101, 242, 0.35);
+            --accent-blurple: #1d4ed8;
+            --accent-cyan: #38bdf8;
+            --accent-purple: #1e3a8a;
+            --accent-glow: rgba(29, 78, 216, 0.35);
             --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -41,8 +41,8 @@
             line-height: 1.7;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(88, 101, 242, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(138, 35, 135, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 10% 20%, rgba(29, 78, 216, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(30, 58, 138, 0.1) 0%, transparent 45%),
                 radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.04) 0%, transparent 50%);
             background-attachment: fixed;
         }
@@ -75,9 +75,7 @@
             font-weight: 800;
             font-size: 1.5em;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 30%, var(--accent-blurple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffffff;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -122,8 +120,8 @@
 
         .btn-nav:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
-            background-color: #6a76f5;
+            box-shadow: 0 6px 20px rgba(29, 78, 216, 0.5);
+            background-color: #3b82f6;
         }
 
         /* Policy Layout */
@@ -144,7 +142,7 @@
         }
 
         .back-link:hover {
-            color: #7289da;
+            color: #60a5fa;
             transform: translateX(-4px);
         }
 
@@ -172,7 +170,7 @@
             right: -1px;
             bottom: -1px;
             border-radius: 20px;
-            background: linear-gradient(135deg, rgba(88, 101, 242, 0.3), transparent, rgba(138, 35, 135, 0.2));
+            background: linear-gradient(135deg, rgba(29, 78, 216, 0.3), transparent, rgba(30, 58, 138, 0.2));
             z-index: -1;
             pointer-events: none;
         }
@@ -194,9 +192,8 @@
             line-height: 1.15;
             margin-bottom: 12px;
             letter-spacing: -1px;
-            background: linear-gradient(to right, #ffffff, #d5e0ff, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffffff;
+            text-shadow: 0 4px 40px rgba(29, 78, 216, 0.25);
         }
 
         @media (max-width: 768px) {
@@ -210,13 +207,13 @@
         }
 
         .highlight-banner {
-            background: linear-gradient(135deg, rgba(88, 101, 242, 0.15) 0%, rgba(0, 242, 254, 0.05) 100%);
-            border: 1px solid rgba(88, 101, 242, 0.3);
+            background: linear-gradient(135deg, rgba(29, 78, 216, 0.15) 0%, rgba(0, 242, 254, 0.05) 100%);
+            border: 1px solid rgba(29, 78, 216, 0.3);
             padding: 24px;
             border-radius: 12px;
             margin-bottom: 40px;
             font-size: 1.05rem;
-            box-shadow: 0 0 20px rgba(88, 101, 242, 0.1);
+            box-shadow: 0 0 20px rgba(29, 78, 216, 0.1);
         }
 
         .highlight-banner strong {
@@ -264,7 +261,7 @@
         }
 
         a:hover {
-            color: #7289da;
+            color: #60a5fa;
             text-decoration: underline;
         }
 
@@ -353,7 +350,7 @@
         <defs>
             <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#ffffff"/>
-                <stop offset="100%" stop-color="#5865f2"/>
+                <stop offset="100%" stop-color="#1d4ed8"/>
             </linearGradient>
         </defs>
     </svg>
