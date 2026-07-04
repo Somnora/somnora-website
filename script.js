@@ -286,6 +286,8 @@ if (revealTargets.length) {
     let w, h, dpr;
     let stars = [];
     let flies = [];
+    let meteors = [];
+    let nextMeteorAt = performance.now() + 1600;
 
     function sizeCanvas() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -430,6 +432,57 @@ if (revealTargets.length) {
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r * 5, 0, Math.PI * 2);
         ctx.fillStyle = grad;
+        ctx.fill();
+      });
+
+      // Shooting stars: brief streaks dancing across different parts of
+      // the sky — random position, direction, and pace; they retire as
+      // morning arrives (nightness gates both spawning and alpha)
+      if (nightness > 0.06 && performance.now() >= nextMeteorAt) {
+        const goingRight = Math.random() < 0.5;
+        const ang = (0.12 + Math.random() * 0.2) * Math.PI;
+        const speed = (7 + Math.random() * 6) * dpr;
+        meteors.push({
+          x: (goingRight ? 0.02 + Math.random() * 0.5 : 0.48 + Math.random() * 0.5) * w,
+          y: (0.04 + Math.random() * 0.55) * h,
+          vx: Math.cos(ang) * speed * (goingRight ? 1 : -1),
+          vy: Math.sin(ang) * speed,
+          t: 0,
+          life: 55 + Math.random() * 35,
+          size: (0.8 + Math.random() * 0.7) * dpr
+        });
+        nextMeteorAt = performance.now() + 2600 + Math.random() * 5400;
+      }
+      meteors = meteors.filter((m) => m.t < m.life && m.x > -60 && m.x < w + 60 && m.y < h + 60);
+      meteors.forEach((m) => {
+        m.t++;
+        m.x += m.vx;
+        m.y += m.vy;
+        const lifeP = m.t / m.life;
+        const fade = Math.min(lifeP / 0.12, 1, (1 - lifeP) / 0.35);
+        const a = Math.max(0, fade) * nightness * 0.9;
+        if (a <= 0.012) return;
+
+        const tailX = m.x - m.vx * 9;
+        const tailY = m.y - m.vy * 9;
+        const grad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
+        grad.addColorStop(0, 'rgba(250, 242, 228, 0)');
+        grad.addColorStop(0.7, `rgba(250, 242, 228, ${(a * 0.35).toFixed(3)})`);
+        grad.addColorStop(1, `rgba(255, 250, 240, ${a.toFixed(3)})`);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = m.size;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(m.x, m.y);
+        ctx.stroke();
+
+        const hg = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.size * 3.2);
+        hg.addColorStop(0, `rgba(255, 250, 240, ${a.toFixed(3)})`);
+        hg.addColorStop(1, 'rgba(255, 250, 240, 0)');
+        ctx.fillStyle = hg;
+        ctx.beginPath();
+        ctx.arc(m.x, m.y, m.size * 3.2, 0, Math.PI * 2);
         ctx.fill();
       });
 

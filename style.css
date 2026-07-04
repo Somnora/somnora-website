@@ -261,54 +261,6 @@ body.zone-day .mobile-toggle { color: var(--ink); }
   overflow: clip;
 }
 
-/* Parallax moon — a luminous body behind thin haze, not a sticker */
-.moon {
-  position: absolute;
-  top: 9%;
-  right: 10%;
-  width: clamp(150px, 14vw, 230px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 46% 42%,
-    rgba(252, 244, 226, 0.92) 0%,
-    rgba(246, 230, 199, 0.8) 36%,
-    rgba(240, 216, 172, 0.38) 58%,
-    rgba(236, 205, 150, 0.1) 72%,
-    transparent 80%);
-  filter: blur(0.6px);
-  will-change: transform;
-}
-.moon::before {
-  /* Lunar maria + fine grain, masked to the luminous disc so the moon
-     reads as a real body, not a smooth glow */
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 33% 30%, rgba(140, 116, 84, 0.5) 0%, rgba(140, 116, 84, 0.18) 12%, transparent 25%),
-    radial-gradient(circle at 57% 34%, rgba(140, 116, 84, 0.4) 0%, transparent 20%),
-    radial-gradient(circle at 64% 54%, rgba(140, 116, 84, 0.46) 0%, rgba(140, 116, 84, 0.16) 13%, transparent 26%),
-    radial-gradient(circle at 40% 60%, rgba(140, 116, 84, 0.34) 0%, transparent 17%),
-    radial-gradient(circle at 50% 44%, rgba(140, 116, 84, 0.22) 0%, transparent 12%),
-    radial-gradient(circle at 26% 47%, rgba(140, 116, 84, 0.26) 0%, transparent 11%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23m)' opacity='0.5'/></svg>");
-  background-size: auto, auto, auto, auto, auto, auto, 96px 96px;
-  mix-blend-mode: multiply;
-  opacity: 0.5;
-  filter: blur(0.5px);
-  -webkit-mask: radial-gradient(circle at 46% 42%, #000 0%, #000 56%, transparent 74%);
-  mask: radial-gradient(circle at 46% 42%, #000 0%, #000 56%, transparent 74%);
-}
-.moon::after {
-  /* faint halo ring */
-  content: "";
-  position: absolute;
-  inset: -26%;
-  border-radius: 50%;
-  border: 1px solid rgba(232, 184, 109, 0.09);
-}
-
 .cloud {
   position: absolute;
   border-radius: 999px;
@@ -1067,7 +1019,6 @@ body.zone-day .btn-secondary {
 
 @media (max-width: 900px) {
   .hero-shell { grid-template-columns: 1fr; gap: 2.6rem; }
-  .moon { width: 96px; top: 3.5%; right: 4%; opacity: 0.9; }
   .modes-layout { display: none; }
   .modes-mobile-stack {
     display: flex;
