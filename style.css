@@ -72,6 +72,28 @@ body {
 
 ::selection { background: rgba(224, 146, 122, 0.35); }
 
+:focus-visible {
+  outline: 2px solid var(--salmon);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: -80px;
+  left: 16px;
+  z-index: 200;
+  padding: 0.7rem 1.25rem;
+  border-radius: 999px;
+  background: var(--salmon);
+  color: #2c1a12;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: top 0.25s var(--ease-soft);
+}
+.skip-link:focus { top: 14px; }
+
 /* ============ THE SKY (fixed, crossfades with scroll) ============ */
 
 .sky {
@@ -101,7 +123,7 @@ body {
   background:
     radial-gradient(ellipse 110% 62% at 50% 112%, rgba(232, 184, 109, 0.34) 0%, rgba(224, 146, 122, 0.14) 42%, transparent 68%),
     radial-gradient(ellipse 80% 55% at 82% -8%, rgba(60, 70, 95, 0.55) 0%, transparent 60%),
-    linear-gradient(178deg, #1d2230 0%, #2a2a33 42%, #4a3a35 78%, #6b4a3e 100%);
+    linear-gradient(178deg, #1d2230 0%, #2b2a35 42%, #4d3c3d 78%, #755049 100%);
 }
 
 .sky-dawn {
@@ -345,10 +367,14 @@ body.zone-day .mobile-toggle { color: var(--ink); }
 .btn-primary {
   background: linear-gradient(135deg, var(--salmon) 0%, var(--salmon-deep) 100%);
   color: #fff8f2;
-  box-shadow: 0 10px 34px -12px rgba(224, 146, 122, 0.55);
+  box-shadow:
+    0 10px 34px -12px rgba(224, 146, 122, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 .btn-primary:hover {
-  box-shadow: 0 16px 44px -12px rgba(224, 146, 122, 0.7);
+  box-shadow:
+    0 16px 44px -12px rgba(224, 146, 122, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 .btn-secondary {
   background: var(--glass);
@@ -376,6 +402,13 @@ body.zone-day .btn-secondary {
   align-items: center;
   gap: 0.45rem;
 }
+.platform-note {
+  margin-top: 1.15rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: var(--moonlight-faint);
+}
+
 .hero-signals span::before {
   content: "";
   width: 5px;
@@ -499,6 +532,7 @@ body.zone-day .btn-secondary {
   font-family: var(--serif);
   font-size: clamp(1.9rem, 4vw, 2.7rem);
   font-weight: 600;
+  letter-spacing: -0.015em;
   line-height: 1.15;
   color: var(--moonlight);
   transition: color 0.6s ease;
@@ -968,7 +1002,17 @@ body.zone-day .btn-secondary {
   justify-content: space-between;
   align-items: center;
 }
+.faq-item summary:hover { background: rgba(224, 146, 122, 0.06); }
 .faq-item summary::-webkit-details-marker { display: none; }
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .faq-item::details-content {
+    height: 0;
+    overflow: clip;
+    transition: height 0.4s var(--ease-soft), content-visibility 0.4s allow-discrete;
+  }
+  .faq-item[open]::details-content { height: auto; }
+}
 .faq-item summary::after {
   content: "+";
   font-size: 1.3rem;
@@ -995,16 +1039,24 @@ body.zone-day .btn-secondary {
   font-family: var(--serif);
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 600;
+  letter-spacing: -0.015em;
   color: var(--ink);
   line-height: 1.2;
   margin-bottom: 2rem;
 }
 .footer .btn-group { justify-content: center; }
+.footer-platform {
+  margin-top: 2.2rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  color: rgba(44, 34, 27, 0.55);
+}
+
 .footer-links {
   display: flex;
   justify-content: center;
   gap: 1.8rem;
-  margin: 2.6rem 0 1.2rem;
+  margin: 1.3rem 0 1.2rem;
 }
 .footer-links a {
   color: var(--ink-soft);
@@ -1014,6 +1066,133 @@ body.zone-day .btn-secondary {
 }
 .footer-links a:hover { color: var(--salmon-deep); }
 .copyright { font-size: 0.84rem; color: rgba(44, 34, 27, 0.45); }
+
+/* ============ DREAMCATCHER (polaroid strip) ============ */
+
+.dc-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: clamp(2.5rem, 5vw, 5.5rem);
+  align-items: center;
+}
+.dc-copy h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--moonlight);
+  transition: color 0.6s ease;
+}
+.dc-lead {
+  margin-top: 1rem;
+  font-size: clamp(0.98rem, 0.92rem + 0.24vw, 1.14rem);
+  line-height: 1.7;
+  color: var(--moonlight-soft);
+  max-width: 50ch;
+  transition: color 0.6s ease;
+}
+
+.dc-polaroids {
+  display: grid;
+  place-items: center;
+  min-height: clamp(300px, 30vw, 430px);
+}
+.polaroid {
+  grid-area: 1 / 1;
+  width: clamp(160px, 15vw, 220px);
+  padding: 9px 9px 0;
+  background: linear-gradient(178deg, #faf3e3 0%, #efe4cb 100%);
+  border-radius: 6px;
+  box-shadow:
+    0 24px 50px -18px rgba(0, 0, 0, 0.6),
+    0 2px 6px rgba(0, 0, 0, 0.25);
+  transform: translate(var(--px, 0), var(--py, 0)) rotate(var(--pr, 0deg));
+  transition: transform 0.5s var(--ease-soft);
+}
+.polaroid.p1 { --px: -62%; --py: -5%; --pr: -7deg; z-index: 1; }
+.polaroid.p2 { --px: 0%; --py: 7%; --pr: 2.5deg; z-index: 3; }
+.polaroid.p3 { --px: 62%; --py: -2%; --pr: 8deg; z-index: 2; }
+@media (pointer: fine) {
+  .polaroid:hover {
+    transform: translate(var(--px, 0), calc(var(--py, 0) - 14px)) rotate(0deg) scale(1.045);
+    z-index: 5;
+  }
+}
+.p-img {
+  aspect-ratio: 1 / 1.04;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.p-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)' opacity='0.6'/></svg>");
+}
+.p-img-1 {
+  background:
+    radial-gradient(120% 90% at 72% 18%, rgba(232, 184, 109, 0.85) 0%, transparent 55%),
+    radial-gradient(100% 100% at 28% 88%, rgba(48, 58, 84, 0.95) 0%, transparent 72%),
+    linear-gradient(160deg, #2a3550 0%, #6b4a3e 62%, #e0927a 115%);
+}
+.p-img-2 {
+  background:
+    radial-gradient(110% 70% at 50% -8%, rgba(247, 239, 228, 0.5) 0%, transparent 55%),
+    linear-gradient(180deg, #243349 0%, #3b6d7e 58%, #83b4b0 110%);
+}
+.p-img-3 {
+  background:
+    linear-gradient(90deg, transparent 44%, rgba(232, 184, 109, 0.55) 50%, transparent 56%),
+    radial-gradient(90% 60% at 50% 108%, rgba(224, 146, 122, 0.25) 0%, transparent 60%),
+    linear-gradient(200deg, #1d1b24 0%, #322f3c 56%, #483d38 100%);
+}
+.polaroid figcaption {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: rgba(44, 34, 27, 0.66);
+  text-align: center;
+  padding: 9px 4px 12px;
+}
+
+/* ============ PERSONAS (who it's for) ============ */
+
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.8rem, 3vw, 3rem) clamp(2.2rem, 4.5vw, 4.5rem);
+  max-width: 920px;
+  margin: 0 auto;
+}
+.persona h3 {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 1.1rem + 0.32vw, 1.45rem);
+  font-weight: 600;
+  color: var(--moonlight);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.6s ease;
+}
+.persona h3::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  flex: none;
+  background: var(--salmon);
+  opacity: 0.85;
+}
+.persona p {
+  font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.08rem);
+  line-height: 1.7;
+  color: var(--moonlight-soft);
+  transition: color 0.6s ease;
+}
 
 /* ============ RESPONSIVE ============ */
 
@@ -1034,6 +1213,14 @@ body.zone-day .btn-secondary {
   }
   .io-grid { grid-template-columns: 1fr; }
   .pricing-grid { grid-template-columns: 1fr; }
+  .dc-layout { grid-template-columns: 1fr; }
+  .dc-polaroids { min-height: 300px; }
+  .polaroid { width: clamp(140px, 34vw, 180px); }
+  .polaroid.p1 { --px: -58%; }
+  .polaroid.p3 { --px: 58%; }
+}
+@media (max-width: 640px) {
+  .persona-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 720px) {
@@ -1116,6 +1303,10 @@ body.zone-day .zone-night .mode-step.is-active {
 }
 body.zone-day .zone-night .io-card h3 { color: var(--salmon-deep); }
 body.zone-day .zone-night .mode-mobile-card h3 { color: var(--ink); }
+body.zone-day .zone-night .dc-copy h2,
+body.zone-day .zone-night .persona h3 { color: var(--ink); }
+body.zone-day .zone-night .dc-lead,
+body.zone-day .zone-night .persona p { color: var(--ink-soft); }
 body.zone-day .zone-night .mode-mobile-card p,
 body.zone-day .zone-night .mode-mobile-card li { color: var(--ink-soft); }
 /* The detail card stays deliberately dark — a night window in the morning */

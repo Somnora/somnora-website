@@ -4,11 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>Somnora | Private AI Companion for Reflection</title>
+  <meta name="theme-color" content="#181310" />
+  <title>Somnora — A private AI companion for dreams, sleep &amp; reflection</title>
   <meta name="description" content="Somnora pairs your dreams, sleep, and daily check-ins with Nora — a private AI companion who remembers your threads, notices what repeats, and checks in once a day when something's earned." />
   <meta property="og:title" content="Somnora | Where Reflection Meets Creation" />
   <meta property="og:description" content="Nora remembers your dreams, notices what repeats, and checks in when something matters — a private companion for sleep, reflection, and the ideas that arrive at 2 a.m." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://somnora.app/" />
+  <meta property="og:image" content="https://somnora.app/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:image" content="https://somnora.app/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Somnora | Where Reflection Meets Creation" />
   <meta name="twitter:description" content="A private AI companion who remembers your threads, notices patterns, and checks in when it matters." />
@@ -16,13 +22,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260704c" />
+  <link rel="stylesheet" href="style.css?v=20260704d" />
   <link rel="icon" href="somnora-favicons/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="somnora-favicons/favicon-32x32.png">
   <link rel="apple-touch-icon" href="somnora-favicons/apple-touch-icon.png">
   <link rel="manifest" href="somnora-favicons/site.webmanifest">
 </head>
 <body id="top">
+
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- The sky: night at the top of the page, morning at the bottom -->
   <div class="sky" aria-hidden="true">
@@ -47,7 +55,7 @@
     </button>
   </nav>
 
-  <main>
+  <main id="main">
     <!-- HERO -->
     <section class="hero">
       <div class="cloud cloud-1" data-parallax="0.12" aria-hidden="true"></div>
@@ -71,6 +79,8 @@
             <span>Notices what repeats</span>
             <span>One earned check-in a day</span>
           </div>
+
+          <p class="platform-note" data-reveal style="--reveal-delay:0.48s">Built for iPhone &middot; Works with Apple Health</p>
         </div>
 
         <div class="hero-preview" data-tilt data-reveal style="--reveal-delay:0.35s" aria-hidden="true">
@@ -130,6 +140,22 @@
       </div>
     </section>
 
+    <!-- DREAMCATCHER -->
+    <section class="section dreamcatcher-strip zone-night">
+      <div class="dc-layout">
+        <div class="dc-copy" data-reveal>
+          <p class="modes-eyebrow">The Dreamcatcher</p>
+          <h2>Your nights, developed like film.</h2>
+          <p class="dc-lead">Tell Nora a dream in enough detail and she can paint it: a dream card with its own artwork, title, and mood, pinned to a growing album. Lucid moments get flagged on the way in. Step into the darkroom any morning and walk back through the places you&apos;ve been while asleep.</p>
+        </div>
+        <div class="dc-polaroids" data-reveal style="--reveal-delay:0.12s" aria-hidden="true">
+          <figure class="polaroid p1"><div class="p-img p-img-1"></div><figcaption>The glass city, again</figcaption></figure>
+          <figure class="polaroid p2"><div class="p-img p-img-2"></div><figcaption>Ocean rooms</figcaption></figure>
+          <figure class="polaroid p3"><div class="p-img p-img-3"></div><figcaption>Rain in the hallway</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
     <!-- DATA IN, VALUE OUT -->
     <section class="section data-value zone-night">
       <div class="section-header">
@@ -154,6 +180,32 @@
             <li>One thoughtful check-in a day &mdash; when earned</li>
             <li>Honest results from small sleep experiments</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO IT'S FOR -->
+    <section class="section personas zone-night">
+      <div class="section-header" data-reveal>
+        <p class="modes-eyebrow">Who it&apos;s for</p>
+        <h2>Made for minds that don&apos;t clock out.</h2>
+      </div>
+      <div class="persona-grid">
+        <div class="persona" data-reveal>
+          <h3>The vivid dreamer</h3>
+          <p>You wake with whole worlds still in your head and nowhere to put them. Somnora catches them before breakfast does.</p>
+        </div>
+        <div class="persona" data-reveal style="--reveal-delay:0.08s">
+          <h3>The 2 a.m. mind</h3>
+          <p>Your best ideas arrive when the house is quiet &mdash; and evaporate by morning. Eureka gives them somewhere to land.</p>
+        </div>
+        <div class="persona" data-reveal style="--reveal-delay:0.16s">
+          <h3>The one doing the work</h3>
+          <p>In therapy, or working on yourself solo &mdash; you want patterns you can point to, not feelings you half-remember.</p>
+        </div>
+        <div class="persona" data-reveal style="--reveal-delay:0.24s">
+          <h3>The light sleeper</h3>
+          <p>You want to understand your nights without being graded on them. Trends in plain language &mdash; never a judgment score.</p>
         </div>
       </div>
     </section>
@@ -221,7 +273,7 @@
           <ul class="mode-detail-list">
             <li>Drop in the loose thought before it slips away.</li>
             <li>Use Nora to shape the signal without sanding off its edge.</li>
-            <li>End with a clearer thread worth following in daylight.</li>
+            <li>Dreams with creative charge can spark concept notes on their own &mdash; waiting in your Eureka inbox by morning.</li>
           </ul>
         </article>
 
@@ -241,8 +293,8 @@
           <h3>Mindful</h3>
           <p class="mode-detail-purpose">Purpose: close the day with a steadier body and a quieter mind.</p>
           <ul class="mode-detail-list">
-            <li>Follow a brief breathing rhythm that asks very little of you.</li>
-            <li>Use one grounding prompt to set down mental noise before sleep.</li>
+            <li>A 90-second guided wind-down &mdash; breathing that asks very little of you.</li>
+            <li>Meditations and gratitude prompts, read aloud in Nora&apos;s own voice.</li>
             <li>Finish with a steadier handoff into the night.</li>
           </ul>
         </article>
@@ -272,9 +324,10 @@
             <span class="currency">$</span><span class="price-value" data-price-period="monthly">9.99</span><span class="period">/mo</span>
           </div>
           <ul class="features-list">
-            <li>Private capture &amp; reflection</li>
-            <li>Sleep context from HealthKit</li>
-            <li>Core pattern awareness</li>
+            <li>Nora &mdash; chat, voice &amp; a memory that compounds</li>
+            <li>Sleep context from Apple Health</li>
+            <li>Dream cards &amp; the dream album</li>
+            <li>Patterns, insights &amp; honest experiments</li>
           </ul>
           <a href="#waitlist" class="btn btn-secondary">Join Waitlist</a>
         </div>
@@ -348,8 +401,12 @@
           <div class="faq-content">Sleep duration, stages, and timing context, so your reflections sit beside something measurable instead of floating on their own. It&apos;s always an explicit opt-in, and Nora describes trends in plain language &mdash; never scores.</div>
         </details>
         <details class="faq-item">
+          <summary>Does Nora have a voice?</summary>
+          <div class="faq-content">Yes. Morning capture is voice-first &mdash; you can talk before you&apos;re fully awake and Nora transcribes as you speak. She can also read wind-downs and meditations aloud in a warm, natural voice. And you can always just type.</div>
+        </details>
+        <details class="faq-item">
           <summary>Can I export my reflections?</summary>
-          <div class="faq-content">Yes. Somnora lets you export available data from the app, and you can clear local data from Settings.</div>
+          <div class="faq-content">Yes. Your entries export from the app whenever you want them &mdash; including a clean, therapist-ready summary if you&apos;d like to bring your patterns into a session. Local data can be cleared from Settings anytime.</div>
         </details>
         <details class="faq-item">
           <summary>How does Nora adjust its tone?</summary>
@@ -364,6 +421,7 @@
       <div class="btn-group">
         <a href="mailto:support@somnora.app" class="btn btn-primary">Request Early Access</a>
       </div>
+      <p class="footer-platform">Built for iPhone &middot; Works with Apple Health</p>
       <div class="footer-links">
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
@@ -374,6 +432,6 @@
 
   </main>
 
-  <script src="script.js?v=20260704c"></script>
+  <script src="script.js?v=20260704d"></script>
 </body>
 </html>

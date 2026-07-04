@@ -31,7 +31,7 @@ const MODE_DETAILS = {
     points: [
       "Drop in the loose thought before it slips away.",
       "Use Nora to shape the signal without sanding off its edge.",
-      "End with a clearer thread worth following in daylight."
+      "Dreams with creative charge can spark concept notes on their own — waiting in your Eureka inbox by morning."
     ]
   },
   analytics: {
@@ -49,8 +49,8 @@ const MODE_DETAILS = {
     title: "Mindful",
     purpose: "Purpose: close the day with a steadier body and a quieter mind.",
     points: [
-      "Follow a brief breathing rhythm that asks very little of you.",
-      "Use one grounding prompt to set down mental noise before sleep.",
+      "A 90-second guided wind-down — breathing that asks very little of you.",
+      "Meditations and gratitude prompts, read aloud in Nora's own voice.",
       "Finish with a steadier handoff into the night."
     ]
   }
@@ -138,13 +138,13 @@ const navLinks = document.querySelector('.nav-links');
 if (mobileToggle && navLinks) {
   mobileToggle.setAttribute('aria-expanded', 'false');
   mobileToggle.addEventListener('click', () => {
-    const isOpened = navLinks.classList.toggle('is-open');
+    const isOpened = navLinks.classList.toggle('open');
     mobileToggle.setAttribute('aria-expanded', isOpened ? 'true' : 'false');
   });
 
   navLinks.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
-      navLinks.classList.remove('is-open');
+      navLinks.classList.remove('open');
       mobileToggle.setAttribute('aria-expanded', 'false');
     });
   });
@@ -163,32 +163,6 @@ details.forEach((targetDetail) => {
     });
   });
 });
-
-/* ========== SUBTLE SCROLL REVEAL ========== */
-const revealTargets = document.querySelectorAll('.modes-header, .modes-layout, .mode-mobile-card, .section-header, .pricing-card, .faq-item, .footer h2, .footer .btn-group, .feature-item, .io-card, .privacy-bullet-box');
-
-if (revealTargets.length) {
-  revealTargets.forEach((el) => el.classList.add('reveal'));
-
-  if (prefersReducedMotion) {
-    revealTargets.forEach((el) => el.classList.add('is-visible'));
-  } else {
-    const revealObserver = new IntersectionObserver((entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, {
-      root: null,
-      threshold: 0.14,
-      rootMargin: "0px 0px -8% 0px"
-    });
-
-    revealTargets.forEach((el) => revealObserver.observe(el));
-  }
-}
 
 /* ============================================================
    NIGHT → MORNING ATMOSPHERE ENGINE
