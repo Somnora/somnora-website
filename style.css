@@ -28,7 +28,7 @@
 
   /* Text on night */
   --moonlight: #f7efe4;
-  --moonlight-soft: rgba(247, 239, 228, 0.72);
+  --moonlight-soft: rgba(247, 239, 228, 0.8);
   --moonlight-faint: rgba(247, 239, 228, 0.45);
 
   /* Glass on night */
@@ -52,14 +52,18 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
+  color-scheme: dark;
 }
+
+h1, h2, h3 { text-wrap: balance; }
+p, li { text-wrap: pretty; }
 
 body {
   font-family: var(--sans);
   color: var(--moonlight);
   background: var(--night);
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   position: relative;
@@ -120,15 +124,15 @@ body {
 #lantern {
   position: fixed;
   z-index: 2;
-  width: 560px;
-  height: 560px;
-  margin: -280px 0 0 -280px;
+  width: 640px;
+  height: 640px;
+  margin: -320px 0 0 -320px;
   border-radius: 50%;
   pointer-events: none;
   background: radial-gradient(circle,
-    rgba(232, 184, 109, 0.14) 0%,
-    rgba(224, 146, 122, 0.07) 34%,
-    transparent 68%);
+    rgba(232, 184, 109, 0.09) 0%,
+    rgba(224, 146, 122, 0.045) 36%,
+    transparent 66%);
   mix-blend-mode: screen;
   opacity: 0;
   transition: opacity 0.6s ease;
@@ -136,6 +140,18 @@ body {
 }
 body.lantern-on #lantern { opacity: 1; }
 body.zone-day #lantern { opacity: 0.35; mix-blend-mode: soft-light; }
+
+/* Fine film grain over the sky (under content) — reads editorial, not flat */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+}
 
 main, .footer { position: relative; z-index: 3; }
 .nav { z-index: 50; }
@@ -167,7 +183,7 @@ html.reduced-motion [data-reveal] {
   top: 14px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(1060px, calc(100% - 28px));
+  width: min(1240px, calc(100% - 32px));
   height: var(--nav-height);
   display: flex;
   align-items: center;
@@ -245,36 +261,37 @@ body.zone-day .mobile-toggle { color: var(--ink); }
   overflow: clip;
 }
 
-/* Parallax moon */
+/* Parallax moon — a luminous body behind thin haze, not a sticker */
 .moon {
   position: absolute;
-  top: 11%;
-  right: 12%;
-  width: 130px;
-  height: 130px;
+  top: 9%;
+  right: 10%;
+  width: clamp(150px, 14vw, 230px);
+  aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle at 38% 36%, #fff7e8 0%, #f3e3c6 45%, #e8cfa5 100%);
-  box-shadow:
-    0 0 70px 22px rgba(232, 184, 109, 0.28),
-    0 0 180px 70px rgba(232, 184, 109, 0.12);
+  background: radial-gradient(circle at 46% 42%,
+    rgba(252, 244, 226, 0.92) 0%,
+    rgba(246, 230, 199, 0.8) 36%,
+    rgba(240, 216, 172, 0.38) 58%,
+    rgba(236, 205, 150, 0.1) 72%,
+    transparent 80%);
+  filter: blur(0.6px);
   will-change: transform;
 }
 .moon::after {
+  /* faint halo ring */
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -26%;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 62% 30%, rgba(200, 170, 130, 0.35) 0%, transparent 18%),
-    radial-gradient(circle at 40% 62%, rgba(200, 170, 130, 0.28) 0%, transparent 14%),
-    radial-gradient(circle at 72% 66%, rgba(200, 170, 130, 0.22) 0%, transparent 11%);
+  border: 1px solid rgba(232, 184, 109, 0.09);
 }
 
 .cloud {
   position: absolute;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(247, 239, 228, 0.05), rgba(247, 239, 228, 0.015));
-  filter: blur(26px);
+  background: linear-gradient(180deg, rgba(247, 239, 228, 0.035), rgba(247, 239, 228, 0.01));
+  filter: blur(34px);
   will-change: transform;
 }
 .cloud-1 { top: 16%; left: -6%; width: 46vw; height: 100px; }
@@ -282,31 +299,36 @@ body.zone-day .mobile-toggle { color: var(--ink); }
 .cloud-3 { top: 62%; left: 10%; width: 38vw; height: 90px; }
 
 .hero-shell {
-  width: min(1060px, 100%);
+  width: min(1320px, 100%);
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
-  gap: 3.5rem;
+  gap: clamp(2.75rem, 6vw, 6rem);
   align-items: center;
   position: relative;
 }
 
 .pill-badge {
-  display: inline-block;
-  padding: 0.42rem 1rem;
-  border-radius: 999px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass);
-  color: var(--amber);
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  margin-bottom: 1.6rem;
-  backdrop-filter: blur(8px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--moonlight-faint);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 1.7rem;
+}
+.pill-badge::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: var(--amber);
+  opacity: 0.7;
 }
 
 .hero-copy h1 {
   font-family: var(--serif);
-  font-size: clamp(3.2rem, 7vw, 5rem);
+  font-size: clamp(3.4rem, 6.5vw, 5.8rem);
   font-weight: 600;
   line-height: 1.02;
   letter-spacing: -0.01em;
@@ -322,10 +344,10 @@ body.zone-day .mobile-toggle { color: var(--ink); }
 }
 
 .subtitle {
-  font-size: 1.04rem;
+  font-size: clamp(1.02rem, 0.94rem + 0.32vw, 1.22rem);
   color: var(--moonlight-soft);
-  max-width: 46ch;
-  margin-bottom: 2rem;
+  max-width: 52ch;
+  margin-bottom: 2.2rem;
 }
 
 .btn-group {
@@ -338,12 +360,12 @@ body.zone-day .mobile-toggle { color: var(--ink); }
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.85rem 1.7rem;
+  padding: 0.85rem 1.75rem;
   border-radius: 999px;
   font-size: 0.97rem;
   font-weight: 600;
   text-decoration: none;
-  transition: transform 0.25s var(--ease-soft), box-shadow 0.25s ease, background 0.25s ease;
+  transition: box-shadow 0.25s ease, background 0.25s ease;
   will-change: transform;
 }
 .btn-primary {
@@ -391,6 +413,9 @@ body.zone-day .btn-secondary {
 
 /* The living chat preview — Nora, as she is in the app */
 .hero-preview {
+  max-width: 580px;
+  width: 100%;
+  justify-self: end;
   border-radius: var(--radius-lg);
   padding: 1.5rem 1.5rem 1.6rem;
   background: linear-gradient(165deg, rgba(38, 48, 63, 0.6) 0%, rgba(24, 19, 16, 0.7) 100%);
@@ -486,8 +511,8 @@ body.zone-day .btn-secondary {
 /* ============ SECTIONS (shared) ============ */
 
 .section {
-  padding: 6.5rem 1.5rem;
-  max-width: 1060px;
+  padding: clamp(4.5rem, 9vh, 7.5rem) clamp(1.25rem, 4vw, 3rem);
+  max-width: min(1320px, 94vw);
   margin: 0 auto;
   position: relative;
 }
@@ -507,7 +532,9 @@ body.zone-day .btn-secondary {
 .section-header p {
   color: var(--moonlight-soft);
   margin-top: 0.8rem;
-  font-size: 1.02rem;
+  font-size: clamp(1rem, 0.94rem + 0.24vw, 1.16rem);
+  max-width: 62ch;
+  margin-inline: auto;
   transition: color 0.6s ease;
 }
 
@@ -528,17 +555,17 @@ body.zone-day .btn-secondary {
 
 .product-features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: clamp(1rem, 1.6vw, 1.6rem);
 }
 
 .feature-item {
-  padding: 1.7rem 1.5rem;
+  padding: clamp(1.7rem, 2.2vw, 2.4rem) clamp(1.5rem, 1.9vw, 2.1rem);
   border-radius: var(--radius-lg);
   background: var(--glass);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(14px);
-  transition: transform 0.35s var(--ease-soft), background 0.35s ease, border-color 0.35s ease;
+  transition: background 0.35s ease, border-color 0.35s ease;
   transform-style: preserve-3d;
   position: relative;
   will-change: transform;
@@ -570,13 +597,14 @@ body.zone-day .btn-secondary {
 }
 .feature-item h3 {
   font-family: var(--serif);
-  font-size: 1.18rem;
+  font-size: clamp(1.16rem, 1.04rem + 0.34vw, 1.4rem);
   font-weight: 600;
   color: var(--moonlight);
   margin-bottom: 0.45rem;
 }
 .feature-item p {
-  font-size: 0.92rem;
+  font-size: clamp(0.93rem, 0.87rem + 0.2vw, 1.06rem);
+  line-height: 1.68;
   color: var(--moonlight-soft);
 }
 
@@ -588,7 +616,7 @@ body.zone-day .btn-secondary {
   gap: 1.1rem;
 }
 .io-card {
-  padding: 1.9rem 1.8rem;
+  padding: clamp(1.9rem, 2.4vw, 2.6rem) clamp(1.8rem, 2.2vw, 2.4rem);
   border-radius: var(--radius-lg);
   background: var(--glass);
   border: 1px solid var(--glass-border);
@@ -606,7 +634,7 @@ body.zone-day .btn-secondary {
   padding: 0.5rem 0 0.5rem 1.6rem;
   position: relative;
   color: var(--moonlight-soft);
-  font-size: 0.95rem;
+  font-size: clamp(0.95rem, 0.9rem + 0.18vw, 1.07rem);
 }
 .io-card li::before {
   content: "";
@@ -692,29 +720,31 @@ body.zone-day .btn-secondary {
 }
 .mode-detail-card h3, .mode-mobile-card h3 {
   font-family: var(--serif);
-  font-size: 1.7rem;
+  font-size: clamp(1.6rem, 1.4rem + 0.6vw, 2rem);
   color: var(--moonlight);
   margin-bottom: 0.6rem;
 }
 .mode-detail-purpose {
   color: var(--moonlight-soft);
-  font-size: 0.97rem;
+  font-size: clamp(0.97rem, 0.92rem + 0.18vw, 1.08rem);
   margin-bottom: 1.1rem;
 }
 .mode-detail-list { list-style: none; }
 .mode-detail-list li {
-  padding: 0.45rem 0 0.45rem 1.7rem;
+  padding: 0.45rem 0 0.45rem 1.6rem;
   position: relative;
   color: var(--moonlight-soft);
-  font-size: 0.94rem;
+  font-size: clamp(0.94rem, 0.9rem + 0.16vw, 1.05rem);
 }
 .mode-detail-list li::before {
-  content: "☾";
+  content: "";
   position: absolute;
   left: 0;
-  top: 0.4rem;
-  color: var(--salmon);
-  font-size: 0.85rem;
+  top: 0.98rem;
+  width: 14px;
+  height: 1px;
+  background: var(--salmon);
+  opacity: 0.85;
 }
 
 .modes-mobile-stack { display: none; }
@@ -762,20 +792,20 @@ body.zone-day .btn-secondary {
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(260px, 340px));
+  grid-template-columns: repeat(2, minmax(280px, 400px));
   justify-content: center;
-  gap: 1.3rem;
+  gap: clamp(1.3rem, 2vw, 2rem);
 }
 
 .pricing-card {
-  padding: 2.1rem 1.9rem;
+  padding: clamp(2.1rem, 2.6vw, 2.7rem) clamp(1.9rem, 2.2vw, 2.4rem);
   border-radius: var(--radius-lg);
   background: rgba(255, 253, 246, 0.72);
   border: 1px solid rgba(44, 34, 27, 0.1);
   box-shadow: 0 20px 50px -28px rgba(44, 34, 27, 0.3);
   color: var(--ink);
   transform-style: preserve-3d;
-  transition: transform 0.35s var(--ease-soft), box-shadow 0.35s ease;
+  transition: box-shadow 0.35s ease;
   will-change: transform;
   position: relative;
 }
@@ -859,7 +889,7 @@ body.zone-day .btn-secondary {
 /* ============ PRIVACY + FOUNDER NOTE (paper letters) ============ */
 
 .legal-content {
-  max-width: 720px;
+  max-width: min(800px, 94vw);
   margin: 0 auto;
 }
 
@@ -934,7 +964,7 @@ body.zone-day .btn-secondary {
 /* ============ FAQ ============ */
 
 .faq-list {
-  max-width: 720px;
+  max-width: min(800px, 94vw);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -1010,7 +1040,7 @@ body.zone-day .btn-secondary {
 
 @media (max-width: 900px) {
   .hero-shell { grid-template-columns: 1fr; gap: 2.6rem; }
-  .moon { width: 90px; height: 90px; top: 8%; right: 8%; }
+  .moon { width: 96px; top: 3.5%; right: 4%; opacity: 0.9; }
   .modes-layout { display: none; }
   .modes-mobile-stack {
     display: flex;
@@ -1077,7 +1107,7 @@ body.zone-day .btn-secondary {
 .io-card,
 .mode-step,
 .mode-mobile-card {
-  transition-property: color, background-color, border-color, transform, opacity;
+  transition-property: color, background-color, border-color;
   transition-duration: 0.6s;
   transition-timing-function: ease;
 }

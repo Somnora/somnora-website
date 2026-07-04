@@ -291,7 +291,7 @@ if (revealTargets.length) {
       canvas.style.width = innerWidth + 'px';
       canvas.style.height = innerHeight + 'px';
 
-      const starCount = Math.min(110, Math.floor(innerWidth / 14));
+      const starCount = Math.min(120, Math.floor(innerWidth / 17));
       stars = Array.from({ length: starCount }, () => ({
         x: Math.random() * w,
         y: Math.random() * h * 0.85,
@@ -300,7 +300,7 @@ if (revealTargets.length) {
         ts: 0.004 + Math.random() * 0.012
       }));
 
-      const flyCount = Math.min(26, Math.floor(innerWidth / 60));
+      const flyCount = Math.min(16, Math.floor(innerWidth / 95));
       flies = Array.from({ length: flyCount }, () => spawnFly());
     }
 
@@ -310,9 +310,9 @@ if (revealTargets.length) {
         y: h * (0.4 + Math.random() * 0.6),
         vx: (Math.random() - 0.5) * 0.18 * dpr,
         vy: -(0.06 + Math.random() * 0.16) * dpr,
-        r: (Math.random() * 1.6 + 0.9) * dpr,
+        r: (Math.random() * 1.1 + 0.7) * dpr,
         phase: Math.random() * Math.PI * 2,
-        glow: 0.35 + Math.random() * 0.45
+        glow: 0.26 + Math.random() * 0.34
       };
     }
 
@@ -344,9 +344,9 @@ if (revealTargets.length) {
         const dx = f.x - mouse.x * dpr;
         const dy = f.y - mouse.y * dpr;
         const d = Math.hypot(dx, dy);
-        if (d < 140 * dpr && d > 0.001) {
-          f.vx += (dx / d) * 0.05 * dpr;
-          f.vy += (dy / d) * 0.05 * dpr;
+        if (d < 120 * dpr && d > 0.001) {
+          f.vx += (dx / d) * 0.028 * dpr;
+          f.vy += (dy / d) * 0.028 * dpr;
         }
         f.vx = Math.max(-0.5 * dpr, Math.min(0.5 * dpr, f.vx * 0.985));
         f.vy = Math.max(-0.5 * dpr, Math.min(0.3 * dpr, f.vy * 0.985 - 0.0015 * dpr));
@@ -391,8 +391,8 @@ if (revealTargets.length) {
     });
 
     (function glide() {
-      lx += (tx - lx) * 0.09;
-      ly += (ty - ly) * 0.09;
+      lx += (tx - lx) * 0.065;
+      ly += (ty - ly) * 0.065;
       lantern.style.transform = `translate(${lx.toFixed(1)}px, ${ly.toFixed(1)}px)`;
       requestAnimationFrame(glide);
     })();
@@ -402,35 +402,51 @@ if (revealTargets.length) {
   if (finePointer && !reduced) {
     document.querySelectorAll('[data-tilt]').forEach((card) => {
       let raf = null;
+      let resetTimer = null;
+      card.addEventListener('pointerenter', () => {
+        // Direct control while the pointer drives the card
+        clearTimeout(resetTimer);
+        card.style.transition = 'none';
+      });
       card.addEventListener('pointermove', (e) => {
         if (raf) return;
         raf = requestAnimationFrame(() => {
           const r = card.getBoundingClientRect();
           const px = (e.clientX - r.left) / r.width;
           const py = (e.clientY - r.top) / r.height;
-          const rx = (0.5 - py) * 7;
-          const ry = (px - 0.5) * 9;
-          card.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-3px)`;
+          const rx = (0.5 - py) * 3.2;
+          const ry = (px - 0.5) * 4.2;
+          card.style.transform = `perspective(1100px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-2px)`;
           card.style.setProperty('--gx', `${(px * 100).toFixed(1)}%`);
           card.style.setProperty('--gy', `${(py * 100).toFixed(1)}%`);
           raf = null;
         });
       });
       card.addEventListener('pointerleave', () => {
+        // Hand back to CSS for a soft settle
+        card.style.transition = 'transform 0.65s cubic-bezier(0.22, 1, 0.36, 1)';
         card.style.transform = '';
+        resetTimer = setTimeout(() => { card.style.transition = ''; }, 700);
       });
     });
 
     /* ---------- Magnetic buttons ---------- */
     document.querySelectorAll('[data-magnetic]').forEach((btn) => {
+      let resetTimer = null;
+      btn.addEventListener('pointerenter', () => {
+        clearTimeout(resetTimer);
+        btn.style.transition = 'box-shadow 0.25s ease, background 0.25s ease';
+      });
       btn.addEventListener('pointermove', (e) => {
         const r = btn.getBoundingClientRect();
-        const mx = (e.clientX - r.left - r.width / 2) * 0.18;
-        const my = (e.clientY - r.top - r.height / 2) * 0.3;
+        const mx = (e.clientX - r.left - r.width / 2) * 0.1;
+        const my = (e.clientY - r.top - r.height / 2) * 0.16;
         btn.style.transform = `translate(${mx.toFixed(1)}px, ${my.toFixed(1)}px)`;
       });
       btn.addEventListener('pointerleave', () => {
+        btn.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background 0.25s ease';
         btn.style.transform = '';
+        resetTimer = setTimeout(() => { btn.style.transition = ''; }, 550);
       });
     });
   }
