@@ -17,11 +17,11 @@ const MODE_DETAILS = {
   dream: {
     label: "Mode 01 · Dream",
     title: "Dream",
-    purpose: "Purpose: capture dream fragments, emotional residue, and whatever still feels present in the morning.",
+    purpose: "Purpose: catch the night before it fades — even half-awake.",
     points: [
-      "Begin with an image, feeling, or line of dialogue, no perfect memory required.",
-      "Let Nora reflect back the thread without overexplaining it.",
-      "Leave with one clearer thought to carry into the day."
+      "Speak it half-asleep: one tap from the morning nudge and Nora is already listening.",
+      "She remembers your past threads and asks the one question worth asking.",
+      "Every dream is saved, titled, and searchable in your private archive."
     ]
   },
   eureka: {
@@ -35,19 +35,19 @@ const MODE_DETAILS = {
     ]
   },
   analytics: {
-    label: "Mode 03 · Analytics",
-    title: "Analytics",
-    purpose: "Purpose: notice what repeats across nights, moods, and ideas.",
+    label: "Mode 03 · Insights",
+    title: "Insights",
+    purpose: "Purpose: context for how you're really doing — never a diagnosis.",
     points: [
-      "Review patterns across sleep, reflection, mood, and what keeps resurfacing.",
-      "Spot gentle relationships worth paying attention to.",
-      "Build context over time without forcing a conclusion."
+      "Sleep balance from your real nights — durations and trends, not a judgment score.",
+      "A dream climate that maps what your nights keep returning to.",
+      "Resilience: how your body actually settles during breathing sessions."
     ]
   },
   mindful: {
     label: "Mode 04 · Mindful",
     title: "Mindful",
-    purpose: "Purpose: close the day with a steadier body and a quieter mental field.",
+    purpose: "Purpose: close the day with a steadier body and a quieter mind.",
     points: [
       "Follow a brief breathing rhythm that asks very little of you.",
       "Use one grounding prompt to set down mental noise before sleep.",
@@ -294,14 +294,23 @@ if (revealTargets.length) {
       canvas.style.width = innerWidth + 'px';
       canvas.style.height = innerHeight + 'px';
 
-      const starCount = Math.min(120, Math.floor(innerWidth / 17));
-      stars = Array.from({ length: starCount }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h * 0.85,
-        r: (Math.random() * 1.1 + 0.4) * dpr,
-        tw: Math.random() * Math.PI * 2,
-        ts: 0.004 + Math.random() * 0.012
-      }));
+      const starCount = Math.min(240, Math.floor(innerWidth / 8));
+      stars = Array.from({ length: starCount }, () => {
+        const big = Math.random() < 0.16;
+        return {
+          bx: Math.random() * w,
+          by: Math.random() * h * 0.9,
+          ox: 0, oy: 0,
+          r: (big ? (Math.random() * 1.2 + 1.1) : (Math.random() * 0.8 + 0.35)) * dpr,
+          depth: 0.5 + Math.random() * 0.9,
+          base: big ? 0.38 : 0.2,
+          tw: Math.random() * Math.PI * 2,
+          ts: 0.006 + Math.random() * 0.016,
+          tint: Math.random() < 0.7 ? '250, 242, 228' : '242, 210, 156',
+          flare: big && Math.random() < 0.55 ? (8 + Math.random() * 12) * dpr : 0,
+          rot: Math.random() * Math.PI
+        };
+      });
 
       const flyCount = Math.min(16, Math.floor(innerWidth / 95));
       flies = Array.from({ length: flyCount }, () => spawnFly());
@@ -325,18 +334,73 @@ if (revealTargets.length) {
       const p = scrollMax > 0 ? window.scrollY / scrollMax : 0;
       const nightness = Math.max(0, 1 - p / 0.6); // stars fade as morning comes
 
-      // Stars: gentle twinkle, brighter near the cursor's lantern
+      // Stars: layered glow cores, spring displacement away from the
+      // cursor, and diffraction spikes on the bright few
       if (nightness > 0.02) {
+        const mx = mouse.x * dpr, my = mouse.y * dpr;
+        const R = 180 * dpr;
         stars.forEach((s) => {
           s.tw += s.ts;
-          const dx = s.x - mouse.x * dpr;
-          const dy = s.y - mouse.y * dpr;
-          const near = Math.max(0, 1 - Math.hypot(dx, dy) / (300 * dpr));
-          const a = (0.25 + 0.35 * Math.abs(Math.sin(s.tw)) + near * 0.4) * nightness;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r + near * 0.7 * dpr, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(247, 239, 228, ${a.toFixed(3)})`;
-          ctx.fill();
+
+          // The cursor parts the stars; they drift back on a soft spring
+          const ddx = s.bx - mx, ddy = s.by - my;
+          const d = Math.hypot(ddx, ddy);
+          let txo = 0, tyo = 0;
+          if (d < R && d > 0.001) {
+            const f = 1 - d / R;
+            const push = f * f * 34 * dpr * s.depth;
+            txo = (ddx / d) * push;
+            tyo = (ddy / d) * push;
+          }
+          s.ox += (txo - s.ox) * 0.07;
+          s.oy += (tyo - s.oy) * 0.07;
+          const x = s.bx + s.ox, y = s.by + s.oy;
+
+          const near = d < R ? 1 - d / R : 0;
+          const twinkle = 0.55 + 0.45 * Math.sin(s.tw);
+          const a = Math.min(1, (s.base + 0.3 * twinkle + near * 0.35) * nightness);
+
+          if (s.r > 1.05 * dpr) {
+            // Bright star: soft radial bloom instead of a flat dot
+            const g = ctx.createRadialGradient(x, y, 0, x, y, s.r * 3.4);
+            g.addColorStop(0, `rgba(${s.tint}, ${a.toFixed(3)})`);
+            g.addColorStop(0.4, `rgba(${s.tint}, ${(a * 0.32).toFixed(3)})`);
+            g.addColorStop(1, `rgba(${s.tint}, 0)`);
+            ctx.beginPath();
+            ctx.arc(x, y, s.r * 3.4, 0, Math.PI * 2);
+            ctx.fillStyle = g;
+            ctx.fill();
+          } else {
+            ctx.beginPath();
+            ctx.arc(x, y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${s.tint}, ${a.toFixed(3)})`;
+            ctx.fill();
+          }
+
+          // Subtle lens-flare cross on the bright few, breathing slowly
+          if (s.flare) {
+            const fa = a * (0.32 + 0.22 * Math.sin(s.tw * 0.6));
+            if (fa > 0.02) {
+              const L = s.flare * (1 + near * 0.6);
+              ctx.save();
+              ctx.translate(x, y);
+              ctx.rotate(s.rot);
+              for (let k = 0; k < 2; k++) {
+                const grad = ctx.createLinearGradient(-L, 0, L, 0);
+                grad.addColorStop(0, `rgba(${s.tint}, 0)`);
+                grad.addColorStop(0.5, `rgba(${s.tint}, ${fa.toFixed(3)})`);
+                grad.addColorStop(1, `rgba(${s.tint}, 0)`);
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = dpr * 0.9;
+                ctx.beginPath();
+                ctx.moveTo(-L, 0);
+                ctx.lineTo(L, 0);
+                ctx.stroke();
+                ctx.rotate(Math.PI / 2);
+              }
+              ctx.restore();
+            }
+          }
         });
       }
 
