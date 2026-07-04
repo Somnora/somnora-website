@@ -23,8 +23,14 @@
 </head>
 <body id="top">
 
-  <!-- Atmospheric Background -->
-  <div id="ambient-bg"></div>
+  <!-- The sky: night at the top of the page, morning at the bottom -->
+  <div class="sky" aria-hidden="true">
+    <div class="sky-layer sky-night"></div>
+    <div class="sky-layer sky-dusk"></div>
+    <div class="sky-layer sky-dawn"></div>
+  </div>
+  <canvas id="nightfield" aria-hidden="true"></canvas>
+  <div id="lantern" aria-hidden="true"></div>
 
   <nav class="nav">
     <a href="index.html#top" class="logo">Somnora</a>
@@ -43,32 +49,40 @@
   <main>
     <!-- HERO -->
     <section class="hero">
+      <div class="moon" data-parallax="0.25" aria-hidden="true"></div>
+      <div class="cloud cloud-1" data-parallax="0.12" aria-hidden="true"></div>
+      <div class="cloud cloud-2" data-parallax="0.18" aria-hidden="true"></div>
+      <div class="cloud cloud-3" data-parallax="0.08" aria-hidden="true"></div>
+
       <div class="hero-shell">
         <div class="hero-copy">
-          <div class="pill-badge">Understand what you&apos;re carrying.</div>
-          <h1>Somnora</h1>
-          <p class="hero-line">Where reflection meets creation.</p>
-          <p class="subtitle">Capture dreams, patterns, and late-night ideas with Nora, the private companion for what your mind is still carrying. Built for the in-between moments.</p>
+          <div class="pill-badge" data-reveal>Understand what you&apos;re carrying.</div>
+          <h1 data-reveal style="--reveal-delay:0.08s">Somnora</h1>
+          <p class="hero-line" data-reveal style="--reveal-delay:0.16s">Where reflection meets creation.</p>
+          <p class="subtitle" data-reveal style="--reveal-delay:0.24s">Capture dreams, patterns, and late-night ideas with Nora, the private companion for what your mind is still carrying. Built for the in-between moments.</p>
+
+          <div class="btn-group" data-reveal style="--reveal-delay:0.32s">
+            <a href="#waitlist" class="btn btn-primary" data-magnetic>Request Early Access</a>
+            <a href="#how-it-works" class="btn btn-secondary" data-magnetic>See How it Works</a>
+          </div>
+
+          <div class="hero-signals" aria-label="Somnora focus areas" data-reveal style="--reveal-delay:0.4s">
+            <span>Dream recall</span>
+            <span>Sleep context</span>
+            <span>Pattern awareness</span>
+          </div>
         </div>
 
-        <div class="btn-group">
-          <a href="#waitlist" class="btn btn-primary">Request Early Access</a>
-          <a href="#how-it-works" class="btn btn-secondary">See How it Works</a>
-        </div>
-
-        <div class="hero-signals" aria-label="Somnora focus areas">
-          <span>Dream recall</span>
-          <span>Sleep context</span>
-          <span>Pattern awareness</span>
-        </div>
-
-        <div class="hero-preview" aria-hidden="true">
+        <div class="hero-preview" data-tilt data-reveal style="--reveal-delay:0.35s" aria-hidden="true">
           <div class="preview-topline">
             <span>Tonight&apos;s Thread</span>
             <span>02:14</span>
           </div>
-          <h2>Rain in the hallway again.</h2>
-          <p>Nora links the image with a lighter sleep window and a recurring feeling of unfinished decisions.</p>
+          <div id="chat-demo">
+            <div class="chat-bubble bubble-user">Rain in the hallway again. Same door at the end.</div>
+            <div class="chat-bubble bubble-nora"><span class="nora-name">Nora</span><span class="bubble-text">Third time this month it&apos;s come back. Last night was a lighter sleep window &mdash; the rain tends to visit on those. What was different about the door this time?</span></div>
+            <div class="chat-bubble bubble-nora bubble-typing"><span class="typing-dots"><i></i><i></i><i></i></span></div>
+          </div>
           <div class="preview-metrics">
             <span><strong>6h 48m</strong> sleep</span>
             <span><strong>REM</strong> late cycle</span>
@@ -79,34 +93,34 @@
     </section>
 
     <!-- WHAT SOMNORA DOES -->
-    <section id="how-it-works" class="section">
-      <div class="section-header">
+    <section id="how-it-works" class="section zone-night">
+      <div class="section-header" data-reveal>
         <p class="modes-eyebrow">The 90-Second Tour</p>
         <h2>Capture what lingers. Shape what returns.</h2>
       </div>
       <div class="product-features-grid">
-        <div class="feature-item">
+        <div class="feature-item" data-tilt data-reveal>
           <div class="feature-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M12 2l4 4M12 2l-4 4M12 22l4-4M12 22l-4-4"/></svg>
           </div>
           <h3>Sleep Context</h3>
           <p>HealthKit adds timing, stages, and rhythm, so what you felt sits beside what your body recorded.</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item" data-tilt data-reveal style="--reveal-delay:0.08s">
           <div class="feature-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
           <h3>Quiet Capture</h3>
           <p>Dream fragments, emotional residue, and almost-ideas all have a place to land before they disappear.</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item" data-tilt data-reveal style="--reveal-delay:0.16s">
           <div class="feature-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5zM16 8L2 22M17.5 15H9"/></svg>
           </div>
           <h3>Eureka Threads</h3>
           <p>Catch the idea that arrives at 1:13 a.m. and give it a shape you&apos;d still respect in daylight.</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item" data-tilt data-reveal style="--reveal-delay:0.24s">
           <div class="feature-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </div>
@@ -117,13 +131,13 @@
     </section>
 
     <!-- DATA IN, VALUE OUT -->
-    <section class="section data-value">
+    <section class="section data-value zone-night">
       <div class="section-header">
         <h2>What you capture becomes context.</h2>
         <p>Private inputs, wearable context, and a clearer record of what keeps returning.</p>
       </div>
       <div class="io-grid">
-        <div class="io-card inputs">
+        <div class="io-card inputs" data-reveal>
           <h3>Inputs</h3>
           <ul>
             <li>Sleep duration &amp; stages (via HealthKit)</li>
@@ -132,7 +146,7 @@
             <li>Late-night ideas and loose notes</li>
           </ul>
         </div>
-        <div class="io-card outputs">
+        <div class="io-card outputs" data-reveal style="--reveal-delay:0.1s">
           <h3>Outputs</h3>
           <ul>
             <li>Clear summaries in plain language</li>
@@ -145,7 +159,7 @@
     </section>
 
     <!-- MODES STEPPER -->
-    <section id="modes" class="section modes-stepper-section">
+    <section id="modes" class="section modes-stepper-section zone-night">
       <div class="modes-header">
         <p class="modes-eyebrow">Story Mode</p>
         <h2>One companion. Four ways in.</h2>
@@ -236,7 +250,7 @@
     </section>
 
     <!-- PRICING -->
-    <section id="pricing" class="section">
+    <section id="pricing" class="section zone-morning" data-zone="day">
       <div class="section-header">
         <h2>Simple Pricing</h2>
         <p>Private reflection, wearable context, and Nora&apos;s companionship in a shape that fits your rhythm.</p>
@@ -252,7 +266,7 @@
 
       <div class="pricing-grid">
         <!-- Monthly -->
-        <div class="pricing-card">
+        <div class="pricing-card" data-tilt data-reveal>
           <h3>Monthly</h3>
           <div class="price">
             <span class="currency">$</span><span class="price-value" data-price-period="monthly">9.99</span><span class="period">/mo</span>
@@ -266,7 +280,7 @@
         </div>
 
         <!-- Yearly -->
-        <div class="pricing-card featured">
+        <div class="pricing-card featured" data-tilt data-reveal style="--reveal-delay:0.1s">
           <h3>Yearly</h3>
           <div class="price">
             <span class="ref-price" id="yearly-ref-price">$79.99</span>
@@ -283,8 +297,8 @@
     </section>
 
     <!-- PRIVACY IN PLAIN ENGLISH -->
-    <section class="section privacy-block">
-      <div class="legal-content privacy-bullet-box">
+    <section class="section privacy-block zone-morning" data-zone="day">
+      <div class="legal-content privacy-bullet-box" data-reveal>
         <h3>Privacy, by design.</h3>
         <ul class="privacy-bullets">
           <li><strong>You control what you capture.</strong> You choose what to record and what permissions to grant.</li>
@@ -298,8 +312,8 @@
     </section>
 
     <!-- FOUNDER TRUST NOTE -->
-    <section class="section founder-note-section">
-      <div class="legal-content founder-note-panel">
+    <section class="section founder-note-section zone-morning" data-zone="day">
+      <div class="legal-content founder-note-panel" data-reveal>
         <p class="modes-eyebrow">Founder&apos;s Note</p>
         <h2>Your life is your life.</h2>
         <div class="founder-note-body">
@@ -311,7 +325,7 @@
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="section">
+    <section id="faq" class="section zone-morning" data-zone="day">
       <div class="section-header">
         <h2>Common Questions</h2>
       </div>
@@ -340,7 +354,7 @@
     </section>
 
     <!-- FOOTER -->
-    <footer id="waitlist" class="footer">
+    <footer id="waitlist" class="footer" data-zone="day">
       <h2>A private companion for what follows you out of the night.</h2>
       <div class="btn-group">
         <a href="mailto:support@somnora.app" class="btn btn-primary">Request Early Access</a>
