@@ -134,6 +134,57 @@ body {
     linear-gradient(178deg, #e2c795 0%, #e9d6ae 42%, #eee0bf 100%);
 }
 
+.sky-day {
+  background:
+    radial-gradient(ellipse 120% 55% at 50% 112%, rgba(238, 208, 138, 0.55) 0%, rgba(238, 208, 138, 0) 60%),
+    radial-gradient(ellipse 90% 50% at 22% -10%, rgba(255, 253, 246, 0.35) 0%, transparent 55%),
+    linear-gradient(178deg, #6f9ab8 0%, #9dc0d3 40%, #cdd6c4 70%, #e9d9a6 100%);
+}
+
+/* The ground: golden field that rises into view at the page's end.
+   Layers arrive in parallax (back hill first, grass last) — transforms
+   are driven from the scroll handler. */
+.ground {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ground .hill {
+  position: absolute;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  transform: translateY(112%);
+  will-change: transform;
+}
+.hill-back {
+  left: -25%;
+  right: -15%;
+  bottom: -4vh;
+  height: 30vh;
+  background: linear-gradient(180deg, #dfc487 0%, #cca964 70%);
+}
+.hill-mid {
+  left: -12%;
+  right: -30%;
+  bottom: -8vh;
+  height: 25vh;
+  background: linear-gradient(180deg, #cdab66 0%, #b3904e 75%);
+}
+.ground .grass {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 11vh;
+  transform: translateY(108%);
+  will-change: transform;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='80' viewBox='0 0 140 80'><g fill='%23907a40'><path d='M6 80 Q4 38 10 22 Q10 46 14 80Z'/><path d='M40 80 Q36 44 44 30 Q44 52 48 80Z'/><path d='M78 80 Q74 40 82 26 Q82 50 86 80Z'/><path d='M114 80 Q110 44 118 32 Q118 54 122 80Z'/></g><g fill='%23a68d4a'><path d='M22 80 Q24 30 18 14 Q28 34 30 80Z'/><path d='M58 80 Q62 26 54 10 Q66 32 66 80Z'/><path d='M96 80 Q100 30 92 16 Q104 36 104 80Z'/><path d='M130 80 Q134 34 126 20 Q138 38 138 80Z'/></g></svg>") repeat-x bottom / auto 62%,
+    linear-gradient(180deg, rgba(166, 141, 74, 0) 0%, #a68d4a 34%, #8d773e 100%);
+  background-position: bottom -1px left 0, bottom;
+}
+
 /* Firefly / star canvas rides above the sky, below content */
 #nightfield {
   position: fixed;
@@ -1065,7 +1116,7 @@ body.zone-day .btn-secondary {
   font-weight: 500;
 }
 .footer-links a:hover { color: var(--salmon-deep); }
-.copyright { font-size: 0.84rem; color: rgba(44, 34, 27, 0.45); }
+.copyright { font-size: 0.84rem; color: rgba(44, 34, 27, 0.62); }
 
 /* ============ DREAMCATCHER (polaroid strip) ============ */
 
