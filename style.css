@@ -106,10 +106,10 @@ body {
 
 .sky-dawn {
   background:
-    radial-gradient(ellipse 95% 60% at 50% -14%, rgba(232, 184, 109, 0.5) 0%, rgba(246, 239, 220, 0) 60%),
-    radial-gradient(ellipse 85% 50% at 18% 30%, rgba(224, 146, 122, 0.24) 0%, transparent 58%),
-    radial-gradient(ellipse 70% 45% at 85% 62%, rgba(94, 138, 173, 0.14) 0%, transparent 60%),
-    linear-gradient(178deg, #f3e2c4 0%, var(--cream) 40%, var(--cream-2) 100%);
+    radial-gradient(ellipse 95% 60% at 50% -14%, rgba(224, 158, 84, 0.5) 0%, rgba(238, 221, 184, 0) 62%),
+    radial-gradient(ellipse 85% 50% at 18% 30%, rgba(216, 134, 108, 0.26) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 45% at 85% 62%, rgba(88, 112, 150, 0.16) 0%, transparent 60%),
+    linear-gradient(178deg, #e2c795 0%, #e9d6ae 42%, #eee0bf 100%);
 }
 
 /* Firefly / star canvas rides above the sky, below content */
@@ -197,7 +197,7 @@ html.reduced-motion [data-reveal] {
   transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 }
 body.zone-day .nav {
-  background: rgba(250, 245, 233, 0.6);
+  background: rgba(246, 236, 212, 0.65);
   border-color: rgba(44, 34, 27, 0.12);
   box-shadow: 0 12px 40px -18px rgba(44, 34, 27, 0.25);
 }
@@ -277,6 +277,28 @@ body.zone-day .mobile-toggle { color: var(--ink); }
     transparent 80%);
   filter: blur(0.6px);
   will-change: transform;
+}
+.moon::before {
+  /* Lunar maria + fine grain, masked to the luminous disc so the moon
+     reads as a real body, not a smooth glow */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 33% 30%, rgba(140, 116, 84, 0.5) 0%, rgba(140, 116, 84, 0.18) 12%, transparent 25%),
+    radial-gradient(circle at 57% 34%, rgba(140, 116, 84, 0.4) 0%, transparent 20%),
+    radial-gradient(circle at 64% 54%, rgba(140, 116, 84, 0.46) 0%, rgba(140, 116, 84, 0.16) 13%, transparent 26%),
+    radial-gradient(circle at 40% 60%, rgba(140, 116, 84, 0.34) 0%, transparent 17%),
+    radial-gradient(circle at 50% 44%, rgba(140, 116, 84, 0.22) 0%, transparent 12%),
+    radial-gradient(circle at 26% 47%, rgba(140, 116, 84, 0.26) 0%, transparent 11%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23m)' opacity='0.5'/></svg>");
+  background-size: auto, auto, auto, auto, auto, auto, 96px 96px;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  filter: blur(0.5px);
+  -webkit-mask: radial-gradient(circle at 46% 42%, #000 0%, #000 56%, transparent 74%);
+  mask: radial-gradient(circle at 46% 42%, #000 0%, #000 56%, transparent 74%);
 }
 .moon::after {
   /* faint halo ring */
@@ -385,8 +407,8 @@ body.zone-day .mobile-toggle { color: var(--ink); }
 .btn-secondary:hover { background: var(--glass-strong); }
 body.zone-day .btn-secondary {
   color: var(--ink);
-  border-color: rgba(44, 34, 27, 0.18);
-  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(44, 34, 27, 0.2);
+  background: rgba(250, 240, 218, 0.5);
 }
 
 .hero-signals {
@@ -703,10 +725,10 @@ body.zone-day .btn-secondary {
 .mode-step p { font-size: 0.87rem; color: var(--moonlight-faint); }
 
 .mode-detail-card {
-  padding: 2.1rem 2rem;
+  padding: clamp(2.1rem, 2.6vw, 2.8rem) clamp(2rem, 2.4vw, 2.6rem);
   border-radius: var(--radius-lg);
-  background: linear-gradient(160deg, rgba(38, 48, 63, 0.45) 0%, rgba(24, 19, 16, 0.55) 100%);
-  border: 1px solid var(--glass-border);
+  background: linear-gradient(160deg, rgba(46, 44, 56, 0.72) 0%, rgba(40, 30, 22, 0.82) 100%);
+  border: 1px solid rgba(255, 240, 222, 0.16);
   backdrop-filter: blur(20px);
   box-shadow: 0 26px 70px -32px rgba(0, 0, 0, 0.65);
 }
@@ -800,7 +822,7 @@ body.zone-day .btn-secondary {
 .pricing-card {
   padding: clamp(2.1rem, 2.6vw, 2.7rem) clamp(1.9rem, 2.2vw, 2.4rem);
   border-radius: var(--radius-lg);
-  background: rgba(255, 253, 246, 0.72);
+  background: rgba(250, 240, 218, 0.8);
   border: 1px solid rgba(44, 34, 27, 0.1);
   box-shadow: 0 20px 50px -28px rgba(44, 34, 27, 0.3);
   color: var(--ink);
@@ -810,7 +832,7 @@ body.zone-day .btn-secondary {
   position: relative;
 }
 .pricing-card.featured {
-  background: linear-gradient(170deg, #fffdf6 0%, #fbeeda 100%);
+  background: linear-gradient(170deg, #fbf2df 0%, #f4e2c2 100%);
   border-color: rgba(224, 146, 122, 0.45);
   box-shadow:
     0 26px 60px -26px rgba(201, 119, 87, 0.4),
@@ -894,9 +916,9 @@ body.zone-day .btn-secondary {
 }
 
 .privacy-bullet-box, .founder-note-panel {
-  padding: 2.6rem 2.5rem;
+  padding: clamp(2.2rem, 3vw, 3rem) clamp(1.8rem, 2.6vw, 2.7rem);
   border-radius: var(--radius-lg);
-  background: linear-gradient(172deg, #fffdf6 0%, var(--paper) 100%);
+  background: linear-gradient(172deg, #faf1dd 0%, #efe0bd 100%);
   border: 1px solid rgba(44, 34, 27, 0.1);
   box-shadow: 0 24px 60px -30px rgba(44, 34, 27, 0.35);
   color: var(--ink);
@@ -972,7 +994,7 @@ body.zone-day .btn-secondary {
 }
 .faq-item {
   border-radius: var(--radius-md);
-  background: rgba(255, 253, 246, 0.65);
+  background: rgba(250, 240, 218, 0.72);
   border: 1px solid rgba(44, 34, 27, 0.1);
   overflow: hidden;
   transition: border-color 0.3s ease;
@@ -1128,13 +1150,13 @@ body.zone-day .zone-night .mode-step p {
 body.zone-day .zone-night .feature-item,
 body.zone-day .zone-night .io-card,
 body.zone-day .zone-night .mode-mobile-card {
-  background: rgba(255, 253, 246, 0.6);
+  background: rgba(250, 240, 218, 0.62);
   border-color: rgba(44, 34, 27, 0.1);
 }
-body.zone-day .zone-night .mode-step:hover { background: rgba(255, 253, 246, 0.5); }
+body.zone-day .zone-night .mode-step:hover { background: rgba(250, 240, 218, 0.55); }
 body.zone-day .zone-night .mode-step.is-active {
-  background: rgba(255, 253, 246, 0.65);
-  border-color: rgba(224, 146, 122, 0.5);
+  background: rgba(250, 240, 218, 0.7);
+  border-color: rgba(201, 119, 87, 0.5);
 }
 body.zone-day .zone-night .io-card h3 { color: var(--salmon-deep); }
 body.zone-day .zone-night .mode-mobile-card h3 { color: var(--ink); }

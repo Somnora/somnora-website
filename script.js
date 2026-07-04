@@ -234,19 +234,22 @@ if (revealTargets.length) {
     const dawnAt = firstDayZone
       ? firstDayZone.offsetTop - vh * 0.9
       : (document.documentElement.scrollHeight - vh) * 0.6;
-    const band = vh * 1.4; // the night→dawn transition happens across this band
+    // A long, patient sunrise: the transition spans ~2.6 viewports, so
+    // dusk settles in gradually through the middle sections instead of
+    // flipping to daylight in one scroll gesture.
+    const band = vh * 2.6;
     const t = Math.max(0, Math.min(1, (window.scrollY - (dawnAt - band)) / band));
 
-    const night = Math.max(0, 1 - t * 1.35);
-    const dusk = Math.max(0, 1 - Math.abs(t - 0.45) / 0.4); // bell around mid-transition
-    const dawn = Math.max(0, Math.min(1, (t - 0.5) / 0.4));
+    const night = Math.max(0, 1 - t * 1.15);
+    const dusk = Math.max(0, 1 - Math.abs(t - 0.5) / 0.45); // wide bell — dusk lingers
+    const dawn = Math.max(0, Math.min(1, (t - 0.62) / 0.38));
 
     skyNight.style.opacity = night.toFixed(3);
     skyDusk.style.opacity = Math.min(1, dusk).toFixed(3);
     skyDawn.style.opacity = dawn.toFixed(3);
 
     // Flip chrome (nav, lantern) in step with the sunrise
-    document.body.classList.toggle('zone-day', t > 0.62);
+    document.body.classList.toggle('zone-day', t > 0.72);
   }
 
   /* ---------- Parallax ---------- */
