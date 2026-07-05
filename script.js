@@ -195,8 +195,7 @@ details.forEach((targetDetail) => {
 
   /* ---------- Sky crossfade + day-zone detection ---------- */
   const skyNight = document.querySelector('.sky-night');
-  const skyDusk = document.querySelector('.sky-dusk');
-  const skyDawn = document.querySelector('.sky-dawn');
+  const skyUpper = document.querySelector('.sky-upper');
   const skyDay = document.querySelector('.sky-day');
   const hillFar = document.querySelector('.hill-far');
   const hillBack = document.querySelector('.hill-back');
@@ -210,37 +209,31 @@ details.forEach((targetDetail) => {
   const easeOut = (x) => 1 - Math.pow(1 - x, 3);
 
   function updateSky() {
-    if (!skyNight || !skyDusk || !skyDawn) return;
+    if (!skyNight || !skyUpper || !skyDay) return;
 
-    // Anchor the sunrise to the first morning section: the sky must be
-    // fully light BEFORE ink text arrives, regardless of page length.
+    // One continuous descent: space → upper atmosphere → soft blue sky.
+    // The lightening starts soon after the stars and stretches across the
+    // middle of the page; ink text (pricing on) always lands on light sky.
     const vh = window.innerHeight;
-    const dawnAt = firstDayZone
+    const dayAt = firstDayZone
       ? firstDayZone.offsetTop - vh * 0.9
       : (document.documentElement.scrollHeight - vh) * 0.6;
-    // A long, patient sunrise: the transition spans ~2.6 viewports, so
-    // dusk settles in gradually through the middle sections instead of
-    // flipping to daylight in one scroll gesture.
-    const band = vh * 2.6;
-    const t = Math.max(0, Math.min(1, (window.scrollY - (dawnAt - band)) / band));
+    const band = vh * 3.6;
+    const t = clamp01((window.scrollY - (dayAt - band)) / band);
 
-    const night = Math.max(0, 1 - t * 1.15);
-    const dusk = Math.max(0, 1 - Math.abs(t - 0.5) / 0.45); // wide bell — dusk lingers
-    const dawn = Math.max(0, Math.min(1, (t - 0.62) / 0.38));
+    const night = Math.max(0, 1 - t * 1.6);                   // stars ride this down
+    const upper = Math.max(0, 1 - Math.abs(t - 0.45) / 0.38); // the deep-blue passage
+    const day = clamp01((t - 0.5) / 0.42);                    // soft blue settles in
 
-    // Band B — the descent: past the golden morning, the sky opens into
-    // blue and the ground rises to meet the footer.
+    // The ground rises to meet the footer.
     const maxScroll = document.documentElement.scrollHeight - vh;
     const g = clamp01((window.scrollY - (maxScroll - vh * 1.7)) / (vh * 1.35));
 
     skyNight.style.opacity = night.toFixed(3);
-    skyDusk.style.opacity = Math.min(1, dusk).toFixed(3);
-    skyDawn.style.opacity = (dawn * (1 - g * 0.92)).toFixed(3);
-    const blueOpacity = easeOut(g) * dawn;
-    if (skyDay) skyDay.style.opacity = blueOpacity.toFixed(3);
-    atmo.blue = blueOpacity;
+    skyUpper.style.opacity = Math.min(1, upper).toFixed(3);
+    skyDay.style.opacity = day.toFixed(3);
 
-    // Ground layers arrive in parallax: back hill, then mid, then grass
+    // Ground layers arrive in parallax: far ridge, back hill, mid, grass
     if (hillBack) {
       if (hillFar) hillFar.style.transform = `translateY(${((1 - easeOut(clamp01(g / 0.7))) * 112).toFixed(2)}%)`;
       hillBack.style.transform = `translateY(${((1 - easeOut(clamp01((g - 0.08) / 0.82))) * 112).toFixed(2)}%)`;
@@ -249,11 +242,11 @@ details.forEach((targetDetail) => {
     }
 
     atmo.night = night;
-    atmo.day = clamp01(t);
+    atmo.day = t;
     atmo.ground = g;
+    atmo.blue = day;
 
-    // Flip chrome (nav, lantern) in step with the sunrise
-    document.body.classList.toggle('zone-day', t > 0.72);
+    document.body.classList.toggle('zone-day', t > 0.74);
   }
 
   /* ---------- Parallax ---------- */
@@ -293,12 +286,12 @@ details.forEach((targetDetail) => {
     let meteors = [];
     let nextMeteorAt = performance.now() + 1600;
     let clouds = [];
+    let holeX = -9999, holeY = -9999, holeS = 0;
 
     // A believable cloud can't be a pile of soft gradients — it needs a
     // dense body, a bright top, a shaded flat base. Each cloud is painted
-    // ONCE onto an offscreen sprite with three passes, then drawn per
-    // frame in vertical slices (the slices are what the cursor disperses).
-    const SLICES = 7;
+    // ONCE onto an offscreen sprite with three passes, then drawn whole
+    // (never sliced — slice seams read as stripes).
 
     function paintCloudSprite(scale) {
       const sw = Math.round(560 * scale * dpr);
@@ -369,7 +362,7 @@ details.forEach((targetDetail) => {
         vx: (0.04 + Math.random() * 0.08) * dpr * (Math.random() < 0.5 ? -1 : 1),
         depth,
         sprite: paintCloudSprite(scale),
-        slices: Array.from({ length: SLICES }, () => ({ ox: 0, oy: 0, fade: 1 }))
+        ox: 0, oy: 0
       };
     }
 
@@ -422,16 +415,16 @@ details.forEach((targetDetail) => {
       const nightness = atmo.night; // shared with the sky crossfade
       const dayness = 1 - nightness;
 
-      // Clouds: shaded sprite banks living ONLY in the blue sky (never
-      // washing over the golden sunrise), scrolled through in parallax.
-      // Each draws as vertical slices; the cursor shears the slices apart
-      // and thins them — vapor parting — then they spring back together.
+      // Clouds: whole shaded sprites, only in the blue sky. Nearby clouds
+      // ease away from the cursor, and a soft hollow is carved through the
+      // cloud layer where it glides (destination-out, before the stars
+      // draw) — vapor parting with no seams anywhere.
       const blue = atmo.blue;
       if (blue > 0.04) {
         const mxc = mouse.x * dpr, myc = mouse.y * dpr;
-        const DR = 210 * dpr;
         const band = h * 1.7;
         const scrollDev = window.scrollY * dpr;
+        const PR = 320 * dpr;
 
         clouds.forEach((c) => {
           c.x += c.vx;
@@ -442,47 +435,46 @@ details.forEach((targetDetail) => {
           const rate = 0.16 + 0.5 * c.depth;
           const yScreen = (((c.baseY - scrollDev * rate) % band) + band) % band - h * 0.3;
 
-          const a = blue * (0.5 + 0.5 * c.depth);
-          if (a <= 0.02) return;
-
-          const left = c.x - sw / 2;
-          const top = yScreen - sh2 / 2;
-          const sliceW = sw / SLICES;
-
-          for (let s2 = 0; s2 < SLICES; s2++) {
-            const slice = c.slices[s2];
-            const centerX = left + (s2 + 0.5) * sliceW;
-            const centerY = top + sh2 * 0.5;
-            const sdx = centerX - mxc, sdy = centerY - myc;
-            const sd = Math.hypot(sdx, sdy);
-            let tox = 0, toy = 0, toFade = 1;
-            if (sd < DR && sd > 0.001) {
-              const f = 1 - sd / DR;
-              const push = f * f * 90 * dpr;
-              tox = (sdx / sd) * push * 1.25;
-              toy = (sdy / sd) * push * 0.45;
-              toFade = 0.22 + 0.78 * Math.pow(sd / DR, 1.5);
-            }
-            slice.ox += (tox - slice.ox) * 0.06;
-            slice.oy += (toy - slice.oy) * 0.06;
-            slice.fade += (toFade - slice.fade) * 0.09;
-
-            const sa = a * slice.fade;
-            if (sa <= 0.015) continue;
-            // Slices sample with a small overlap so their edges cross-fade
-            // instead of butting into visible seams
-            const pad = 2 * dpr;
-            const sx0 = Math.max(0, s2 * sliceW - pad);
-            const sx1 = Math.min(sw, (s2 + 1) * sliceW + pad);
-            ctx.globalAlpha = sa;
-            ctx.drawImage(
-              c.sprite,
-              sx0, 0, sx1 - sx0, sh2,
-              left + sx0 + slice.ox, top + slice.oy, sx1 - sx0, sh2
-            );
+          const cdx = c.x - mxc, cdy = yScreen - myc;
+          const cd = Math.hypot(cdx, cdy);
+          let tox = 0, toy = 0;
+          if (cd < PR && cd > 0.001) {
+            const f = 1 - cd / PR;
+            const push = f * f * 34 * dpr * (0.4 + 0.6 * c.depth);
+            tox = (cdx / cd) * push * 1.3;
+            toy = (cdy / cd) * push * 0.5;
           }
-          ctx.globalAlpha = 1;
+          c.ox += (tox - c.ox) * 0.05;
+          c.oy += (toy - c.oy) * 0.05;
+
+          const a = blue * (0.42 + 0.5 * c.depth);
+          if (a <= 0.02) return;
+          ctx.globalAlpha = a;
+          ctx.drawImage(c.sprite, c.x - sw / 2 + c.ox, yScreen - sh2 / 2 + c.oy);
         });
+        ctx.globalAlpha = 1;
+
+        // The carve: a soft ellipse of clearing that trails the pointer
+        holeS += (((finePointer && mouse.x > -9000) ? 1 : 0) - holeS) * 0.06;
+        if (holeS > 0.02) {
+          holeX += (mxc - holeX) * 0.14;
+          holeY += (myc - holeY) * 0.14;
+          const hr = 200 * dpr;
+          ctx.save();
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.translate(holeX, holeY);
+          ctx.scale(1.4, 0.85);
+          const hg = ctx.createRadialGradient(0, 0, 0, 0, 0, hr);
+          hg.addColorStop(0, `rgba(0,0,0,${(0.92 * holeS).toFixed(3)})`);
+          hg.addColorStop(0.55, `rgba(0,0,0,${(0.45 * holeS).toFixed(3)})`);
+          hg.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.beginPath();
+          ctx.arc(0, 0, hr, 0, Math.PI * 2);
+          ctx.fillStyle = hg;
+          ctx.fill();
+          ctx.restore();
+          ctx.globalCompositeOperation = 'source-over';
+        }
       }
 
       // Stars: layered glow cores, spring displacement away from the

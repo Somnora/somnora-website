@@ -119,26 +119,21 @@ body {
     linear-gradient(178deg, #14100d 0%, var(--night) 34%, #1d1915 66%, #232030 100%);
 }
 
-.sky-dusk {
+.sky-upper {
+  /* Upper atmosphere: the dark blue the night lightens into as the
+     stars thin out — the passage between space and sky */
   background:
-    radial-gradient(ellipse 110% 62% at 50% 112%, rgba(232, 184, 109, 0.34) 0%, rgba(224, 146, 122, 0.14) 42%, transparent 68%),
-    radial-gradient(ellipse 80% 55% at 82% -8%, rgba(60, 70, 95, 0.55) 0%, transparent 60%),
-    linear-gradient(178deg, #1d2230 0%, #2b2a35 42%, #4d3c3d 78%, #755049 100%);
-}
-
-.sky-dawn {
-  background:
-    radial-gradient(ellipse 95% 60% at 50% -14%, rgba(224, 158, 84, 0.5) 0%, rgba(238, 221, 184, 0) 62%),
-    radial-gradient(ellipse 85% 50% at 18% 30%, rgba(216, 134, 108, 0.26) 0%, transparent 58%),
-    radial-gradient(ellipse 70% 45% at 85% 62%, rgba(88, 112, 150, 0.16) 0%, transparent 60%),
-    linear-gradient(178deg, #e2c795 0%, #e9d6ae 42%, #eee0bf 100%);
+    radial-gradient(ellipse 100% 60% at 50% 112%, rgba(232, 184, 109, 0.1) 0%, transparent 62%),
+    linear-gradient(178deg, #1b2940 0%, #2d4a68 44%, #4c7396 76%, #74a0bd 100%);
 }
 
 .sky-day {
+  /* Grounded daylight: soft blue overhead, a thin warm haze only at the
+     horizon line where the field will rise */
   background:
-    radial-gradient(ellipse 120% 55% at 50% 112%, rgba(238, 208, 138, 0.55) 0%, rgba(238, 208, 138, 0) 60%),
-    radial-gradient(ellipse 90% 50% at 22% -10%, rgba(255, 253, 246, 0.35) 0%, transparent 55%),
-    linear-gradient(178deg, #6f9ab8 0%, #9dc0d3 40%, #cdd6c4 70%, #e9d9a6 100%);
+    radial-gradient(ellipse 120% 45% at 50% 116%, rgba(238, 208, 138, 0.4) 0%, rgba(238, 208, 138, 0) 55%),
+    radial-gradient(ellipse 90% 50% at 22% -10%, rgba(255, 253, 246, 0.4) 0%, transparent 55%),
+    linear-gradient(178deg, #6f9ab8 0%, #93bad1 44%, #b9d1d7 78%, #dcd6b2 94%, #e4d2a2 100%);
 }
 
 /* The ground: golden field that rises into view at the page's end.
