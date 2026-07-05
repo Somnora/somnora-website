@@ -197,6 +197,7 @@ details.forEach((targetDetail) => {
   const skyNight = document.querySelector('.sky-night');
   const skyUpper = document.querySelector('.sky-upper');
   const skyDay = document.querySelector('.sky-day');
+  const cloudField = document.getElementById('cloudfield');
   const hillFar = document.querySelector('.hill-far');
   const hillBack = document.querySelector('.hill-back');
   const hillMid = document.querySelector('.hill-mid');
@@ -232,6 +233,7 @@ details.forEach((targetDetail) => {
     skyNight.style.opacity = night.toFixed(3);
     skyUpper.style.opacity = Math.min(1, upper).toFixed(3);
     skyDay.style.opacity = day.toFixed(3);
+    if (cloudField) cloudField.style.opacity = day.toFixed(3);
 
     // Ground layers arrive in parallax: far ridge, back hill, mid, grass
     if (hillBack) {
@@ -285,86 +287,7 @@ details.forEach((targetDetail) => {
     let flies = [];
     let meteors = [];
     let nextMeteorAt = performance.now() + 1600;
-    let clouds = [];
-    let holeX = -9999, holeY = -9999, holeS = 0;
 
-    // A believable cloud can't be a pile of soft gradients — it needs a
-    // dense body, a bright top, a shaded flat base. Each cloud is painted
-    // ONCE onto an offscreen sprite with three passes, then drawn whole
-    // (never sliced — slice seams read as stripes).
-
-    function paintCloudSprite(scale) {
-      const sw = Math.round(560 * scale * dpr);
-      const sh = Math.round(280 * scale * dpr);
-      const off = document.createElement('canvas');
-      off.width = sw; off.height = sh;
-      const o = off.getContext('2d');
-      const baseline = sh * 0.68;
-      const cx = sw / 2;
-
-      // Puff cluster: many small ellipses along a lens profile
-      const puffs = [];
-      const n = 16 + Math.floor(Math.random() * 6);
-      for (let k = 0; k < n; k++) {
-        const t = (k / (n - 1)) * 2 - 1;                  // -1..1 across
-        const lens = Math.sqrt(Math.max(0, 1 - t * t));   // tall middle
-        puffs.push({
-          x: cx + t * sw * 0.36 + (Math.random() - 0.5) * sw * 0.06,
-          y: baseline - lens * sh * (0.2 + Math.random() * 0.16) - Math.random() * sh * 0.05,
-          r: (0.09 + 0.1 * lens + Math.random() * 0.05) * sw * 0.5,
-          sx: 1.25 + Math.random() * 0.45,
-          sy: 0.8 + Math.random() * 0.2
-        });
-      }
-
-      function pass(tint, alpha, dy2, shrink) {
-        puffs.forEach((p2) => {
-          o.save();
-          o.translate(p2.x, p2.y + dy2);
-          o.scale(p2.sx, p2.sy);
-          const r2 = p2.r * shrink;
-          const g2 = o.createRadialGradient(0, 0, r2 * 0.15, 0, 0, r2);
-          g2.addColorStop(0, `rgba(${tint}, ${alpha})`);
-          g2.addColorStop(0.72, `rgba(${tint}, ${alpha * 0.78})`);
-          g2.addColorStop(1, `rgba(${tint}, 0)`);
-          o.beginPath();
-          o.arc(0, 0, r2, 0, Math.PI * 2);
-          o.fillStyle = g2;
-          o.fill();
-          o.restore();
-        });
-      }
-
-      // 1) shadowed underbelly, 2) dense body, 3) sunlit crown
-      pass('172, 158, 150', 0.5, sh * 0.045, 1.06);
-      pass('247, 244, 238', 0.88, 0, 1.0);
-      pass('255, 253, 249', 0.5, -sh * 0.07, 0.62);
-
-      // Flatten the base: erase softly below the baseline
-      o.globalCompositeOperation = 'destination-out';
-      const wipe = o.createLinearGradient(0, baseline, 0, baseline + sh * 0.24);
-      wipe.addColorStop(0, 'rgba(0,0,0,0)');
-      wipe.addColorStop(0.55, 'rgba(0,0,0,0.75)');
-      wipe.addColorStop(1, 'rgba(0,0,0,1)');
-      o.fillStyle = wipe;
-      o.fillRect(0, baseline, sw, sh - baseline);
-      o.globalCompositeOperation = 'source-over';
-
-      return off;
-    }
-
-    function makeCloud(i, count) {
-      const depth = Math.min(1, 0.35 + (i / Math.max(1, count - 1)) * 0.6 + Math.random() * 0.08);
-      const scale = (0.75 + Math.random() * 0.6) * (0.5 + depth * 0.6);
-      return {
-        x: Math.random() * w,
-        baseY: Math.random() * h * 1.7,
-        vx: (0.04 + Math.random() * 0.08) * dpr * (Math.random() < 0.5 ? -1 : 1),
-        depth,
-        sprite: paintCloudSprite(scale),
-        ox: 0, oy: 0
-      };
-    }
 
     function sizeCanvas() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -394,8 +317,6 @@ details.forEach((targetDetail) => {
       const flyCount = Math.min(16, Math.floor(innerWidth / 95));
       flies = Array.from({ length: flyCount }, () => spawnFly());
 
-      const cloudCount = Math.max(4, Math.min(7, Math.floor(innerWidth / 300)));
-      clouds = Array.from({ length: cloudCount }, (_, i) => makeCloud(i, cloudCount));
     }
 
     function spawnFly() {
@@ -415,67 +336,7 @@ details.forEach((targetDetail) => {
       const nightness = atmo.night; // shared with the sky crossfade
       const dayness = 1 - nightness;
 
-      // Clouds: whole shaded sprites, only in the blue sky. Nearby clouds
-      // ease away from the cursor, and a soft hollow is carved through the
-      // cloud layer where it glides (destination-out, before the stars
-      // draw) — vapor parting with no seams anywhere.
-      const blue = atmo.blue;
-      if (blue > 0.04) {
-        const mxc = mouse.x * dpr, myc = mouse.y * dpr;
-        const band = h * 1.7;
-        const scrollDev = window.scrollY * dpr;
-        const PR = 320 * dpr;
-
-        clouds.forEach((c) => {
-          c.x += c.vx;
-          const sw = c.sprite.width, sh2 = c.sprite.height;
-          if (c.x < -sw) c.x = w + sw * 0.9;
-          if (c.x > w + sw) c.x = -sw * 0.9;
-
-          const rate = 0.16 + 0.5 * c.depth;
-          const yScreen = (((c.baseY - scrollDev * rate) % band) + band) % band - h * 0.3;
-
-          const cdx = c.x - mxc, cdy = yScreen - myc;
-          const cd = Math.hypot(cdx, cdy);
-          let tox = 0, toy = 0;
-          if (cd < PR && cd > 0.001) {
-            const f = 1 - cd / PR;
-            const push = f * f * 34 * dpr * (0.4 + 0.6 * c.depth);
-            tox = (cdx / cd) * push * 1.3;
-            toy = (cdy / cd) * push * 0.5;
-          }
-          c.ox += (tox - c.ox) * 0.05;
-          c.oy += (toy - c.oy) * 0.05;
-
-          const a = blue * (0.42 + 0.5 * c.depth);
-          if (a <= 0.02) return;
-          ctx.globalAlpha = a;
-          ctx.drawImage(c.sprite, c.x - sw / 2 + c.ox, yScreen - sh2 / 2 + c.oy);
-        });
-        ctx.globalAlpha = 1;
-
-        // The carve: a soft ellipse of clearing that trails the pointer
-        holeS += (((finePointer && mouse.x > -9000) ? 1 : 0) - holeS) * 0.06;
-        if (holeS > 0.02) {
-          holeX += (mxc - holeX) * 0.14;
-          holeY += (myc - holeY) * 0.14;
-          const hr = 200 * dpr;
-          ctx.save();
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.translate(holeX, holeY);
-          ctx.scale(1.4, 0.85);
-          const hg = ctx.createRadialGradient(0, 0, 0, 0, 0, hr);
-          hg.addColorStop(0, `rgba(0,0,0,${(0.92 * holeS).toFixed(3)})`);
-          hg.addColorStop(0.55, `rgba(0,0,0,${(0.45 * holeS).toFixed(3)})`);
-          hg.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.beginPath();
-          ctx.arc(0, 0, hr, 0, Math.PI * 2);
-          ctx.fillStyle = hg;
-          ctx.fill();
-          ctx.restore();
-          ctx.globalCompositeOperation = 'source-over';
-        }
-      }
+      updateClouds();
 
       // Stars: layered glow cores, spring displacement away from the
       // cursor, and diffraction spikes on the bright few
@@ -633,6 +494,64 @@ details.forEach((targetDetail) => {
     sizeCanvas();
     window.addEventListener('resize', sizeCanvas);
     requestAnimationFrame(frame);
+  }
+
+  /* ---------- Photographic clouds (DOM) ----------
+     Real Imagen renders with true alpha, drifting on the wind and riding
+     the scroll in depth parallax. Hovering a cloud slowly fades it away;
+     it breathes back once the pointer moves on. Gated to the blue sky by
+     the field's container opacity (set in updateSky). */
+  const domClouds = [];
+  if (cloudField) {
+    const srcs = Array.from({ length: 10 }, (_, k) => `clouds/cloud-${String(k + 1).padStart(2, '0')}.webp`);
+    const count = Math.max(6, Math.min(12, Math.floor(innerWidth / 160)));
+    for (let i = 0; i < count; i++) {
+      const img = document.createElement('img');
+      img.src = srcs[i % srcs.length];
+      img.alt = '';
+      img.draggable = false;
+      img.className = 'cloud-img';
+      const depth = 0.35 + (i / Math.max(1, count - 1)) * 0.65;
+      const wpx = Math.round((180 + Math.random() * 240) * (0.55 + depth * 0.8));
+      const baseOp = +(0.5 + 0.42 * depth).toFixed(2);
+      const c = {
+        el: img, depth, w: wpx, h: wpx * 0.5,
+        flip: Math.random() < 0.4 ? -1 : 1,
+        x: Math.random() * innerWidth,
+        baseY: Math.random() * innerHeight * 1.7,
+        vx: (0.12 + Math.random() * 0.24) * (Math.random() < 0.5 ? -1 : 1),
+        baseOp, faded: false
+      };
+      img.style.width = wpx + 'px';
+      img.style.opacity = String(baseOp);
+      img.style.transform = `translate3d(${c.x.toFixed(0)}px, ${(c.baseY % innerHeight).toFixed(0)}px, 0) scaleX(${c.flip})`;
+      img.onload = () => { c.h = wpx * (img.naturalHeight / img.naturalWidth); };
+      cloudField.appendChild(img);
+      domClouds.push(c);
+    }
+  }
+
+  function updateClouds() {
+    if (!domClouds.length) return;
+    const band = innerHeight * 1.7;
+    const sy = window.scrollY;
+    domClouds.forEach((c) => {
+      c.x += c.vx;
+      if (c.x < -c.w - 80) c.x = innerWidth + 60;
+      if (c.x > innerWidth + 80) c.x = -c.w - 60;
+      const rate = 0.16 + 0.5 * c.depth;
+      const y = (((c.baseY - sy * rate) % band) + band) % band - innerHeight * 0.3;
+      c.el.style.transform = `translate3d(${c.x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scaleX(${c.flip})`;
+
+      // Hover: rest the pointer on a cloud and it slowly dissolves
+      const over =
+        mouse.x > c.x + c.w * 0.08 && mouse.x < c.x + c.w * 0.92 &&
+        mouse.y > y + c.h * 0.1 && mouse.y < y + c.h * 0.9;
+      if (over !== c.faded) {
+        c.faded = over;
+        c.el.style.opacity = over ? '0' : String(c.baseOp);
+      }
+    });
   }
 
   /* ---------- Cursor lantern ---------- */

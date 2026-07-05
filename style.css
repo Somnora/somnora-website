@@ -243,6 +243,24 @@ body {
   pointer-events: none;
 }
 
+/* Photographic clouds: real renders drifting between sky and content */
+#cloudfield {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+}
+.cloud-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform, opacity;
+  transition: opacity 1.9s ease;
+  user-select: none;
+}
+
 /* Cursor lantern: a warm pool of light that follows the pointer */
 #lantern {
   position: fixed;
