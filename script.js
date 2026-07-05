@@ -205,7 +205,7 @@ details.forEach((targetDetail) => {
   const firstDayZone = document.querySelector('[data-zone="day"]');
 
   // Single source of truth for the atmosphere, shared with the canvas
-  const atmo = { night: 1, day: 0, ground: 0 };
+  const atmo = { night: 1, day: 0, ground: 0, blue: 0 };
   const clamp01 = (x) => Math.max(0, Math.min(1, x));
   const easeOut = (x) => 1 - Math.pow(1 - x, 3);
 
@@ -236,7 +236,9 @@ details.forEach((targetDetail) => {
     skyNight.style.opacity = night.toFixed(3);
     skyDusk.style.opacity = Math.min(1, dusk).toFixed(3);
     skyDawn.style.opacity = (dawn * (1 - g * 0.92)).toFixed(3);
-    if (skyDay) skyDay.style.opacity = (easeOut(g) * dawn).toFixed(3);
+    const blueOpacity = easeOut(g) * dawn;
+    if (skyDay) skyDay.style.opacity = blueOpacity.toFixed(3);
+    atmo.blue = blueOpacity;
 
     // Ground layers arrive in parallax: back hill, then mid, then grass
     if (hillBack) {
@@ -292,43 +294,82 @@ details.forEach((targetDetail) => {
     let nextMeteorAt = performance.now() + 1600;
     let clouds = [];
 
-    function makeCloud(i, count) {
-      // Depths spread evenly so there are always near and far layers
-      const depth = Math.min(1, 0.35 + (i / Math.max(1, count - 1)) * 0.6 + Math.random() * 0.08);
-      const scale = (0.9 + Math.random() * 1.1) * (0.55 + depth * 0.75);
+    // A believable cloud can't be a pile of soft gradients — it needs a
+    // dense body, a bright top, a shaded flat base. Each cloud is painted
+    // ONCE onto an offscreen sprite with three passes, then drawn per
+    // frame in vertical slices (the slices are what the cursor disperses).
+    const SLICES = 7;
+
+    function paintCloudSprite(scale) {
+      const sw = Math.round(560 * scale * dpr);
+      const sh = Math.round(280 * scale * dpr);
+      const off = document.createElement('canvas');
+      off.width = sw; off.height = sh;
+      const o = off.getContext('2d');
+      const baseline = sh * 0.68;
+      const cx = sw / 2;
+
+      // Puff cluster: many small ellipses along a lens profile
       const puffs = [];
-      // Bottom row: wide flat base
-      const baseCount = 5 + Math.floor(Math.random() * 3);
-      for (let k = 0; k < baseCount; k++) {
-        const t = (k / (baseCount - 1)) * 2 - 1; // -1..1
+      const n = 16 + Math.floor(Math.random() * 6);
+      for (let k = 0; k < n; k++) {
+        const t = (k / (n - 1)) * 2 - 1;                  // -1..1 across
+        const lens = Math.sqrt(Math.max(0, 1 - t * t));   // tall middle
         puffs.push({
-          dx: t * 200 * scale * dpr + (Math.random() - 0.5) * 34 * dpr,
-          dy: (Math.random() - 0.5) * 16 * scale * dpr,
-          r: (34 + Math.random() * 26) * scale * dpr * (1 - Math.abs(t) * 0.25),
-          sx: 1.6 + Math.random() * 0.6,
-          sy: 0.72 + Math.random() * 0.16,
-          ox: 0, oy: 0, fade: 1
+          x: cx + t * sw * 0.36 + (Math.random() - 0.5) * sw * 0.06,
+          y: baseline - lens * sh * (0.2 + Math.random() * 0.16) - Math.random() * sh * 0.05,
+          r: (0.09 + 0.1 * lens + Math.random() * 0.05) * sw * 0.5,
+          sx: 1.25 + Math.random() * 0.45,
+          sy: 0.8 + Math.random() * 0.2
         });
       }
-      // Top row: the billow
-      const topCount = 4 + Math.floor(Math.random() * 3);
-      for (let k = 0; k < topCount; k++) {
-        const t = (k / (topCount - 1)) * 1.5 - 0.75;
-        puffs.push({
-          dx: t * 170 * scale * dpr + (Math.random() - 0.5) * 30 * dpr,
-          dy: (-30 - Math.random() * 26) * scale * dpr,
-          r: (26 + Math.random() * 24) * scale * dpr * (1 - Math.abs(t) * 0.3),
-          sx: 1.25 + Math.random() * 0.5,
-          sy: 0.85 + Math.random() * 0.2,
-          ox: 0, oy: 0, fade: 1
+
+      function pass(tint, alpha, dy2, shrink) {
+        puffs.forEach((p2) => {
+          o.save();
+          o.translate(p2.x, p2.y + dy2);
+          o.scale(p2.sx, p2.sy);
+          const r2 = p2.r * shrink;
+          const g2 = o.createRadialGradient(0, 0, r2 * 0.15, 0, 0, r2);
+          g2.addColorStop(0, `rgba(${tint}, ${alpha})`);
+          g2.addColorStop(0.72, `rgba(${tint}, ${alpha * 0.78})`);
+          g2.addColorStop(1, `rgba(${tint}, 0)`);
+          o.beginPath();
+          o.arc(0, 0, r2, 0, Math.PI * 2);
+          o.fillStyle = g2;
+          o.fill();
+          o.restore();
         });
       }
+
+      // 1) shadowed underbelly, 2) dense body, 3) sunlit crown
+      pass('172, 158, 150', 0.5, sh * 0.045, 1.06);
+      pass('247, 244, 238', 0.88, 0, 1.0);
+      pass('255, 253, 249', 0.5, -sh * 0.07, 0.62);
+
+      // Flatten the base: erase softly below the baseline
+      o.globalCompositeOperation = 'destination-out';
+      const wipe = o.createLinearGradient(0, baseline, 0, baseline + sh * 0.24);
+      wipe.addColorStop(0, 'rgba(0,0,0,0)');
+      wipe.addColorStop(0.55, 'rgba(0,0,0,0.75)');
+      wipe.addColorStop(1, 'rgba(0,0,0,1)');
+      o.fillStyle = wipe;
+      o.fillRect(0, baseline, sw, sh - baseline);
+      o.globalCompositeOperation = 'source-over';
+
+      return off;
+    }
+
+    function makeCloud(i, count) {
+      const depth = Math.min(1, 0.35 + (i / Math.max(1, count - 1)) * 0.6 + Math.random() * 0.08);
+      const scale = (0.75 + Math.random() * 0.6) * (0.5 + depth * 0.6);
       return {
         x: Math.random() * w,
         baseY: Math.random() * h * 1.7,
-        vx: (0.05 + Math.random() * 0.09) * dpr * (Math.random() < 0.5 ? -1 : 1),
+        vx: (0.04 + Math.random() * 0.08) * dpr * (Math.random() < 0.5 ? -1 : 1),
         depth,
-        puffs
+        sprite: paintCloudSprite(scale),
+        slices: Array.from({ length: SLICES }, () => ({ ox: 0, oy: 0, fade: 1 }))
       };
     }
 
@@ -381,61 +422,66 @@ details.forEach((targetDetail) => {
       const nightness = atmo.night; // shared with the sky crossfade
       const dayness = 1 - nightness;
 
-      // Clouds: broad banks you scroll THROUGH (parallax by depth), and
-      // the cursor disperses them puff by puff — vapor parts and thins
-      // where you touch, then billows back together.
-      if (dayness > 0.03) {
+      // Clouds: shaded sprite banks living ONLY in the blue sky (never
+      // washing over the golden sunrise), scrolled through in parallax.
+      // Each draws as vertical slices; the cursor shears the slices apart
+      // and thins them — vapor parting — then they spring back together.
+      const blue = atmo.blue;
+      if (blue > 0.04) {
         const mxc = mouse.x * dpr, myc = mouse.y * dpr;
-        const DR = 190 * dpr; // dispersal radius around the cursor
+        const DR = 210 * dpr;
         const band = h * 1.7;
         const scrollDev = window.scrollY * dpr;
 
         clouds.forEach((c) => {
           c.x += c.vx;
-          if (c.x < -420 * dpr) c.x = w + 400 * dpr;
-          if (c.x > w + 420 * dpr) c.x = -400 * dpr;
+          const sw = c.sprite.width, sh2 = c.sprite.height;
+          if (c.x < -sw) c.x = w + sw * 0.9;
+          if (c.x > w + sw) c.x = -sw * 0.9;
 
-          // Descend through the cloud layer: deeper clouds ride faster
           const rate = 0.16 + 0.5 * c.depth;
-          let yScreen = ((c.baseY - scrollDev * rate) % band + band) % band - h * 0.35;
+          const yScreen = (((c.baseY - scrollDev * rate) % band) + band) % band - h * 0.3;
 
-          const a = dayness * (0.26 + 0.26 * atmo.ground) * (0.45 + 0.55 * c.depth);
+          const a = blue * (0.5 + 0.5 * c.depth);
           if (a <= 0.02) return;
 
-          c.puffs.forEach((puff) => {
-            const homeX = c.x + puff.dx;
-            const homeY = yScreen + puff.dy;
-            const pdx = homeX - mxc, pdy = homeY - myc;
-            const pd = Math.hypot(pdx, pdy);
-            let tox = 0, toy = 0, toFade = 1;
-            if (pd < DR && pd > 0.001) {
-              const f = 1 - pd / DR;
-              const push = f * f * 120 * dpr;
-              tox = (pdx / pd) * push;
-              toy = (pdy / pd) * push * 0.8;
-              toFade = 0.12 + 0.88 * Math.pow(pd / DR, 1.4);
-            }
-            puff.ox += (tox - puff.ox) * 0.055;
-            puff.oy += (toy - puff.oy) * 0.055;
-            puff.fade += (toFade - puff.fade) * 0.09;
+          const left = c.x - sw / 2;
+          const top = yScreen - sh2 / 2;
+          const sliceW = sw / SLICES;
 
-            const pa = a * puff.fade;
-            if (pa <= 0.012) return;
-            const px2 = homeX + puff.ox;
-            const py2 = homeY + puff.oy;
-            ctx.save();
-            ctx.translate(px2, py2);
-            ctx.scale(puff.sx, puff.sy);
-            const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, puff.r);
-            grad.addColorStop(0, `rgba(255, 251, 244, ${pa.toFixed(3)})`);
-            grad.addColorStop(0.55, `rgba(253, 248, 240, ${(pa * 0.45).toFixed(3)})`);
-            grad.addColorStop(1, 'rgba(253, 248, 240, 0)');
-            ctx.beginPath();
-            ctx.arc(0, 0, puff.r, 0, Math.PI * 2);
-            ctx.fillStyle = grad;
-            ctx.fill();
-            ctx.restore();
-          });
+          for (let s2 = 0; s2 < SLICES; s2++) {
+            const slice = c.slices[s2];
+            const centerX = left + (s2 + 0.5) * sliceW;
+            const centerY = top + sh2 * 0.5;
+            const sdx = centerX - mxc, sdy = centerY - myc;
+            const sd = Math.hypot(sdx, sdy);
+            let tox = 0, toy = 0, toFade = 1;
+            if (sd < DR && sd > 0.001) {
+              const f = 1 - sd / DR;
+              const push = f * f * 90 * dpr;
+              tox = (sdx / sd) * push * 1.25;
+              toy = (sdy / sd) * push * 0.45;
+              toFade = 0.22 + 0.78 * Math.pow(sd / DR, 1.5);
+            }
+            slice.ox += (tox - slice.ox) * 0.06;
+            slice.oy += (toy - slice.oy) * 0.06;
+            slice.fade += (toFade - slice.fade) * 0.09;
+
+            const sa = a * slice.fade;
+            if (sa <= 0.015) continue;
+            // Slices sample with a small overlap so their edges cross-fade
+            // instead of butting into visible seams
+            const pad = 2 * dpr;
+            const sx0 = Math.max(0, s2 * sliceW - pad);
+            const sx1 = Math.min(sw, (s2 + 1) * sliceW + pad);
+            ctx.globalAlpha = sa;
+            ctx.drawImage(
+              c.sprite,
+              sx0, 0, sx1 - sx0, sh2,
+              left + sx0 + slice.ox, top + slice.oy, sx1 - sx0, sh2
+            );
+          }
+          ctx.globalAlpha = 1;
         });
       }
 
