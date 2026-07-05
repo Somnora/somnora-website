@@ -157,32 +157,87 @@ body {
   transform: translateY(112%);
   will-change: transform;
 }
+.ground .hill::after {
+  /* rolling-field grain so the hills read as land, not vector shapes */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0.1;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='h'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23h)' opacity='0.6'/></svg>");
+}
+.hill-far {
+  left: -20%;
+  right: -20%;
+  bottom: 2vh;
+  height: 26vh;
+  background: linear-gradient(180deg, #e6d3a4 0%, #dcc189 80%);
+  filter: blur(3px);
+  opacity: 0.85;
+}
+.hill-far::before {
+  /* haze where land meets sky — atmospheric perspective */
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -9vh; height: 12vh;
+  background: linear-gradient(180deg, rgba(238, 224, 186, 0) 0%, rgba(238, 224, 186, 0.65) 78%, rgba(238, 224, 186, 0.85) 100%);
+}
 .hill-back {
   left: -25%;
   right: -15%;
   bottom: -4vh;
   height: 30vh;
-  background: linear-gradient(180deg, #dfc487 0%, #cca964 70%);
+  background: linear-gradient(180deg, #dfc487 0%, #cca964 55%, #c09a55 100%);
+  box-shadow: 0 -3vh 6vh -2vh rgba(255, 240, 200, 0.35);
 }
 .hill-mid {
   left: -12%;
   right: -30%;
   bottom: -8vh;
   height: 25vh;
-  background: linear-gradient(180deg, #cdab66 0%, #b3904e 75%);
+  background: linear-gradient(180deg, #cdab66 0%, #b3904e 60%, #a5813f 100%);
+  box-shadow: 0 -2.5vh 5vh -2vh rgba(60, 42, 20, 0.28);
 }
 .ground .grass {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 11vh;
+  height: 12vh;
   transform: translateY(108%);
   will-change: transform;
-  background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='80' viewBox='0 0 140 80'><g fill='%23907a40'><path d='M6 80 Q4 38 10 22 Q10 46 14 80Z'/><path d='M40 80 Q36 44 44 30 Q44 52 48 80Z'/><path d='M78 80 Q74 40 82 26 Q82 50 86 80Z'/><path d='M114 80 Q110 44 118 32 Q118 54 122 80Z'/></g><g fill='%23a68d4a'><path d='M22 80 Q24 30 18 14 Q28 34 30 80Z'/><path d='M58 80 Q62 26 54 10 Q66 32 66 80Z'/><path d='M96 80 Q100 30 92 16 Q104 36 104 80Z'/><path d='M130 80 Q134 34 126 20 Q138 38 138 80Z'/></g></svg>") repeat-x bottom / auto 62%,
-    linear-gradient(180deg, rgba(166, 141, 74, 0) 0%, #a68d4a 34%, #8d773e 100%);
-  background-position: bottom -1px left 0, bottom;
+  background: linear-gradient(180deg, rgba(166, 141, 74, 0) 0%, rgba(166, 141, 74, 0.85) 42%, #8d773e 100%);
+}
+/* Two blade layers breathing in the wind: skewX sways them from the
+   roots (transform-origin bottom), back row offset and out of phase */
+.grass::before,
+.grass::after {
+  content: "";
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  bottom: -2px;
+  transform-origin: 50% 100%;
+}
+.grass::before {
+  height: 74%;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='80' viewBox='0 0 140 80'><g fill='%23907a40' opacity='0.85'><path d='M14 80 Q12 40 18 26 Q18 48 22 80Z'/><path d='M50 80 Q46 46 54 34 Q54 54 58 80Z'/><path d='M88 80 Q84 42 92 30 Q92 52 96 80Z'/><path d='M124 80 Q120 46 128 36 Q128 56 132 80Z'/></g></svg>") repeat-x bottom / auto 100%;
+  animation: grass-sway 5.6s ease-in-out infinite alternate;
+  animation-delay: -2.8s;
+  opacity: 0.75;
+}
+.grass::after {
+  height: 100%;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='80' viewBox='0 0 140 80'><g fill='%23a68d4a'><path d='M6 80 Q4 38 10 22 Q10 46 14 80Z'/><path d='M40 80 Q36 44 44 30 Q44 52 48 80Z'/><path d='M78 80 Q74 40 82 26 Q82 50 86 80Z'/><path d='M114 80 Q110 44 118 32 Q118 54 122 80Z'/></g><g fill='%23b89b52'><path d='M22 80 Q24 30 18 14 Q28 34 30 80Z'/><path d='M58 80 Q62 26 54 10 Q66 32 66 80Z'/><path d='M96 80 Q100 30 92 16 Q104 36 104 80Z'/><path d='M130 80 Q134 34 126 20 Q138 38 138 80Z'/></g></svg>") repeat-x bottom / auto 100%;
+  animation: grass-sway 4.3s ease-in-out infinite alternate;
+}
+@keyframes grass-sway {
+  from { transform: skewX(-3.2deg) scaleY(0.985); }
+  to   { transform: skewX(3.4deg) scaleY(1.01); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grass::before, .grass::after { animation: none; }
 }
 
 /* Firefly / star canvas rides above the sky, below content */

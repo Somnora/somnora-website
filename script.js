@@ -198,6 +198,7 @@ details.forEach((targetDetail) => {
   const skyDusk = document.querySelector('.sky-dusk');
   const skyDawn = document.querySelector('.sky-dawn');
   const skyDay = document.querySelector('.sky-day');
+  const hillFar = document.querySelector('.hill-far');
   const hillBack = document.querySelector('.hill-back');
   const hillMid = document.querySelector('.hill-mid');
   const grassEl = document.querySelector('.ground .grass');
@@ -239,7 +240,8 @@ details.forEach((targetDetail) => {
 
     // Ground layers arrive in parallax: back hill, then mid, then grass
     if (hillBack) {
-      hillBack.style.transform = `translateY(${((1 - easeOut(clamp01(g / 0.85))) * 112).toFixed(2)}%)`;
+      if (hillFar) hillFar.style.transform = `translateY(${((1 - easeOut(clamp01(g / 0.7))) * 112).toFixed(2)}%)`;
+      hillBack.style.transform = `translateY(${((1 - easeOut(clamp01((g - 0.08) / 0.82))) * 112).toFixed(2)}%)`;
       hillMid.style.transform = `translateY(${((1 - easeOut(clamp01((g - 0.12) / 0.88))) * 112).toFixed(2)}%)`;
       grassEl.style.transform = `translateY(${((1 - easeOut(clamp01((g - 0.26) / 0.74))) * 108).toFixed(2)}%)`;
     }
@@ -290,21 +292,43 @@ details.forEach((targetDetail) => {
     let nextMeteorAt = performance.now() + 1600;
     let clouds = [];
 
-    function makeCloud() {
-      const scale = 0.6 + Math.random() * 1.0;
-      const puffCount = 6 + Math.floor(Math.random() * 4);
+    function makeCloud(i, count) {
+      // Depths spread evenly so there are always near and far layers
+      const depth = Math.min(1, 0.35 + (i / Math.max(1, count - 1)) * 0.6 + Math.random() * 0.08);
+      const scale = (0.9 + Math.random() * 1.1) * (0.55 + depth * 0.75);
+      const puffs = [];
+      // Bottom row: wide flat base
+      const baseCount = 5 + Math.floor(Math.random() * 3);
+      for (let k = 0; k < baseCount; k++) {
+        const t = (k / (baseCount - 1)) * 2 - 1; // -1..1
+        puffs.push({
+          dx: t * 200 * scale * dpr + (Math.random() - 0.5) * 34 * dpr,
+          dy: (Math.random() - 0.5) * 16 * scale * dpr,
+          r: (34 + Math.random() * 26) * scale * dpr * (1 - Math.abs(t) * 0.25),
+          sx: 1.6 + Math.random() * 0.6,
+          sy: 0.72 + Math.random() * 0.16,
+          ox: 0, oy: 0, fade: 1
+        });
+      }
+      // Top row: the billow
+      const topCount = 4 + Math.floor(Math.random() * 3);
+      for (let k = 0; k < topCount; k++) {
+        const t = (k / (topCount - 1)) * 1.5 - 0.75;
+        puffs.push({
+          dx: t * 170 * scale * dpr + (Math.random() - 0.5) * 30 * dpr,
+          dy: (-30 - Math.random() * 26) * scale * dpr,
+          r: (26 + Math.random() * 24) * scale * dpr * (1 - Math.abs(t) * 0.3),
+          sx: 1.25 + Math.random() * 0.5,
+          sy: 0.85 + Math.random() * 0.2,
+          ox: 0, oy: 0, fade: 1
+        });
+      }
       return {
         x: Math.random() * w,
-        y: (0.06 + Math.random() * 0.42) * h,
-        vx: (0.06 + Math.random() * 0.11) * dpr * (Math.random() < 0.5 ? -1 : 1),
-        ox: 0, oy: 0,
-        depth: 0.45 + Math.random() * 0.55,
-        scale,
-        puffs: Array.from({ length: puffCount }, () => ({
-          dx: (Math.random() - 0.5) * 170 * scale * dpr,
-          dy: (Math.random() - 0.5) * 44 * scale * dpr,
-          r: (26 + Math.random() * 36) * scale * dpr
-        }))
+        baseY: Math.random() * h * 1.7,
+        vx: (0.05 + Math.random() * 0.09) * dpr * (Math.random() < 0.5 ? -1 : 1),
+        depth,
+        puffs
       };
     }
 
@@ -336,8 +360,8 @@ details.forEach((targetDetail) => {
       const flyCount = Math.min(16, Math.floor(innerWidth / 95));
       flies = Array.from({ length: flyCount }, () => spawnFly());
 
-      const cloudCount = Math.max(3, Math.min(8, Math.floor(innerWidth / 240)));
-      clouds = Array.from({ length: cloudCount }, () => makeCloud());
+      const cloudCount = Math.max(4, Math.min(7, Math.floor(innerWidth / 300)));
+      clouds = Array.from({ length: cloudCount }, (_, i) => makeCloud(i, cloudCount));
     }
 
     function spawnFly() {
@@ -357,41 +381,60 @@ details.forEach((targetDetail) => {
       const nightness = atmo.night; // shared with the sky crossfade
       const dayness = 1 - nightness;
 
-      // Clouds: soft puff clusters that drift, wrap, and part around the
-      // cursor — the day sky's answer to the interactive starfield
+      // Clouds: broad banks you scroll THROUGH (parallax by depth), and
+      // the cursor disperses them puff by puff — vapor parts and thins
+      // where you touch, then billows back together.
       if (dayness > 0.03) {
         const mxc = mouse.x * dpr, myc = mouse.y * dpr;
-        const CR = 300 * dpr;
+        const DR = 190 * dpr; // dispersal radius around the cursor
+        const band = h * 1.7;
+        const scrollDev = window.scrollY * dpr;
+
         clouds.forEach((c) => {
           c.x += c.vx;
-          if (c.x < -260 * dpr) c.x = w + 250 * dpr;
-          if (c.x > w + 260 * dpr) c.x = -250 * dpr;
+          if (c.x < -420 * dpr) c.x = w + 400 * dpr;
+          if (c.x > w + 420 * dpr) c.x = -400 * dpr;
 
-          const cdx = c.x - mxc, cdy = c.y - myc;
-          const cd = Math.hypot(cdx, cdy);
-          let ctx2 = 0, cty = 0;
-          if (cd < CR && cd > 0.001) {
-            const f = 1 - cd / CR;
-            const push = f * f * 46 * dpr * c.depth;
-            ctx2 = (cdx / cd) * push;
-            cty = (cdy / cd) * push;
-          }
-          c.ox += (ctx2 - c.ox) * 0.045;
-          c.oy += (cty - c.oy) * 0.045;
+          // Descend through the cloud layer: deeper clouds ride faster
+          const rate = 0.16 + 0.5 * c.depth;
+          let yScreen = ((c.baseY - scrollDev * rate) % band + band) % band - h * 0.35;
 
-          const a = dayness * (0.32 + 0.3 * atmo.ground) * c.depth;
+          const a = dayness * (0.26 + 0.26 * atmo.ground) * (0.45 + 0.55 * c.depth);
           if (a <= 0.02) return;
+
           c.puffs.forEach((puff) => {
-            const px2 = c.x + c.ox + puff.dx;
-            const py2 = c.y + c.oy * 0.7 + puff.dy;
-            const grad = ctx.createRadialGradient(px2, py2, 0, px2, py2, puff.r);
-            grad.addColorStop(0, `rgba(255, 250, 242, ${a.toFixed(3)})`);
-            grad.addColorStop(0.62, `rgba(255, 250, 242, ${(a * 0.4).toFixed(3)})`);
-            grad.addColorStop(1, 'rgba(255, 250, 242, 0)');
+            const homeX = c.x + puff.dx;
+            const homeY = yScreen + puff.dy;
+            const pdx = homeX - mxc, pdy = homeY - myc;
+            const pd = Math.hypot(pdx, pdy);
+            let tox = 0, toy = 0, toFade = 1;
+            if (pd < DR && pd > 0.001) {
+              const f = 1 - pd / DR;
+              const push = f * f * 120 * dpr;
+              tox = (pdx / pd) * push;
+              toy = (pdy / pd) * push * 0.8;
+              toFade = 0.12 + 0.88 * Math.pow(pd / DR, 1.4);
+            }
+            puff.ox += (tox - puff.ox) * 0.055;
+            puff.oy += (toy - puff.oy) * 0.055;
+            puff.fade += (toFade - puff.fade) * 0.09;
+
+            const pa = a * puff.fade;
+            if (pa <= 0.012) return;
+            const px2 = homeX + puff.ox;
+            const py2 = homeY + puff.oy;
+            ctx.save();
+            ctx.translate(px2, py2);
+            ctx.scale(puff.sx, puff.sy);
+            const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, puff.r);
+            grad.addColorStop(0, `rgba(255, 251, 244, ${pa.toFixed(3)})`);
+            grad.addColorStop(0.55, `rgba(253, 248, 240, ${(pa * 0.45).toFixed(3)})`);
+            grad.addColorStop(1, 'rgba(253, 248, 240, 0)');
             ctx.beginPath();
-            ctx.arc(px2, py2, puff.r, 0, Math.PI * 2);
+            ctx.arc(0, 0, puff.r, 0, Math.PI * 2);
             ctx.fillStyle = grad;
             ctx.fill();
+            ctx.restore();
           });
         });
       }
