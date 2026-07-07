@@ -259,8 +259,8 @@ body {
   left: 0;
   /* Guards so a tall cumulus render never towers over the page and a wide
      streak never spans the whole window — sizing is driven by width in JS. */
-  max-height: 50vh;
-  max-width: 72vw;
+  max-height: 54vh;
+  max-width: 74vw;
   will-change: transform, opacity;
   transition: opacity 1.9s ease;
   user-select: none;

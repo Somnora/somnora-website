@@ -287,6 +287,8 @@ details.forEach((targetDetail) => {
     let flies = [];
     let meteors = [];
     let nextMeteorAt = performance.now() + 1600;
+    let birds = [];
+    let nextBirdAt = performance.now() + 5000;
 
 
     function sizeCanvas() {
@@ -488,6 +490,46 @@ details.forEach((targetDetail) => {
         ctx.fill();
       });
 
+      // Birds: the daylight counterpart to the night's shooting stars — one
+      // drifts slowly across the blue sky, wings flapping, gated to the day.
+      const blue = atmo.blue;
+      if (blue > 0.5 && performance.now() >= nextBirdAt) {
+        const goingRight = Math.random() < 0.5;
+        birds.push({
+          x: goingRight ? -50 * dpr : w + 50 * dpr,
+          y: (0.14 + Math.random() * 0.28) * h,
+          vx: (0.9 + Math.random() * 0.7) * dpr * (goingRight ? 1 : -1),
+          size: (12 + Math.random() * 8) * dpr,
+          bob: (0.5 + Math.random() * 0.6),
+          phase: Math.random() * Math.PI * 2,
+          flap: 0.11 + Math.random() * 0.05,
+          t: 0
+        });
+        nextBirdAt = performance.now() + 6500 + Math.random() * 9000;
+      }
+      birds = birds.filter((b) => b.x > -90 * dpr && b.x < w + 90 * dpr);
+      birds.forEach((b) => {
+        b.t++;
+        b.x += b.vx;
+        b.phase += b.flap;
+        const a = Math.min(1, blue) * 0.42;
+        if (a <= 0.02) return;
+        const s = b.size;
+        const y = b.y + Math.sin(b.t * 0.02) * b.bob * s;
+        // A gull silhouette: two wings sweeping up from the body, the tips
+        // rising and falling as it flaps.
+        const lift = s * (0.4 + 0.34 * Math.sin(b.phase));
+        ctx.strokeStyle = `rgba(58, 50, 46, ${a.toFixed(3)})`;
+        ctx.lineWidth = Math.max(1.4 * dpr, s * 0.12);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(b.x - s, y - lift * 0.2);
+        ctx.quadraticCurveTo(b.x - s * 0.44, y - lift, b.x, y);
+        ctx.quadraticCurveTo(b.x + s * 0.44, y - lift, b.x + s, y - lift * 0.2);
+        ctx.stroke();
+      });
+
       requestAnimationFrame(frame);
     }
 
@@ -515,11 +557,14 @@ details.forEach((targetDetail) => {
     // GPU) but sized much larger, so on a narrow screen they read as real clouds
     // rather than wisps.
     const coarse = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || innerWidth < 700;
-    // Sparse and restrained — a handful of large clouds with room to breathe.
+    // Sparse and restrained — a few large clouds with lots of room to breathe.
     const count = coarse
-      ? Math.max(3, Math.min(4, Math.round(innerWidth / 170)))
-      : Math.max(5, Math.min(8, Math.round(innerWidth / 260)));
-    const band = innerHeight * 1.7;
+      ? 4
+      : Math.max(4, Math.min(6, Math.round(innerWidth / 330)));
+    // A tall band so the (few, large) clouds sit far apart vertically — roughly
+    // a viewport-height of separation each — so different cloud shapes don't
+    // stack on top of one another.
+    const band = innerHeight * 2.6;
     const slotH = band / count;
     for (let i = 0; i < count; i++) {
       const img = document.createElement('img');
@@ -533,7 +578,7 @@ details.forEach((targetDetail) => {
       // Large cumulus scaled to the viewport so each reads as a real cloud, not
       // a wisp; nearer clouds are larger. On a narrow (touch) screen they take a
       // much bigger share of the width. Tall renders are capped by max-height.
-      const sizeFrac = coarse ? (0.58 + 0.34 * depth) : (0.28 + 0.30 * depth);
+      const sizeFrac = coarse ? (0.64 + 0.34 * depth) : (0.34 + 0.32 * depth);
       const wpx = Math.round(innerWidth * sizeFrac * (0.9 + Math.random() * 0.22));
       const baseOp = +(0.5 + 0.4 * depth).toFixed(2);
       // Staggered placement: one cloud per even vertical slot (steady scroll
@@ -573,7 +618,9 @@ details.forEach((targetDetail) => {
       c.x += c.vx;
       if (c.x < -c.w - 80) c.x = innerWidth + 60;
       if (c.x > innerWidth + 80) c.x = -c.w - 60;
-      const rate = 0.12 + 0.42 * c.depth;
+      // A tighter parallax range so clouds move more cohesively and hold their
+      // vertical spacing (rather than drifting into each other) as you scroll.
+      const rate = 0.2 + 0.16 * c.depth;
       const y = (((c.baseY - sy * rate) % band) + band) % band - innerHeight * 0.3;
       c.el.style.transform = `translate3d(${c.x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scaleX(${c.flip})`;
 
