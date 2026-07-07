@@ -124,16 +124,17 @@ body {
      stars thin out — the passage between space and sky */
   background:
     radial-gradient(ellipse 100% 60% at 50% 112%, rgba(232, 184, 109, 0.1) 0%, transparent 62%),
-    linear-gradient(178deg, #1b2940 0%, #2d4a68 44%, #4c7396 76%, #74a0bd 100%);
+    linear-gradient(178deg, #1b2940 0%, #2d4a68 44%, #487089 76%, #6a8ea6 100%);
 }
 
 .sky-day {
-  /* Grounded daylight: soft blue overhead, a thin warm haze only at the
+  /* Grounded daylight: a mature, dusty sky-blue overhead (deeper and less
+     saturated than a childish powder blue), with a thin warm haze only at the
      horizon line where the field will rise */
   background:
-    radial-gradient(ellipse 120% 45% at 50% 116%, rgba(238, 208, 138, 0.4) 0%, rgba(238, 208, 138, 0) 55%),
-    radial-gradient(ellipse 90% 50% at 22% -10%, rgba(255, 253, 246, 0.4) 0%, transparent 55%),
-    linear-gradient(178deg, #6f9ab8 0%, #93bad1 44%, #b9d1d7 78%, #dcd6b2 94%, #e4d2a2 100%);
+    radial-gradient(ellipse 120% 45% at 50% 116%, rgba(232, 200, 132, 0.38) 0%, rgba(232, 200, 132, 0) 55%),
+    radial-gradient(ellipse 90% 50% at 22% -10%, rgba(252, 249, 240, 0.34) 0%, transparent 55%),
+    linear-gradient(178deg, #5d7f95 0%, #82a3b6 44%, #aec3c8 78%, #d6ceac 94%, #dcc99a 100%);
 }
 
 /* The ground: golden field that rises into view at the page's end.
@@ -256,6 +257,10 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  /* Guards so a tall cumulus render never towers over the page and a wide
+     streak never spans the whole window — sizing is driven by width in JS. */
+  max-height: 50vh;
+  max-width: 72vw;
   will-change: transform, opacity;
   transition: opacity 1.9s ease;
   user-select: none;
@@ -1351,6 +1356,36 @@ body.zone-day .btn-secondary {
   .nav-links a { padding: 0.7rem 0.9rem; border-radius: 10px; }
   .mobile-toggle { display: block; }
   .section { padding: 4.5rem 1.25rem; }
+}
+
+/* ============ TOUCH DEVICES (mobile) ============
+   Mobile Safari silently drops backdrop-filter on elements that carry a 3D
+   transform / will-change (e.g. .feature-item), so the low-alpha "glass" plates
+   fall through to the raw sky and read brown/drab over the warm horizon. And
+   re-sampling + re-blurring the moving sky on every scroll frame is what makes
+   the clouds stutter on a swipe. On touch devices: drop the blur entirely and
+   give every plate a solid, sky-independent surface. */
+@media (pointer: coarse) {
+  .nav, .nav-links, .hero-preview, .feature-item, .io-card, .mode-detail-card,
+  .mode-mobile-card, .faq-item, .pricing-card, .btn-secondary {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Dark "glass" plates (light text, over the night sky) — a cool, sky-
+     independent fill so they never pick up the warm sky and never read brown. */
+  .feature-item, .io-card, .mode-detail-card, .mode-mobile-card {
+    background: rgba(21, 23, 34, 0.62);
+  }
+
+  /* Cream plates (dark text, over the day sky) — opaque enough to read as cream
+     on their own, without leaning on the backdrop blur. */
+  .faq-item { background: rgba(250, 240, 218, 0.94); }
+  .pricing-card { background: rgba(250, 240, 218, 0.96); }
+
+  /* Nav pill: opaque so it isn't re-blurring the content scrolling under it. */
+  .nav { background: rgba(18, 15, 13, 0.9); }
+  body.zone-day .nav { background: rgba(248, 240, 224, 0.95); }
 }
 
 /* ============ REDUCED MOTION ============ */

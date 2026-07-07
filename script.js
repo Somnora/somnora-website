@@ -219,12 +219,12 @@ details.forEach((targetDetail) => {
     const dayAt = firstDayZone
       ? firstDayZone.offsetTop - vh * 0.9
       : (document.documentElement.scrollHeight - vh) * 0.6;
-    const band = vh * 3.6;
+    const band = vh * 4.6;                                    // a longer space→dawn→day descent
     const t = clamp01((window.scrollY - (dayAt - band)) / band);
 
-    const night = Math.max(0, 1 - t * 1.6);                   // stars ride this down
-    const upper = Math.max(0, 1 - Math.abs(t - 0.45) / 0.38); // the deep-blue passage
-    const day = clamp01((t - 0.5) / 0.42);                    // soft blue settles in
+    const night = Math.max(0, 1 - t * 1.12);                  // stars linger far deeper into the scroll
+    const upper = Math.max(0, 1 - Math.abs(t - 0.52) / 0.44); // a wider deep-blue dawn passage
+    const day = clamp01((t - 0.6) / 0.36);                    // powder blue arrives late and gradually
 
     // The ground rises to meet the footer.
     const maxScroll = document.documentElement.scrollHeight - vh;
@@ -248,7 +248,7 @@ details.forEach((targetDetail) => {
     atmo.ground = g;
     atmo.blue = day;
 
-    document.body.classList.toggle('zone-day', t > 0.74);
+    document.body.classList.toggle('zone-day', t > 0.8);
   }
 
   /* ---------- Parallax ---------- */
@@ -305,7 +305,7 @@ details.forEach((targetDetail) => {
           ox: 0, oy: 0,
           r: (big ? (Math.random() * 1.2 + 1.1) : (Math.random() * 0.8 + 0.35)) * dpr,
           depth: 0.5 + Math.random() * 0.9,
-          base: big ? 0.38 : 0.2,
+          base: big ? 0.44 : 0.24,
           tw: Math.random() * Math.PI * 2,
           ts: 0.006 + Math.random() * 0.016,
           tint: Math.random() < 0.7 ? '250, 242, 228' : '242, 210, 156',
@@ -504,28 +504,62 @@ details.forEach((targetDetail) => {
   const domClouds = [];
   if (cloudField) {
     const srcs = Array.from({ length: 10 }, (_, k) => `clouds/cloud-${String(k + 1).padStart(2, '0')}.webp`);
-    const count = Math.max(6, Math.min(12, Math.floor(innerWidth / 160)));
+    const GOLD = 0.6180339887;
+    // Order the renders by a golden-ratio hop so two identical shapes never end
+    // up sitting next to each other as the field is laid out.
+    const order = srcs
+      .map((s, k) => ({ s, r: (k * GOLD) % 1 }))
+      .sort((a, b) => a.r - b.r)
+      .map((o) => o.s);
+    // Touch devices get fewer clouds (each moving layer is fill-rate on a mobile
+    // GPU) but sized much larger, so on a narrow screen they read as real clouds
+    // rather than wisps.
+    const coarse = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || innerWidth < 700;
+    // Sparse and restrained — a handful of large clouds with room to breathe.
+    const count = coarse
+      ? Math.max(3, Math.min(4, Math.round(innerWidth / 170)))
+      : Math.max(5, Math.min(8, Math.round(innerWidth / 260)));
+    const band = innerHeight * 1.7;
+    const slotH = band / count;
     for (let i = 0; i < count; i++) {
       const img = document.createElement('img');
-      img.src = srcs[i % srcs.length];
+      img.src = order[i % order.length];
       img.alt = '';
       img.draggable = false;
       img.className = 'cloud-img';
-      const depth = 0.35 + (i / Math.max(1, count - 1)) * 0.65;
-      const wpx = Math.round((180 + Math.random() * 240) * (0.55 + depth * 0.8));
-      const baseOp = +(0.5 + 0.42 * depth).toFixed(2);
+      // Depth interleaved (golden ratio) so near and far clouds alternate down
+      // the page instead of marching big-to-small.
+      const depth = 0.32 + 0.68 * ((i * GOLD + 0.13) % 1);
+      // Large cumulus scaled to the viewport so each reads as a real cloud, not
+      // a wisp; nearer clouds are larger. On a narrow (touch) screen they take a
+      // much bigger share of the width. Tall renders are capped by max-height.
+      const sizeFrac = coarse ? (0.58 + 0.34 * depth) : (0.28 + 0.30 * depth);
+      const wpx = Math.round(innerWidth * sizeFrac * (0.9 + Math.random() * 0.22));
+      const baseOp = +(0.5 + 0.4 * depth).toFixed(2);
+      // Staggered placement: one cloud per even vertical slot (steady scroll
+      // rhythm) with gentle jitter; horizontal position spread by golden ratio
+      // so they never clump into a column.
+      const baseY = (i + 0.5) * slotH + (Math.random() - 0.5) * slotH * 0.55;
+      // Center-based horizontal spread so clouds disperse evenly left↔right. The
+      // previous formula pushed cloud centers past the right edge, so their
+      // visible mass piled up on the left (worst on narrow screens).
+      const x = ((i * GOLD + 0.37) % 1) * innerWidth - wpx * 0.5;
       const c = {
         el: img, depth, w: wpx, h: wpx * 0.5,
-        flip: Math.random() < 0.4 ? -1 : 1,
-        x: Math.random() * innerWidth,
-        baseY: Math.random() * innerHeight * 1.7,
-        vx: (0.12 + Math.random() * 0.24) * (Math.random() < 0.5 ? -1 : 1),
+        flip: i % 2 === 0 ? 1 : -1,
+        x, baseY,
+        vx: (0.05 + Math.random() * 0.09) * (i % 2 === 0 ? 1 : -1),
         baseOp, faded: false
       };
       img.style.width = wpx + 'px';
       img.style.opacity = String(baseOp);
       img.style.transform = `translate3d(${c.x.toFixed(0)}px, ${(c.baseY % innerHeight).toFixed(0)}px, 0) scaleX(${c.flip})`;
-      img.onload = () => { c.h = wpx * (img.naturalHeight / img.naturalWidth); };
+      img.onload = () => {
+        // Read the displayed size (respects the CSS max-height cap) so hover
+        // hit-testing stays accurate for capped clouds.
+        c.w = img.offsetWidth || wpx;
+        c.h = img.offsetHeight || wpx * (img.naturalHeight / img.naturalWidth);
+      };
       cloudField.appendChild(img);
       domClouds.push(c);
     }
@@ -539,7 +573,7 @@ details.forEach((targetDetail) => {
       c.x += c.vx;
       if (c.x < -c.w - 80) c.x = innerWidth + 60;
       if (c.x > innerWidth + 80) c.x = -c.w - 60;
-      const rate = 0.16 + 0.5 * c.depth;
+      const rate = 0.12 + 0.42 * c.depth;
       const y = (((c.baseY - sy * rate) % band) + band) % band - innerHeight * 0.3;
       c.el.style.transform = `translate3d(${c.x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scaleX(${c.flip})`;
 
