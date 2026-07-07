@@ -233,7 +233,8 @@ details.forEach((targetDetail) => {
     skyNight.style.opacity = night.toFixed(3);
     skyUpper.style.opacity = Math.min(1, upper).toFixed(3);
     skyDay.style.opacity = day.toFixed(3);
-    if (cloudField) cloudField.style.opacity = day.toFixed(3);
+    // Fade clouds out as the ground rises so none protrude into the hills.
+    if (cloudField) cloudField.style.opacity = (day * (1 - Math.min(1, g * 1.3))).toFixed(3);
 
     // Ground layers arrive in parallax: far ridge, back hill, mid, grass
     if (hillBack) {
@@ -561,11 +562,14 @@ details.forEach((targetDetail) => {
     const count = coarse
       ? 4
       : Math.max(4, Math.min(6, Math.round(innerWidth / 330)));
-    // A tall band so the (few, large) clouds sit far apart vertically — roughly
-    // a viewport-height of separation each — so different cloud shapes don't
-    // stack on top of one another.
-    const band = innerHeight * 2.6;
-    const slotH = band / count;
+    // Spread the (few, large) clouds across the day-zone document height with a
+    // gentle parallax and NO wrap — each sits far apart so different shapes don't
+    // stack, and there's no modulo sawtooth to jump them around on scroll reversal.
+    const docH = document.documentElement.scrollHeight;
+    const dayTop = (firstDayZone ? firstDayZone.offsetTop : docH * 0.55) - innerHeight * 1.4;
+    const dayBot = docH - innerHeight * 0.5;   // keep clouds above the footer ground
+    const dayRange = Math.max(innerHeight * 2, dayBot - dayTop);
+    const slotH = dayRange / count;
     for (let i = 0; i < count; i++) {
       const img = document.createElement('img');
       img.src = order[i % order.length];
@@ -581,10 +585,11 @@ details.forEach((targetDetail) => {
       const sizeFrac = coarse ? (0.64 + 0.34 * depth) : (0.34 + 0.32 * depth);
       const wpx = Math.round(innerWidth * sizeFrac * (0.9 + Math.random() * 0.22));
       const baseOp = +(0.5 + 0.4 * depth).toFixed(2);
-      // Staggered placement: one cloud per even vertical slot (steady scroll
-      // rhythm) with gentle jitter; horizontal position spread by golden ratio
-      // so they never clump into a column.
-      const baseY = (i + 0.5) * slotH + (Math.random() - 0.5) * slotH * 0.55;
+      // One cloud per even document slot (gentle jitter) so they're spread far
+      // apart down the page; a per-cloud parallax rate < 1 so it drifts up a
+      // little slower than the content.
+      const docY = dayTop + (i + 0.5) * slotH + (Math.random() - 0.5) * slotH * 0.5;
+      const rate = 0.72 + 0.16 * depth;
       // Center-based horizontal spread so clouds disperse evenly left↔right. The
       // previous formula pushed cloud centers past the right edge, so their
       // visible mass piled up on the left (worst on narrow screens).
@@ -592,13 +597,13 @@ details.forEach((targetDetail) => {
       const c = {
         el: img, depth, w: wpx, h: wpx * 0.5,
         flip: i % 2 === 0 ? 1 : -1,
-        x, baseY,
+        x, docY, rate,
         vx: (0.05 + Math.random() * 0.09) * (i % 2 === 0 ? 1 : -1),
         baseOp, faded: false
       };
       img.style.width = wpx + 'px';
       img.style.opacity = String(baseOp);
-      img.style.transform = `translate3d(${c.x.toFixed(0)}px, ${(c.baseY % innerHeight).toFixed(0)}px, 0) scaleX(${c.flip})`;
+      img.style.transform = `translate3d(${c.x.toFixed(0)}px, ${(c.docY - window.scrollY * c.rate).toFixed(0)}px, 0) scaleX(${c.flip})`;
       img.onload = () => {
         // Read the displayed size (respects the CSS max-height cap) so hover
         // hit-testing stays accurate for capped clouds.
@@ -612,16 +617,15 @@ details.forEach((targetDetail) => {
 
   function updateClouds() {
     if (!domClouds.length) return;
-    const band = innerHeight * 1.7;
     const sy = window.scrollY;
     domClouds.forEach((c) => {
       c.x += c.vx;
       if (c.x < -c.w - 80) c.x = innerWidth + 60;
       if (c.x > innerWidth + 80) c.x = -c.w - 60;
-      // A tighter parallax range so clouds move more cohesively and hold their
-      // vertical spacing (rather than drifting into each other) as you scroll.
-      const rate = 0.2 + 0.16 * c.depth;
-      const y = (((c.baseY - sy * rate) % band) + band) % band - innerHeight * 0.3;
+      // Document-anchored parallax, no modulo wrap: the cloud stays put in the
+      // page and drifts up a little slower than the content. (The old wrap made
+      // clouds jump to new positions when you reversed scroll direction.)
+      const y = c.docY - sy * c.rate;
       c.el.style.transform = `translate3d(${c.x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scaleX(${c.flip})`;
 
       // Hover: rest the pointer on a cloud and it slowly dissolves

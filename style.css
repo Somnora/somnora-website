@@ -1375,7 +1375,7 @@ body.zone-day .btn-secondary {
   /* Dark "glass" plates (light text, over the night sky) — a cool, sky-
      independent fill so they never pick up the warm sky and never read brown. */
   .feature-item, .io-card, .mode-detail-card, .mode-mobile-card {
-    background: rgba(21, 23, 34, 0.62);
+    background: rgba(20, 22, 32, 0.74);
   }
 
   /* Cream plates (dark text, over the day sky) — opaque enough to read as cream
