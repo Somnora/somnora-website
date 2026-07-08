@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#181310" />
+  <title>James McShane — Cinematography</title>
+  <meta name="description" content="Selected cinematography by James McShane: music videos, documentary, and commercial work for Khalid, Ariana Grande, Demi Lovato, the Jonas Brothers, PJ Morton and more." />
+  <meta property="og:title" content="James McShane | Cinematography" />
+  <meta property="og:description" content="Selected work across music videos, documentary, and commercial cinematography." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://somnora.app/portfolio/" />
+  <meta property="og:image" content="https://i.vimeocdn.com/video/1329765945-d55c25e96f11ba6c1f6ff9ef05a6ae68992f528741c4cc5fcbfc010ca22e3331-d_1280?region=us" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="James McShane | Cinematography" />
+  <meta name="twitter:description" content="Selected work across music videos, documentary, and commercial cinematography." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://i.ytimg.com" />
+  <link rel="preconnect" href="https://i.vimeocdn.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=20260707b" />
+  <link rel="icon" href="../somnora-favicons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../somnora-favicons/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="../somnora-favicons/apple-touch-icon.png">
+
+  <style>
+    /* ---- Portfolio page (scoped, self-contained; reuses tokens from style.css) ---- */
+    body.pf-body { background: var(--night); }
+
+    /* Static night sky backdrop (no scroll JS on this page) */
+    .pf-sky {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 55% at 72% -12%, rgba(232, 184, 109, 0.16) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 60% at 15% 108%, rgba(60, 70, 95, 0.5) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 42% at 88% 72%, rgba(38, 48, 63, 0.55) 0%, transparent 65%),
+        linear-gradient(178deg, #14100d 0%, var(--night) 34%, #1d1915 66%, #232030 100%);
+    }
+
+    /* Slim nav override so we don't need the hamburger / scroll script */
+    .pf-nav .nav-links { gap: 1.1rem; }
+    .pf-nav .nav-links a { display: inline-flex; }
+
+    .pf-main {
+      position: relative; z-index: 3;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: calc(var(--nav-height) + 4.5rem) clamp(1rem, 4vw, 2.5rem) 4rem;
+    }
+
+    .pf-header { text-align: center; max-width: 60ch; margin: 0 auto clamp(2.4rem, 5vw, 3.6rem); }
+    .pf-eyebrow {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--salmon); margin-bottom: 1rem;
+    }
+    .pf-header h1 {
+      font-family: var(--serif); font-weight: 600;
+      font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.04;
+      letter-spacing: -0.02em; color: var(--moonlight);
+    }
+    .pf-role {
+      margin-top: 0.7rem; font-size: clamp(1rem, 0.95rem + 0.3vw, 1.2rem);
+      font-weight: 500; color: var(--moonlight-soft);
+    }
+    .pf-intro {
+      margin: 1.15rem auto 0; max-width: 52ch;
+      color: var(--moonlight-faint); font-size: 1rem; line-height: 1.6;
+    }
+    .pf-header .btn-group { justify-content: center; margin-top: 1.9rem; }
+
+    /* Featured reel */
+    .pf-featured { max-width: 1040px; margin: 0 auto clamp(2.2rem, 4vw, 3.4rem); }
+    .pf-featured .pf-tile { border-radius: var(--radius-md); }
+    .pf-featured-caption {
+      display: flex; align-items: baseline; justify-content: center;
+      gap: 0.7rem; flex-wrap: wrap; margin-top: 1rem; text-align: center;
+    }
+    .pf-featured-caption .t { font-family: var(--serif); font-size: 1.15rem; color: var(--moonlight); }
+    .pf-featured-caption .c {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .pf-section-label {
+      text-align: center; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--moonlight-faint); margin: 0 0 1.4rem;
+    }
+
+    /* The tight collage */
+    .pf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+    }
+
+    .pf-tile {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: 0; padding: 0;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #0c0906;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .pf-tile img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.6s var(--ease-soft), filter 0.4s ease;
+    }
+    .pf-tile:hover img,
+    .pf-tile:focus-visible img { transform: scale(1.05); filter: brightness(0.62); }
+
+    /* Play button (pseudo-element so markup stays clean; hidden once playing) */
+    .pf-tile::after {
+      content: ""; position: absolute; z-index: 2;
+      left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: 54px; height: 54px; border-radius: 50%;
+      border: 1px solid rgba(255, 240, 222, 0.55);
+      background:
+        rgba(20, 16, 13, 0.5)
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f7efe4'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E")
+        no-repeat 54% center / 20px;
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+      transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s var(--ease-soft);
+      pointer-events: none;
+    }
+    .pf-tile:hover::after,
+    .pf-tile:focus-visible::after {
+      background-color: var(--salmon);
+      border-color: var(--salmon);
+      transform: translate(-50%, -50%) scale(1.06);
+    }
+
+    /* Title / category scrim */
+    .pf-meta {
+      position: absolute; z-index: 2; left: 0; right: 0; bottom: 0;
+      padding: 1.4rem 0.85rem 0.7rem;
+      background: linear-gradient(to top, rgba(12, 9, 6, 0.9) 0%, rgba(12, 9, 6, 0) 100%);
+      display: flex; flex-direction: column; gap: 0.15rem;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s var(--ease-soft);
+      pointer-events: none;
+    }
+    .pf-tile:hover .pf-meta,
+    .pf-tile:focus-visible .pf-meta { opacity: 1; transform: none; }
+    .pf-cat {
+      font-size: 0.64rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--amber);
+    }
+    .pf-title {
+      font-size: 0.9rem; font-weight: 500; line-height: 1.25; color: var(--moonlight);
+    }
+
+    /* Once activated: swap thumbnail for the live player */
+    .pf-tile.pf-active { cursor: default; }
+    .pf-tile.pf-active::after,
+    .pf-tile.pf-active .pf-meta { opacity: 0; pointer-events: none; }
+    .pf-tile iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; z-index: 3; }
+
+    /* Footer */
+    .pf-footer {
+      position: relative; z-index: 3;
+      text-align: center; padding: 3.5rem 1.5rem 4rem;
+      border-top: 1px solid var(--glass-border); margin-top: 3.5rem;
+    }
+    .pf-footer h2 {
+      font-family: var(--serif); font-weight: 600; color: var(--moonlight);
+      font-size: clamp(1.4rem, 3vw, 1.9rem); margin-bottom: 1.4rem;
+    }
+    .pf-footer .btn-group { justify-content: center; }
+    .pf-footer-links {
+      margin-top: 2rem; display: flex; gap: 1.4rem; justify-content: center; flex-wrap: wrap;
+    }
+    .pf-footer-links a { color: var(--moonlight-faint); text-decoration: none; font-size: 0.9rem; }
+    .pf-footer-links a:hover { color: var(--salmon); }
+    .pf-copyright { margin-top: 1.4rem; color: var(--moonlight-faint); font-size: 0.82rem; }
+
+    /* Touch devices: no hover, so keep titles visible */
+    @media (hover: none) {
+      .pf-meta { opacity: 1; transform: none; }
+    }
+
+    /* Tight 2-up collage on small screens */
+    @media (max-width: 640px) {
+      .pf-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }
+      .pf-tile::after { width: 42px; height: 42px; background-size: 16px; }
+      .pf-title { font-size: 0.76rem; }
+      .pf-cat { font-size: 0.58rem; }
+      .pf-nav .nav-links .pf-hide-sm { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pf-tile img, .pf-tile::after, .pf-meta { transition: none; }
+    }
+  </style>
+</head>
+<body id="top" class="pf-body">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="pf-sky" aria-hidden="true"></div>
+
+  <nav class="nav pf-nav">
+    <a href="../index.html#top" class="logo">Somnora</a>
+    <div class="nav-links">
+      <a href="../index.html" class="pf-hide-sm">Somnora App</a>
+      <a href="mailto:jmcshanedp@gmail.com" class="nav-cta">Get in touch</a>
+    </div>
+  </nav>
+
+  <main id="main" class="pf-main">
+
+    <header class="pf-header">
+      <p class="pf-eyebrow">Cinematography Portfolio</p>
+      <h1>James McShane</h1>
+      <p class="pf-role">Cinematographer &amp; Director of Photography</p>
+      <p class="pf-intro">Selected work across music videos, documentary, and commercial cinematography. Click any frame to play.</p>
+      <div class="btn-group">
+        <a href="mailto:jmcshanedp@gmail.com" class="btn btn-primary">Get in touch</a>
+      </div>
+    </header>
+
+    <!-- Featured reel -->
+    <section class="pf-featured" aria-label="Cinematography showreel">
+      <button class="pf-tile" type="button"
+              data-embed="https://player.vimeo.com/video/658473014?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
+              aria-label="Play Cinematography Showreel">
+        <img src="https://i.vimeocdn.com/video/1329765945-d55c25e96f11ba6c1f6ff9ef05a6ae68992f528741c4cc5fcbfc010ca22e3331-d_1280?region=us"
+             alt="Cinematography Showreel" loading="eager" />
+        <span class="pf-meta"><span class="pf-cat">Reel</span><span class="pf-title">Cinematography Showreel</span></span>
+      </button>
+      <div class="pf-featured-caption">
+        <span class="t">Cinematography Showreel</span>
+        <span class="c">Start Here</span>
+      </div>
+    </section>
+
+    <p class="pf-section-label">Selected Work</p>
+
+    <!-- Tight collage -->
+    <section class="pf-grid" aria-label="Selected cinematography work">
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/8RtgEpz_wa8?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play Khalid: Nah">
+        <img src="https://i.ytimg.com/vi/8RtgEpz_wa8/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/8RtgEpz_wa8/hqdefault.jpg'" alt="Khalid: Nah" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Music Video</span><span class="pf-title">Khalid: Nah</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/2ljp0qQiRKk?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play Ariana Grande: hate that i made you love me">
+        <img src="https://i.ytimg.com/vi/2ljp0qQiRKk/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/2ljp0qQiRKk/hqdefault.jpg'" alt="Ariana Grande: hate that i made you love me" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Music Video &middot; BTS</span><span class="pf-title">Ariana Grande: hate that i made you love me</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/jTiiD8L811w?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play Demi Lovato: Dancing with the Devil">
+        <img src="https://i.ytimg.com/vi/jTiiD8L811w/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/jTiiD8L811w/hqdefault.jpg'" alt="Demi Lovato: Dancing with the Devil" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">Demi Lovato: Dancing with the Devil</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/BSToRSpV94E?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play Jonas Brothers: Chasing Happiness">
+        <img src="https://i.ytimg.com/vi/BSToRSpV94E/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/BSToRSpV94E/hqdefault.jpg'" alt="Jonas Brothers: Chasing Happiness" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">Jonas Brothers: Chasing Happiness</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/ZWTlL_w8cRA?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play Demi Lovato: Simply Complicated">
+        <img src="https://i.ytimg.com/vi/ZWTlL_w8cRA/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ZWTlL_w8cRA/hqdefault.jpg'" alt="Demi Lovato: Simply Complicated" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">Demi Lovato: Simply Complicated</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/lDiIKknNhWw?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play PJ Morton: Bring It On Home to Me">
+        <img src="https://i.ytimg.com/vi/lDiIKknNhWw/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/lDiIKknNhWw/hqdefault.jpg'" alt="PJ Morton: Bring It On Home to Me" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Music Video</span><span class="pf-title">PJ Morton: Bring It On Home to Me</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/REVLVw3L5B4?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play Paris 2024 Closing Ceremony, LA28 Handover">
+        <img src="https://i.ytimg.com/vi/REVLVw3L5B4/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/REVLVw3L5B4/hqdefault.jpg'" alt="Paris 2024 Closing Ceremony, LA28 Handover" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Live Event &middot; LA28</span><span class="pf-title">Paris 2024 Closing Ceremony</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/rx6Pf3LITbI?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1&amp;start=1430"
+              aria-label="Play Ilan Rubin at Studio 606">
+        <img src="https://i.ytimg.com/vi/rx6Pf3LITbI/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/rx6Pf3LITbI/hqdefault.jpg'" alt="Ilan Rubin at Studio 606" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Session Film</span><span class="pf-title">Ilan Rubin: Studio 606</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://player.vimeo.com/video/603676670?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
+              aria-label="Play The Green, official teaser">
+        <img src="https://i.vimeocdn.com/video/1239957999-9ac326cfed490eaad7a3635d076201d6d04ae1e987e0e9527616235bf74ecdfa-d_1280?region=us" alt="The Green, official teaser" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Short Film &middot; Teaser</span><span class="pf-title">The Green</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://player.vimeo.com/video/263682306?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
+              aria-label="Play Pike County, short film">
+        <img src="https://i.vimeocdn.com/video/758963873-b4d190f3cfc8b6df6cb8d097b974a83002fa5914059dca355003785d5d01a104-d_1280?region=us" alt="Pike County, short film" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Short Film</span><span class="pf-title">Pike County</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://player.vimeo.com/video/443901139?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
+              aria-label="Play Charlie Cheddar's">
+        <img src="https://i.vimeocdn.com/video/933695157-d145e9380d2b8ae11f0d1334d658b9e9b09c1f29be2c84dc9afd4fc7531d6dd9-d_1280?region=us" alt="Charlie Cheddar's" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Commercial</span><span class="pf-title">Charlie Cheddar's</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://player.vimeo.com/video/338366635?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
+              aria-label="Play Fila Fusion">
+        <img src="https://i.vimeocdn.com/video/785892633-73ef00140edbb095cea3dea07d31abd16ffb0d6b169554dc595a2fe2c2134d49-d_1280?region=us" alt="Fila Fusion" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Commercial</span><span class="pf-title">Fila Fusion</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://player.vimeo.com/video/900645674?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
+              aria-label="Play USPA Spring">
+        <img src="https://i.vimeocdn.com/video/1811849510-27c5f7120e589c7f859a53779a21e7fb905ccdb7965e68347db7507143eb3417-d_1280?region=us" alt="USPA Spring" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Commercial</span><span class="pf-title">USPA: Spring</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/CQVglFZ-HZ0?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play Sins of the Amish">
+        <img src="https://i.ytimg.com/vi/CQVglFZ-HZ0/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/CQVglFZ-HZ0/hqdefault.jpg'" alt="Sins of the Amish" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">Sins of the Amish</span></span>
+      </button>
+
+      <button class="pf-tile" type="button"
+              data-embed="https://www.youtube.com/embed/pGUj6jV1UOc?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
+              aria-label="Play The Big Empty">
+        <img src="https://i.ytimg.com/vi/pGUj6jV1UOc/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/pGUj6jV1UOc/hqdefault.jpg'" alt="The Big Empty" loading="lazy" />
+        <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">The Big Empty</span></span>
+      </button>
+
+    </section>
+  </main>
+
+  <footer class="pf-footer">
+    <h2>Let's make something.</h2>
+    <div class="btn-group">
+      <a href="mailto:jmcshanedp@gmail.com" class="btn btn-primary">Get in touch</a>
+    </div>
+    <div class="pf-footer-links">
+      <a href="../index.html">Somnora App</a>
+    </div>
+    <p class="pf-copyright">© James McShane</p>
+  </footer>
+
+  <script>
+    (function () {
+      function activate(tile) {
+        if (tile.classList.contains('pf-active')) return;
+        var src = tile.getAttribute('data-embed');
+        if (!src) return;
+        var iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.title = tile.getAttribute('aria-label') || 'Video';
+        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('frameborder', '0');
+        tile.appendChild(iframe);
+        tile.classList.add('pf-active');
+      }
+      document.querySelectorAll('.pf-tile').forEach(function (tile) {
+        tile.addEventListener('click', function () { activate(tile); });
+      });
+    })();
+  </script>
+</body>
+</html>
