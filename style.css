@@ -233,22 +233,24 @@ body {
   to   { transform: skewX(3.4deg) scaleY(1.01); }
 }
 
-/* The bunny: nestled in the front mound, facing the footer's App Store
-   button. It rides the grass layer's rise, chews on a sprig, blinks,
-   and twitches an ear now and then. Purely decorative. */
+/* The bunny: perched on the back mound's crest, facing the footer's App
+   Store button. It rides the hill layer's rise, chews, blinks, and
+   twitches an ear now and then. Purely decorative. Note: offsets are
+   relative to hill-back, which extends 25vw past the left viewport edge
+   and 15vw past the right. */
 .bunny {
   position: absolute;
-  right: 40%;
-  top: 10%;
+  right: 18.5%;
+  top: -1.5%;
   width: clamp(52px, 8vh, 96px);
   z-index: 1;
 }
-.bunny svg { display: block; width: 100%; height: auto; }
+/* Tilted to match the crest falling away to the right at this spot */
+.bunny svg { display: block; width: 100%; height: auto; transform: rotate(4.5deg); }
 .bunny .bunny-breathe,
 .bunny .bunny-ear-front,
 .bunny .bunny-eye,
-.bunny .bunny-jaw,
-.bunny .bunny-sprig {
+.bunny .bunny-jaw {
   transform-box: fill-box;
 }
 .bunny .bunny-breathe {
@@ -257,10 +259,6 @@ body {
 }
 .bunny .bunny-jaw {
   animation: bunny-chew 0.42s ease-in-out infinite alternate;
-}
-.bunny .bunny-sprig {
-  transform-origin: 100% 25%;
-  animation: bunny-sprig 0.84s ease-in-out infinite alternate;
 }
 .bunny .bunny-ear-front {
   transform-origin: 50% 95%;
@@ -277,10 +275,6 @@ body {
 @keyframes bunny-chew {
   from { transform: translateY(0); }
   to   { transform: translateY(1.1px); }
-}
-@keyframes bunny-sprig {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(7deg); }
 }
 @keyframes bunny-ear {
   0%, 86%, 100% { transform: rotate(0deg); }
@@ -1459,11 +1453,9 @@ body.zone-day .btn-secondary {
 @media (max-width: 640px) {
   .persona-grid { grid-template-columns: 1fr; }
   .privacy-bullets { grid-template-columns: 1fr; }
-  /* The crest position crowds the footer links on narrow screens, and
-     sitting low enough to clear them puts it underneath the opaque grass
-     layer. Split the difference: level with the link row, tucked past
-     the right edge of the text. */
-  .bunny { top: 5%; right: 23%; }
+  /* Narrow screens: the back mound's crest curve differs, so nudge to
+     keep the bunny on the ridge and clear of the footer text. */
+  .bunny { top: 2%; right: 14%; }
 }
 
 @media (max-width: 720px) {
