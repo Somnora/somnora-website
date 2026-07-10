@@ -129,12 +129,12 @@ body {
 
 .sky-day {
   /* Grounded daylight: a mature, dusty sky-blue overhead (deeper and less
-     saturated than a childish powder blue), with a thin warm haze only at the
-     horizon line where the field will rise */
+     saturated than a childish powder blue). No warm horizon band here — the
+     ground's own haze (.hill-far::before) blends land into sky when the
+     field rises, so the sky stays clean until then. */
   background:
-    radial-gradient(ellipse 120% 45% at 50% 116%, rgba(232, 200, 132, 0.38) 0%, rgba(232, 200, 132, 0) 55%),
     radial-gradient(ellipse 90% 50% at 22% -10%, rgba(252, 249, 240, 0.34) 0%, transparent 55%),
-    linear-gradient(178deg, #5d7f95 0%, #82a3b6 44%, #aec3c8 78%, #d6ceac 94%, #dcc99a 100%);
+    linear-gradient(178deg, #5d7f95 0%, #82a3b6 46%, #aec3c8 82%, #c3cfcd 100%);
 }
 
 /* The ground: golden field that rises into view at the page's end.

@@ -223,9 +223,17 @@ details.forEach((targetDetail) => {
     const band = Math.max(vh * 2, Math.min(vh * 5.6, dayAt));
     const t = clamp01((window.scrollY - (dayAt - band)) / band);
 
-    const night = clamp01(1 - Math.pow(t, 1.35) * 1.1);       // holds near-full dark up top, then a slow fade
-    const upper = Math.max(0, 1 - Math.abs(t - 0.6) / 0.42);  // the deep-blue dawn carries the middle of the page
-    const day = clamp01((t - 0.74) / 0.26);                   // full daylight only lands just before the ink text
+    // The three layers stack (night below, dawn, day on top), so brightness
+    // stays monotonic by construction: the dawn blue rises once over the
+    // night and HOLDS — it never fades back out — and broad daylight only
+    // eases in over the last stretch, covering the dawn rather than
+    // replacing it. (The old triangular dawn envelope faded before the day
+    // arrived, which read as brighter → darker → brighter.)
+    const night = clamp01(1 - t * 1.45);                      // stars thin out as the dawn blue takes over
+    const upper = clamp01((t - 0.18) / 0.5);                  // dawn covers the night by ~2/3 scroll, then holds
+    const dp = clamp01((t - 0.82) / 0.18);                    // just the last little bit is broad daylight,
+    const day = dp * dp * (3 - 2 * dp);                       // eased so it never snaps in
+    const cloudGate = clamp01((t - 0.52) / 0.26);             // clouds drift in during the late dawn
 
     // The ground rises to meet the footer.
     const maxScroll = document.documentElement.scrollHeight - vh;
@@ -235,7 +243,7 @@ details.forEach((targetDetail) => {
     skyUpper.style.opacity = Math.min(1, upper).toFixed(3);
     skyDay.style.opacity = day.toFixed(3);
     // Fade clouds out as the ground rises so none protrude into the hills.
-    if (cloudField) cloudField.style.opacity = (day * (1 - Math.min(1, g * 1.3))).toFixed(3);
+    if (cloudField) cloudField.style.opacity = (cloudGate * (1 - Math.min(1, g * 1.3))).toFixed(3);
 
     // Ground layers arrive in parallax: far ridge, back hill, mid, grass
     if (hillBack) {
@@ -250,7 +258,9 @@ details.forEach((targetDetail) => {
     atmo.ground = g;
     atmo.blue = day;
 
-    document.body.classList.toggle('zone-day', t > 0.87);
+    // Flip the ink text on the sky's actual brightness, not the scroll
+    // position, so the swap always lands on a light-enough backdrop.
+    document.body.classList.toggle('zone-day', day > 0.45);
   }
 
   /* ---------- Parallax ---------- */
