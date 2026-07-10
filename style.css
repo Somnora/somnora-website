@@ -329,7 +329,7 @@ html.reduced-motion [data-reveal] {
   top: 14px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(1240px, calc(100% - 32px));
+  width: min(1460px, calc(100% - 40px));
   height: var(--nav-height);
   display: flex;
   align-items: center;
@@ -419,10 +419,10 @@ body.zone-day .mobile-toggle { color: var(--ink); }
 .cloud-3 { top: 62%; left: 10%; width: 38vw; height: 90px; }
 
 .hero-shell {
-  width: min(1320px, 100%);
+  width: min(1460px, 100%);
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
-  gap: clamp(2.75rem, 6vw, 6rem);
+  gap: clamp(2.75rem, 6vw, 6.5rem);
   align-items: center;
   position: relative;
 }
@@ -466,7 +466,7 @@ body.zone-day .mobile-toggle { color: var(--ink); }
 .subtitle {
   font-size: clamp(1.02rem, 0.94rem + 0.32vw, 1.22rem);
   color: var(--moonlight-soft);
-  max-width: 52ch;
+  max-width: 60ch;
   margin-bottom: 2.2rem;
 }
 
@@ -642,15 +642,15 @@ body.zone-day .btn-secondary {
 /* ============ SECTIONS (shared) ============ */
 
 .section {
-  padding: clamp(4.5rem, 9vh, 7.5rem) clamp(1.25rem, 4vw, 3rem);
-  max-width: min(1320px, 94vw);
+  padding: clamp(4rem, 7.5vh, 6.25rem) clamp(1.25rem, 4vw, 3rem);
+  max-width: min(1460px, 92vw);
   margin: 0 auto;
   position: relative;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 3.2rem;
+  margin-bottom: 2.7rem;
 }
 .section-header h2, .modes-header h2 {
   font-family: var(--serif);
@@ -665,7 +665,7 @@ body.zone-day .btn-secondary {
   color: var(--moonlight-soft);
   margin-top: 0.8rem;
   font-size: clamp(1rem, 0.94rem + 0.24vw, 1.16rem);
-  max-width: 62ch;
+  max-width: 74ch;
   margin-inline: auto;
   transition: color 0.6s ease;
 }
@@ -694,7 +694,7 @@ body.zone-day .btn-secondary {
 @media (max-width: 640px) {
   .product-features-grid { grid-template-columns: 1fr; }
 }
-.feature-item p { max-width: 58ch; }
+.feature-item p { max-width: 66ch; }
 
 .feature-item {
   padding: clamp(1.7rem, 2.2vw, 2.4rem) clamp(1.5rem, 1.9vw, 2.1rem);
@@ -742,6 +742,39 @@ body.zone-day .btn-secondary {
 .feature-item p {
   font-size: clamp(0.93rem, 0.87rem + 0.2vw, 1.06rem);
   line-height: 1.68;
+  color: var(--moonlight-soft);
+}
+
+/* What Nora draws on — a compact chip row that carries the concrete
+   "inputs" signal without a whole separate section. */
+.draws-on {
+  margin-top: clamp(1.7rem, 3vw, 2.6rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem 1.1rem;
+}
+.draws-on-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--salmon);
+}
+.draws-on-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem;
+  list-style: none;
+}
+.draws-on-chips li {
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  font-size: 0.85rem;
   color: var(--moonlight-soft);
 }
 
@@ -1026,7 +1059,7 @@ body.zone-day .btn-secondary {
 /* ============ PRIVACY + FOUNDER NOTE (paper letters) ============ */
 
 .legal-content {
-  max-width: min(800px, 94vw);
+  max-width: min(1120px, 92vw);
   margin: 0 auto;
 }
 
@@ -1042,10 +1075,17 @@ body.zone-day .btn-secondary {
 .privacy-bullet-box h3 {
   font-family: var(--serif);
   font-size: 1.6rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.4rem;
   color: var(--ink);
 }
-.privacy-bullets { list-style: none; }
+/* Two columns of guarantees on wide screens so the block reads as a
+   compact panel instead of a tall ribbon down the middle of the page. */
+.privacy-bullets {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.15rem 2.6rem;
+}
 .privacy-bullets li {
   padding: 0.55rem 0 0.55rem 1.8rem;
   position: relative;
@@ -1066,13 +1106,22 @@ body.zone-day .btn-secondary {
 .privacy-links { margin-top: 1.4rem; font-size: 0.92rem; color: var(--ink-soft); }
 .privacy-links a { color: var(--salmon-deep); font-weight: 600; }
 
-.founder-note-panel { position: relative; }
+/* An editorial letter: heading on the left rail, the letter body and
+   signature on the right. Fills the width and roughly halves the height
+   versus a single tall column. */
+.founder-note-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: clamp(1.8rem, 4vw, 3.4rem);
+  align-items: start;
+}
 .founder-note-panel::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 2.5rem;
-  right: 2.5rem;
+  left: clamp(1.8rem, 2.6vw, 2.7rem);
+  right: clamp(1.8rem, 2.6vw, 2.7rem);
   height: 3px;
   border-radius: 3px;
   background: linear-gradient(90deg, var(--salmon), var(--amber));
@@ -1082,7 +1131,8 @@ body.zone-day .btn-secondary {
   font-family: var(--serif);
   font-size: clamp(1.7rem, 3.4vw, 2.3rem);
   color: var(--ink);
-  margin-bottom: 1.2rem;
+  margin-bottom: 0;
+  line-height: 1.15;
 }
 .founder-note-body p {
   font-size: 0.99rem;
@@ -1101,11 +1151,12 @@ body.zone-day .btn-secondary {
 /* ============ FAQ ============ */
 
 .faq-list {
-  max-width: min(800px, 94vw);
+  max-width: min(1180px, 92vw);
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0.7rem 1.1rem;
 }
 .faq-item {
   border-radius: var(--radius-md);
@@ -1155,8 +1206,8 @@ body.zone-day .btn-secondary {
 
 .footer {
   text-align: center;
-  padding: 6rem 1.5rem 3rem;
-  max-width: 760px;
+  padding: 5rem 1.5rem 3rem;
+  max-width: 880px;
   margin: 0 auto;
 }
 .footer h2 {
@@ -1213,7 +1264,7 @@ body.zone-day .btn-secondary {
   font-size: clamp(0.98rem, 0.92rem + 0.24vw, 1.14rem);
   line-height: 1.7;
   color: var(--moonlight-soft);
-  max-width: 50ch;
+  max-width: 60ch;
   transition: color 0.6s ease;
 }
 
@@ -1273,11 +1324,21 @@ body.zone-day .btn-secondary {
 
 /* ============ PERSONAS (who it's for) ============ */
 
+/* The audience band leads into the modes tour inside one section, so the
+   two beats share a single frame instead of stacking two section paddings. */
+.personas-band {
+  margin-bottom: clamp(3.2rem, 6vh, 5.5rem);
+  padding-bottom: clamp(3rem, 5vh, 4.5rem);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* A single slim row of four audiences — a distinct band, not a fourth
+   card grid. Collapses to 2, then 1, on smaller screens. */
 .persona-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.8rem, 3vw, 3rem) clamp(2.2rem, 4.5vw, 4.5rem);
-  max-width: 920px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.6rem, 2.6vw, 2.6rem);
+  max-width: 1240px;
   margin: 0 auto;
 }
 .persona h3 {
@@ -1326,6 +1387,9 @@ body.zone-day .btn-secondary {
   .io-grid { grid-template-columns: 1fr; }
   .pricing-grid { grid-template-columns: 1fr; }
   .dc-layout { grid-template-columns: 1fr; }
+  .founder-note-panel { grid-template-columns: 1fr; gap: 1.4rem; }
+  .faq-list { grid-template-columns: 1fr; }
+  .persona-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 2.6rem; }
   .dc-polaroids { min-height: 300px; }
   .polaroid { width: clamp(140px, 34vw, 180px); }
   .polaroid.p1 { --px: -58%; }
@@ -1333,6 +1397,7 @@ body.zone-day .btn-secondary {
 }
 @media (max-width: 640px) {
   .persona-grid { grid-template-columns: 1fr; }
+  .privacy-bullets { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 720px) {

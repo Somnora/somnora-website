@@ -726,10 +726,11 @@ details.forEach((targetDetail) => {
       bubbles.forEach((b) => b.classList.add('shown'));
       if (typing) typing.style.display = 'none';
     } else {
-      const show = (i, delay) => setTimeout(() => bubbles[i] && bubbles[i].classList.add('shown'), delay);
-      show(0, 700);      // user's fragment
-      show(1, 2100);     // Nora's reply
-      show(2, 3600);     // Nora is still thinking…
+      // Reveal each bubble in turn, so the exchange plays regardless of how
+      // many turns are in the markup (user fragment, Nora's reply, typing…).
+      bubbles.forEach((b, i) => {
+        setTimeout(() => b.classList.add('shown'), 700 + i * 1400);
+      });
     }
   }
 })();

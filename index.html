@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260707b" />
+  <link rel="stylesheet" href="style.css?v=20260709b" />
   <link rel="icon" href="somnora-favicons/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="somnora-favicons/favicon-32x32.png">
   <link rel="apple-touch-icon" href="somnora-favicons/apple-touch-icon.png">
@@ -77,7 +77,10 @@
           <p class="subtitle" data-reveal style="--reveal-delay:0.24s">Nora remembers your dreams, notices what repeats, and checks in when something matters. A private companion for sleep, reflection, and the ideas that arrive at 2 a.m.</p>
 
           <div class="btn-group" data-reveal style="--reveal-delay:0.32s">
-            <a href="#waitlist" class="btn btn-primary" data-magnetic>Request Early Access</a>
+            <a href="https://apps.apple.com/us/app/somnora/id6755064744" class="btn btn-primary" data-magnetic target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701z"/></svg>
+              Check it Out on the App Store
+            </a>
             <a href="#how-it-works" class="btn btn-secondary" data-magnetic>See How it Works</a>
           </div>
 
@@ -96,14 +99,14 @@
             <span>02:14</span>
           </div>
           <div id="chat-demo">
-            <div class="chat-bubble bubble-user">Back in my childhood house, but every room opened onto the ocean. Woke up certain I&apos;d forgotten something.</div>
-            <div class="chat-bubble bubble-nora"><span class="nora-name">Nora</span><span class="bubble-text">That&apos;s the third ocean dream since your deadline moved &mdash; they tend to land on your lighter REM nights, and last night was one. Forgetting something in the house you grew up in&hellip; what do you suspect it is?</span></div>
+            <div class="chat-bubble bubble-user">Back on that demo stage from the other night. This time the screen stayed blank and the room felt patient. I got all the way to the end and nobody had left.</div>
+            <div class="chat-bubble bubble-nora"><span class="nora-name">Nora</span><span class="bubble-text">The first time, the screen was blank and you were feeling the pressure. This time the room was on your side. When a space feels patient, it usually means you&rsquo;re finally giving yourself some breathing room. Like you&rsquo;re starting to trust you don&rsquo;t need the perfect presentation to hold it.</span></div>
             <div class="chat-bubble bubble-nora bubble-typing"><span class="typing-dots"><i></i><i></i><i></i></span></div>
           </div>
           <div class="preview-metrics">
-            <span><strong>6h 48m</strong> sleep</span>
+            <span><strong>6h 52m</strong> sleep</span>
             <span><strong>REM</strong> late cycle</span>
-            <span><strong>3rd</strong> return</span>
+            <span><strong>2nd</strong> return</span>
           </div>
         </div>
       </div>
@@ -145,6 +148,16 @@
           <p>Recurring symbols, rising stress, shorter nights: Nora connects what repeats and reaches out at most once a day &mdash; only when it&apos;s earned.</p>
         </div>
       </div>
+
+      <div class="draws-on" data-reveal>
+        <span class="draws-on-label">What Nora draws on</span>
+        <ul class="draws-on-chips">
+          <li>Sleep duration &amp; stages</li>
+          <li>Dream fragments</li>
+          <li>Daily check-ins</li>
+          <li>Late-night ideas</li>
+        </ul>
+      </div>
     </section>
 
     <!-- DREAMCATCHER -->
@@ -163,41 +176,14 @@
       </div>
     </section>
 
-    <!-- DATA IN, VALUE OUT -->
-    <section class="section data-value zone-night">
-      <div class="section-header">
-        <h2>What you capture becomes context.</h2>
-        <p>Private inputs, wearable context, and a clearer record of what keeps returning.</p>
-      </div>
-      <div class="io-grid">
-        <div class="io-card inputs" data-reveal>
-          <h3>Inputs</h3>
-          <ul>
-            <li>Sleep duration &amp; stages (via Apple Health)</li>
-            <li>Dream fragments and recurring images</li>
-            <li>Daily check-ins &mdash; mood, energy, stress</li>
-            <li>Late-night ideas and loose notes</li>
-          </ul>
+    <!-- WHO IT'S FOR + STORY MODE (one section, two beats) -->
+    <section class="section modes-stepper-section zone-night">
+      <div class="personas-band">
+        <div class="section-header" data-reveal>
+          <p class="modes-eyebrow">Who it&apos;s for</p>
+          <h2>Made for minds that don&apos;t clock out.</h2>
         </div>
-        <div class="io-card outputs" data-reveal style="--reveal-delay:0.1s">
-          <h3>Outputs</h3>
-          <ul>
-            <li>Clear summaries in plain language</li>
-            <li>Patterns noticed across weeks, not just nights</li>
-            <li>One thoughtful check-in a day &mdash; when earned</li>
-            <li>Honest results from small sleep experiments</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHO IT'S FOR -->
-    <section class="section personas zone-night">
-      <div class="section-header" data-reveal>
-        <p class="modes-eyebrow">Who it&apos;s for</p>
-        <h2>Made for minds that don&apos;t clock out.</h2>
-      </div>
-      <div class="persona-grid">
+        <div class="persona-grid">
         <div class="persona" data-reveal>
           <h3>The vivid dreamer</h3>
           <p>You wake with whole worlds still in your head and nowhere to put them. Somnora catches them before breakfast does.</p>
@@ -214,12 +200,10 @@
           <h3>The light sleeper</h3>
           <p>You want to understand your nights without being graded on them. Trends in plain language &mdash; never a judgment score.</p>
         </div>
+        </div>
       </div>
-    </section>
 
-    <!-- MODES STEPPER -->
-    <section id="modes" class="section modes-stepper-section zone-night">
-      <div class="modes-header">
+      <div id="modes" class="modes-header">
         <p class="modes-eyebrow">Story Mode</p>
         <h2>One companion. Four ways in.</h2>
         <p>Move between dream recall, idea capture, pattern review, and a steadier landing before sleep.</p>
@@ -375,13 +359,15 @@
     <!-- FOUNDER TRUST NOTE -->
     <section class="section founder-note-section zone-morning" data-zone="day">
       <div class="legal-content founder-note-panel" data-reveal>
-        <p class="modes-eyebrow">Founder&apos;s Note</p>
-        <h2>Your life is your life.</h2>
+        <div class="founder-note-head">
+          <p class="modes-eyebrow">Founder&apos;s Note</p>
+          <h2>Your life is your life.</h2>
+        </div>
         <div class="founder-note-body">
           <p>Your dreams, memories, reflections, ideas, and motivations belong to you. They are not something to be extracted, mined, or fed into targeted advertising and data broker systems. We will never sell your data or quietly turn your private journaling into ad-targeting inventory. Some Somnora features do send content to our services so Nora can respond, speak, or generate imagery, but that should feel like product function, not hidden exploitation. If you choose to share feedback on individual responses, that choice is yours.</p>
           <p>I made Somnora to distract myself from what I now know is PTSD, so I always had someone around. Seeing testers grow from their experience, like I did, showed me that even a crazy idea is worth indulging. It&apos;s hard enough to be vulnerable with your own circle. Trusting a company with your inner life should not mean watching that trust get packaged, mined, and sold. That is gross. It is a betrayal. And it is not who we are.</p>
+          <p class="founder-note-signoff">James McShane, Founder</p>
         </div>
-        <p class="founder-note-signoff">James McShane, Founder</p>
       </div>
     </section>
 
@@ -426,7 +412,11 @@
     <footer id="waitlist" class="footer" data-zone="day">
       <h2>A private companion for what follows you out of the night.</h2>
       <div class="btn-group">
-        <a href="mailto:support@somnora.app" class="btn btn-primary">Request Early Access</a>
+        <a href="https://apps.apple.com/us/app/somnora/id6755064744" class="btn btn-primary" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701z"/></svg>
+          Check it Out on the App Store
+        </a>
+        <a href="mailto:support@somnora.app" class="btn btn-secondary">Request Early Access</a>
       </div>
       <p class="footer-platform">Built for iPhone &middot; Works with Apple Health</p>
       <div class="footer-links">
@@ -439,6 +429,6 @@
 
   </main>
 
-  <script src="script.js?v=20260707b"></script>
+  <script src="script.js?v=20260709b"></script>
 </body>
 </html>
