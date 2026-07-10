@@ -213,18 +213,19 @@ details.forEach((targetDetail) => {
     if (!skyNight || !skyUpper || !skyDay) return;
 
     // One continuous descent: space → upper atmosphere → soft blue sky.
-    // The lightening starts soon after the stars and stretches across the
-    // middle of the page; ink text (pricing on) always lands on light sky.
+    // The band is pinned to start at the very top of the page, so the hero
+    // sits in full night and the whole scroll down to the first day zone is
+    // one long, gradual dawn; ink text (pricing on) always lands on light sky.
     const vh = window.innerHeight;
     const dayAt = firstDayZone
       ? firstDayZone.offsetTop - vh * 0.9
       : (document.documentElement.scrollHeight - vh) * 0.6;
-    const band = vh * 4.6;                                    // a longer space→dawn→day descent
+    const band = Math.max(vh * 2, Math.min(vh * 5.6, dayAt));
     const t = clamp01((window.scrollY - (dayAt - band)) / band);
 
-    const night = Math.max(0, 1 - t * 1.12);                  // stars linger far deeper into the scroll
-    const upper = Math.max(0, 1 - Math.abs(t - 0.52) / 0.44); // a wider deep-blue dawn passage
-    const day = clamp01((t - 0.6) / 0.36);                    // powder blue arrives late and gradually
+    const night = clamp01(1 - Math.pow(t, 1.35) * 1.1);       // holds near-full dark up top, then a slow fade
+    const upper = Math.max(0, 1 - Math.abs(t - 0.6) / 0.42);  // the deep-blue dawn carries the middle of the page
+    const day = clamp01((t - 0.74) / 0.26);                   // full daylight only lands just before the ink text
 
     // The ground rises to meet the footer.
     const maxScroll = document.documentElement.scrollHeight - vh;
@@ -249,7 +250,7 @@ details.forEach((targetDetail) => {
     atmo.ground = g;
     atmo.blue = day;
 
-    document.body.classList.toggle('zone-day', t > 0.8);
+    document.body.classList.toggle('zone-day', t > 0.87);
   }
 
   /* ---------- Parallax ---------- */
@@ -289,7 +290,22 @@ details.forEach((targetDetail) => {
     let meteors = [];
     let nextMeteorAt = performance.now() + 1600;
     let birds = [];
-    let nextBirdAt = performance.now() + 5000;
+    let nextBirdAt = 0;
+    let skyTurned = false;
+
+    function spawnBird() {
+      const goingRight = Math.random() < 0.5;
+      birds.push({
+        x: goingRight ? -50 * dpr : w + 50 * dpr,
+        y: (0.14 + Math.random() * 0.28) * h,
+        vx: (0.9 + Math.random() * 0.7) * dpr * (goingRight ? 1 : -1),
+        size: (12 + Math.random() * 8) * dpr,
+        bob: (0.5 + Math.random() * 0.6),
+        phase: Math.random() * Math.PI * 2,
+        flap: 0.11 + Math.random() * 0.05,
+        t: 0
+      });
+    }
 
 
     function sizeCanvas() {
@@ -491,22 +507,21 @@ details.forEach((targetDetail) => {
         ctx.fill();
       });
 
-      // Birds: the daylight counterpart to the night's shooting stars — one
-      // drifts slowly across the blue sky, wings flapping, gated to the day.
+      // Birds: the daylight counterpart to the night's shooting stars. The
+      // first appears the moment the sky turns to day, its partner follows a
+      // few seconds later; at most two share the sky at once.
       const blue = atmo.blue;
-      if (blue > 0.5 && performance.now() >= nextBirdAt) {
-        const goingRight = Math.random() < 0.5;
-        birds.push({
-          x: goingRight ? -50 * dpr : w + 50 * dpr,
-          y: (0.14 + Math.random() * 0.28) * h,
-          vx: (0.9 + Math.random() * 0.7) * dpr * (goingRight ? 1 : -1),
-          size: (12 + Math.random() * 8) * dpr,
-          bob: (0.5 + Math.random() * 0.6),
-          phase: Math.random() * Math.PI * 2,
-          flap: 0.11 + Math.random() * 0.05,
-          t: 0
-        });
-        nextBirdAt = performance.now() + 6500 + Math.random() * 9000;
+      if (blue > 0.4) {
+        if (!skyTurned) {
+          skyTurned = true;
+          spawnBird();
+          nextBirdAt = performance.now() + 3200;
+        } else if (birds.length < 2 && performance.now() >= nextBirdAt) {
+          spawnBird();
+          nextBirdAt = performance.now() + 6500 + Math.random() * 9000;
+        }
+      } else if (blue <= 0.05) {
+        skyTurned = false; // re-arm for the next descent into day
       }
       birds = birds.filter((b) => b.x > -90 * dpr && b.x < w + 90 * dpr);
       birds.forEach((b) => {
@@ -558,10 +573,10 @@ details.forEach((targetDetail) => {
     // GPU) but sized much larger, so on a narrow screen they read as real clouds
     // rather than wisps.
     const coarse = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || innerWidth < 700;
-    // Sparse and restrained — a few large clouds with lots of room to breathe.
+    // A handful of large clouds with room to breathe.
     const count = coarse
-      ? 4
-      : Math.max(4, Math.min(6, Math.round(innerWidth / 330)));
+      ? 5
+      : Math.max(6, Math.min(9, Math.round(innerWidth / 240)));
     // Spread the (few, large) clouds across the day-zone document height with a
     // gentle parallax and NO wrap — each sits far apart so different shapes don't
     // stack, and there's no modulo sawtooth to jump them around on scroll reversal.
@@ -582,7 +597,7 @@ details.forEach((targetDetail) => {
       // Large cumulus scaled to the viewport so each reads as a real cloud, not
       // a wisp; nearer clouds are larger. On a narrow (touch) screen they take a
       // much bigger share of the width. Tall renders are capped by max-height.
-      const sizeFrac = coarse ? (0.64 + 0.34 * depth) : (0.34 + 0.32 * depth);
+      const sizeFrac = coarse ? (0.66 + 0.34 * depth) : (0.4 + 0.34 * depth);
       const wpx = Math.round(innerWidth * sizeFrac * (0.9 + Math.random() * 0.22));
       const baseOp = +(0.5 + 0.4 * depth).toFixed(2);
       // One cloud per even document slot (gentle jitter) so they're spread far
