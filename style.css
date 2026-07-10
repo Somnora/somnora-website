@@ -238,8 +238,8 @@ body {
    and twitches an ear now and then. Purely decorative. */
 .bunny {
   position: absolute;
-  right: 11%;
-  bottom: 2.2vh;
+  right: 40%;
+  top: 10%;
   width: clamp(52px, 8vh, 96px);
   z-index: 1;
 }
@@ -1459,6 +1459,11 @@ body.zone-day .btn-secondary {
 @media (max-width: 640px) {
   .persona-grid { grid-template-columns: 1fr; }
   .privacy-bullets { grid-template-columns: 1fr; }
+  /* The crest position crowds the footer links on narrow screens, and
+     sitting low enough to clear them puts it underneath the opaque grass
+     layer. Split the difference: level with the link row, tucked past
+     the right edge of the text. */
+  .bunny { top: 5%; right: 23%; }
 }
 
 @media (max-width: 720px) {
