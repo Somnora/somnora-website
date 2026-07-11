@@ -17,7 +17,7 @@ const MODE_DETAILS = {
   dream: {
     label: "Mode 01 · Dream",
     title: "Dream",
-    purpose: "Purpose: catch the night before it fades — even half-awake.",
+    purpose: "Purpose: catch the night before it fades, even half-awake.",
     points: [
       "Speak it half-asleep: one tap from the morning nudge and Nora is already listening.",
       "She remembers your past threads and asks the one question worth asking.",
@@ -31,15 +31,15 @@ const MODE_DETAILS = {
     points: [
       "Drop in the loose thought before it slips away.",
       "Use Nora to shape the signal without sanding off its edge.",
-      "Dreams with creative charge can spark concept notes on their own — waiting in your Eureka inbox by morning."
+      "Dreams with creative charge can spark concept notes on their own, waiting in your Eureka inbox by morning."
     ]
   },
   analytics: {
     label: "Mode 03 · Insights",
     title: "Insights",
-    purpose: "Purpose: context for how you're really doing — never a diagnosis.",
+    purpose: "Purpose: context for how you're really doing, never a diagnosis.",
     points: [
-      "Sleep balance from your real nights — durations and trends, not a judgment score.",
+      "Sleep balance from your real nights: durations and trends, not a judgment score.",
       "A dream climate that maps what your nights keep returning to.",
       "Resilience: how your body actually settles during breathing sessions."
     ]
@@ -49,7 +49,7 @@ const MODE_DETAILS = {
     title: "Mindful",
     purpose: "Purpose: close the day with a steadier body and a quieter mind.",
     points: [
-      "A 90-second guided wind-down — breathing that asks very little of you.",
+      "A 90-second guided wind-down: breathing that asks very little of you.",
       "Meditations and gratitude prompts, read aloud in Nora's own voice.",
       "Finish with a steadier handoff into the night."
     ]
@@ -147,6 +147,21 @@ if (mobileToggle && navLinks) {
       navLinks.classList.remove('open');
       mobileToggle.setAttribute('aria-expanded', 'false');
     });
+  });
+
+  // Escape and outside-tap both dismiss the open menu
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      navLinks.classList.remove('open');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      mobileToggle.focus();
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (!navLinks.classList.contains('open')) return;
+    if (navLinks.contains(e.target) || mobileToggle.contains(e.target)) return;
+    navLinks.classList.remove('open');
+    mobileToggle.setAttribute('aria-expanded', 'false');
   });
 }
 
@@ -599,6 +614,7 @@ details.forEach((targetDetail) => {
       const img = document.createElement('img');
       img.src = order[i % order.length];
       img.alt = '';
+      img.decoding = 'async';
       img.draggable = false;
       img.className = 'cloud-img';
       // Depth interleaved (golden ratio) so near and far clouds alternate down

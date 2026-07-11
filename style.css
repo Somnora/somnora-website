@@ -371,7 +371,10 @@ main, .footer { position: relative; z-index: 3; }
   opacity: 1;
   transform: none;
 }
-html.no-js [data-reveal],
+/* No JS, no reveal engine: content must simply be visible. (The script
+   stamps .has-js on <html>; nothing ever adds a "no-js" class, so the
+   fallback has to key off the has-js marker's absence.) */
+html:not(.has-js) [data-reveal],
 html.reduced-motion [data-reveal] {
   opacity: 1;
   transform: none;
@@ -832,46 +835,6 @@ body.zone-day .btn-secondary {
   font-size: 0.85rem;
   color: var(--moonlight-soft);
 }
-
-/* ============ DATA IN / VALUE OUT ============ */
-
-.io-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.1rem;
-}
-.io-card {
-  padding: clamp(1.9rem, 2.4vw, 2.6rem) clamp(1.8rem, 2.2vw, 2.4rem);
-  border-radius: var(--radius-lg);
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(14px);
-}
-.io-card h3 {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  color: var(--amber);
-  margin-bottom: 1rem;
-}
-.io-card.outputs h3 { color: var(--salmon); }
-.io-card ul { list-style: none; }
-.io-card li {
-  padding: 0.5rem 0 0.5rem 1.6rem;
-  position: relative;
-  color: var(--moonlight-soft);
-  font-size: clamp(0.95rem, 0.9rem + 0.18vw, 1.07rem);
-}
-.io-card li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.95rem;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(232, 184, 109, 0.5);
-}
-.io-card.outputs li::before { background: rgba(224, 146, 122, 0.6); }
 
 /* ============ MODES ============ */
 
@@ -1422,6 +1385,100 @@ body.zone-day .btn-secondary {
   transition: color 0.6s ease;
 }
 
+/* ============ LEGAL PAGES (privacy / terms) ============
+   A paper document on the night desk: one cream letter panel with serif
+   headings and ink text, sharing the language of the landing page's
+   privacy and founder panels. Without these rules the pages fall back to
+   raw browser styles (purple links, default bullets, content under the
+   fixed nav). */
+
+.legal-page #ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 55% at 72% -12%, rgba(232, 184, 109, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 15% 108%, rgba(60, 70, 95, 0.35) 0%, transparent 60%);
+}
+.legal-main {
+  max-width: min(880px, 92vw);
+  margin: calc(var(--nav-height) + 3.5rem) auto 4rem;
+}
+.legal-stack {
+  padding: clamp(2.2rem, 3vw, 3rem) clamp(1.6rem, 3.2vw, 3rem);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(172deg, #faf1dd 0%, #efe0bd 100%);
+  border: 1px solid rgba(44, 34, 27, 0.1);
+  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.55);
+  color: var(--ink);
+}
+.legal-stack a {
+  color: var(--salmon-deep);
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.legal-stack a:hover { text-decoration: underline; }
+.legal-back-link {
+  display: inline-block;
+  font-size: 0.9rem;
+  margin-bottom: 1.7rem;
+}
+.legal-stack .modes-eyebrow { color: var(--salmon-deep); margin-bottom: 0.5rem; }
+.legal-stack h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.1rem, 5vw, 2.9rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.legal-updated {
+  font-size: 0.85rem;
+  color: rgba(44, 34, 27, 0.55);
+  margin-bottom: 1.5rem;
+}
+.legal-intro {
+  font-size: 1.04rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 64ch;
+}
+.legal-section { margin-top: 2.1rem; }
+.legal-section h2 {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+.legal-section p {
+  font-size: 0.97rem;
+  color: var(--ink-soft);
+  max-width: 70ch;
+}
+.legal-list { list-style: none; }
+.legal-list li {
+  padding: 0.42rem 0 0.42rem 1.7rem;
+  position: relative;
+  font-size: 0.97rem;
+  color: var(--ink-soft);
+}
+.legal-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.98rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--salmon);
+}
+.legal-page .footer { padding: 1rem 1.5rem 2.5rem; }
+.legal-page .copyright { color: var(--moonlight-faint); }
+
 /* ============ RESPONSIVE ============ */
 
 @media (max-width: 900px) {
@@ -1439,7 +1496,6 @@ body.zone-day .btn-secondary {
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(14px);
   }
-  .io-grid { grid-template-columns: 1fr; }
   .pricing-grid { grid-template-columns: 1fr; }
   .dc-layout { grid-template-columns: 1fr; }
   .founder-note-panel { grid-template-columns: 1fr; gap: 1.4rem; }
@@ -1489,7 +1545,7 @@ body.zone-day .btn-secondary {
    the clouds stutter on a swipe. On touch devices: drop the blur entirely and
    give every plate a solid, sky-independent surface. */
 @media (pointer: coarse) {
-  .nav, .nav-links, .hero-preview, .feature-item, .io-card, .mode-detail-card,
+  .nav, .nav-links, .hero-preview, .feature-item, .mode-detail-card,
   .mode-mobile-card, .faq-item, .pricing-card, .btn-secondary {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -1497,7 +1553,7 @@ body.zone-day .btn-secondary {
 
   /* Dark "glass" plates (light text, over the night sky) — a cool, sky-
      independent fill so they never pick up the warm sky and never read brown. */
-  .feature-item, .io-card, .mode-detail-card, .mode-mobile-card {
+  .feature-item, .mode-detail-card, .mode-mobile-card {
     background: rgba(20, 22, 32, 0.74);
   }
 
@@ -1534,7 +1590,6 @@ body.zone-day .btn-secondary {
 .zone-night p,
 .zone-night li,
 .feature-item,
-.io-card,
 .mode-step,
 .mode-mobile-card {
   transition-property: color, background-color, border-color;
@@ -1551,12 +1606,10 @@ body.zone-day .zone-night .mode-step h3 {
 body.zone-day .zone-night .section-header p,
 body.zone-day .zone-night .modes-header p,
 body.zone-day .zone-night .feature-item p,
-body.zone-day .zone-night .io-card li,
 body.zone-day .zone-night .mode-step p {
   color: var(--ink-soft);
 }
 body.zone-day .zone-night .feature-item,
-body.zone-day .zone-night .io-card,
 body.zone-day .zone-night .mode-mobile-card {
   background: rgba(250, 240, 218, 0.62);
   border-color: rgba(44, 34, 27, 0.1);
@@ -1566,7 +1619,6 @@ body.zone-day .zone-night .mode-step.is-active {
   background: rgba(250, 240, 218, 0.7);
   border-color: rgba(201, 119, 87, 0.5);
 }
-body.zone-day .zone-night .io-card h3 { color: var(--salmon-deep); }
 body.zone-day .zone-night .mode-mobile-card h3 { color: var(--ink); }
 body.zone-day .zone-night .dc-copy h2,
 body.zone-day .zone-night .persona h3 { color: var(--ink); }
