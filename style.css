@@ -240,7 +240,7 @@ body {
    and 30vw past the right. */
 .bunny {
   position: absolute;
-  right: 33%;
+  right: 37%;
   top: -22%;
   width: clamp(52px, 8vh, 96px);
   z-index: 1;
@@ -1511,7 +1511,7 @@ body.zone-day .btn-secondary {
   .privacy-bullets { grid-template-columns: 1fr; }
   /* Narrow screens: the mid mound's crest curve differs, so nudge to
      keep the bunny on the ridge and clear of the footer text. */
-  .bunny { top: -22%; right: 31%; }
+  .bunny { top: -22%; right: 35%; }
   /* Lift the footer content off the mound: the single (wide) App Store
      button otherwise lands exactly on the bunny's crest. The extra
      bottom padding ends the page on open meadow instead. */
