@@ -1512,6 +1512,10 @@ body.zone-day .btn-secondary {
   /* Narrow screens: the back mound's crest curve differs, so nudge to
      keep the bunny on the ridge and clear of the footer text. */
   .bunny { top: 2%; right: 14%; }
+  /* Lift the footer content off the mound: the single (wide) App Store
+     button otherwise lands exactly on the bunny's crest. The extra
+     bottom padding ends the page on open meadow instead. */
+  .footer { padding-bottom: 12rem; }
 }
 
 @media (max-width: 720px) {
