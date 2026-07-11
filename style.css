@@ -233,15 +233,15 @@ body {
   to   { transform: skewX(3.4deg) scaleY(1.01); }
 }
 
-/* The bunny: perched on the back mound's crest, facing the footer's App
+/* The bunny: perched on the mid mound's crest, facing the footer's App
    Store button. It rides the hill layer's rise, chews, blinks, and
    twitches an ear now and then. Purely decorative. Note: offsets are
-   relative to hill-back, which extends 25vw past the left viewport edge
-   and 15vw past the right. */
+   relative to hill-mid, which extends 12vw past the left viewport edge
+   and 30vw past the right. */
 .bunny {
   position: absolute;
-  right: 18.5%;
-  top: -1.5%;
+  right: 33%;
+  top: -22%;
   width: clamp(52px, 8vh, 96px);
   z-index: 1;
 }
@@ -1509,9 +1509,9 @@ body.zone-day .btn-secondary {
 @media (max-width: 640px) {
   .persona-grid { grid-template-columns: 1fr; }
   .privacy-bullets { grid-template-columns: 1fr; }
-  /* Narrow screens: the back mound's crest curve differs, so nudge to
+  /* Narrow screens: the mid mound's crest curve differs, so nudge to
      keep the bunny on the ridge and clear of the footer text. */
-  .bunny { top: 2%; right: 14%; }
+  .bunny { top: -22%; right: 31%; }
   /* Lift the footer content off the mound: the single (wide) App Store
      button otherwise lands exactly on the bunny's crest. The extra
      bottom padding ends the page on open meadow instead. */

@@ -240,7 +240,7 @@ details.forEach((targetDetail) => {
 
     // The three layers stack (night below, dawn, day on top), so brightness
     // stays monotonic by construction: the dawn blue rises once over the
-    // night and HOLDS — it never fades back out — and broad daylight only
+    // night and HOLDS (it never fades back out) and broad daylight only
     // eases in over the last stretch, covering the dawn rather than
     // replacing it. (The old triangular dawn envelope faded before the day
     // arrived, which read as brighter → darker → brighter.)
@@ -482,7 +482,7 @@ details.forEach((targetDetail) => {
       });
 
       // Shooting stars: brief streaks dancing across different parts of
-      // the sky — random position, direction, and pace; they retire as
+      // the sky: random position, direction, and pace; they retire as
       // morning arrives (nightness gates both spawning and alpha)
       if (nightness > 0.06 && performance.now() >= nextMeteorAt) {
         const goingRight = Math.random() < 0.5;
@@ -603,7 +603,7 @@ details.forEach((targetDetail) => {
       ? 5
       : Math.max(6, Math.min(9, Math.round(innerWidth / 240)));
     // Spread the (few, large) clouds across the day-zone document height with a
-    // gentle parallax and NO wrap — each sits far apart so different shapes don't
+    // gentle parallax and NO wrap: each sits far apart so different shapes don't
     // stack, and there's no modulo sawtooth to jump them around on scroll reversal.
     const docH = document.documentElement.scrollHeight;
     const dayTop = (firstDayZone ? firstDayZone.offsetTop : docH * 0.55) - innerHeight * 1.4;
