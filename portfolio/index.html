@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#181310" />
-  <title>James McShane | Cinematography</title>
-  <meta name="description" content="Selected cinematography by James McShane: music videos, documentary, and commercial work for Khalid, Ariana Grande, Demi Lovato, the Jonas Brothers, PJ Morton and more." />
-  <meta property="og:title" content="James McShane | Cinematography" />
-  <meta property="og:description" content="Selected work across music videos, documentary, and commercial cinematography." />
+  <title>James McShane | Cinematographer &amp; Developer</title>
+  <meta name="description" content="James McShane: cinematographer and software developer. Selected cinematography for Khalid, Ariana Grande, Demi Lovato, the Jonas Brothers, PJ Morton and more, plus the apps and platforms he builds under Somnora." />
+  <meta property="og:title" content="James McShane | Cinematographer &amp; Developer" />
+  <meta property="og:description" content="Selected cinematography across music videos, documentary, and commercial work, plus the apps and platforms built under Somnora." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://somnora.app/portfolio/" />
   <meta property="og:image" content="https://i.vimeocdn.com/video/1329765945-d55c25e96f11ba6c1f6ff9ef05a6ae68992f528741c4cc5fcbfc010ca22e3331-d_1280?region=us" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="James McShane | Cinematography" />
-  <meta name="twitter:description" content="Selected work across music videos, documentary, and commercial cinematography." />
+  <meta name="twitter:title" content="James McShane | Cinematographer &amp; Developer" />
+  <meta name="twitter:description" content="Selected cinematography, plus the apps and platforms built under Somnora." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -201,6 +201,150 @@
     @media (prefers-reduced-motion: reduce) {
       .pf-tile img, .pf-tile::after, .pf-meta { transition: none; }
     }
+
+    /* ---- Mode toggle (Cinematography / Developer) ---- */
+    .pf-toggle {
+      position: relative;
+      display: inline-flex;
+      margin: 1.7rem auto 0;
+      padding: 4px;
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      background: var(--glass);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    .pf-toggle-thumb {
+      position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px;
+      width: calc(50% - 4px);
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--salmon-deep), var(--salmon));
+      box-shadow: 0 6px 18px rgba(201, 119, 87, 0.35);
+      transition: transform 0.45s var(--ease-soft);
+    }
+    .pf-toggle[data-active="dev"] .pf-toggle-thumb { transform: translateX(100%); }
+    .pf-toggle-btn {
+      position: relative; z-index: 1;
+      flex: 1 1 0; min-width: 132px;
+      padding: 0.6rem 1.3rem;
+      border: 0; background: transparent; cursor: pointer;
+      font-family: var(--sans); font-size: 0.9rem; font-weight: 600;
+      color: var(--moonlight-faint);
+      transition: color 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .pf-toggle-btn.is-active { color: #1a120d; }
+    .pf-toggle-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 999px; }
+
+    /* View switching */
+    .pf-view[hidden] { display: none; }
+    .pf-view { animation: pf-fade 0.5s var(--ease-soft); }
+    @keyframes pf-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* ---- Developer view ---- */
+    .dv-featured { max-width: 1040px; margin: 0 auto clamp(2.2rem, 4vw, 3.2rem); }
+    .dv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+      max-width: 1040px; margin: 0 auto;
+    }
+    .dv-card {
+      display: flex; flex-direction: column;
+      padding: 1.35rem 1.4rem 1.3rem;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      background: var(--glass);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      transition: transform 0.4s var(--ease-soft), border-color 0.3s ease, background 0.3s ease;
+    }
+    .dv-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(224, 146, 122, 0.4);
+      background: var(--glass-strong);
+    }
+    .dv-card-featured {
+      padding: clamp(1.6rem, 3vw, 2.4rem);
+      border-color: rgba(232, 184, 109, 0.28);
+      background: linear-gradient(135deg, rgba(232,184,109,0.08), rgba(255,245,230,0.04));
+    }
+    .dv-card-head { display: flex; align-items: center; gap: 1rem; }
+    .dv-logo {
+      width: 64px; height: 64px; flex: 0 0 auto;
+      border-radius: 15px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+      background: #0c0906;
+      object-fit: cover;
+    }
+    .dv-card-featured .dv-logo { width: 88px; height: 88px; border-radius: 20px; }
+    .dv-head-text { flex: 1 1 auto; min-width: 0; }
+    .dv-name {
+      font-family: var(--serif); font-weight: 600;
+      color: var(--moonlight); line-height: 1.1; font-size: 1.2rem;
+    }
+    .dv-card-featured .dv-name { font-size: clamp(1.7rem, 3.5vw, 2.2rem); }
+    .dv-cat {
+      margin-top: 0.28rem;
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--amber);
+    }
+    .dv-card-featured .dv-cat { font-size: 0.78rem; }
+    .dv-status {
+      flex: 0 0 auto; align-self: flex-start;
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--moonlight-soft);
+      padding: 0.28rem 0.6rem; border-radius: 999px;
+      border: 1px solid var(--glass-border); background: rgba(255,245,230,0.04);
+      white-space: nowrap;
+    }
+    .dv-status[data-kind="live"] { color: #7fd19a; border-color: rgba(127,209,154,0.32); }
+    .dv-status[data-kind="dev"] { color: var(--amber); border-color: rgba(232,184,109,0.32); }
+    .dv-desc {
+      margin-top: 1rem;
+      color: var(--moonlight-soft); font-size: 0.94rem; line-height: 1.55;
+      flex: 1 1 auto;
+    }
+    .dv-card-featured .dv-desc { font-size: 1.02rem; max-width: 64ch; }
+
+    .dv-programs { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 1.3rem; }
+    .dv-program {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.76rem; font-weight: 600; color: var(--moonlight);
+      padding: 0.45rem 0.85rem; border-radius: 999px;
+      border: 1px solid var(--glass-border); background: rgba(255,245,230,0.05);
+    }
+    .dv-program::before {
+      content: ""; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--amber); box-shadow: 0 0 8px var(--amber);
+    }
+
+    .dv-links { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.3rem; }
+    .dv-link {
+      display: inline-flex; align-items: center;
+      font-size: 0.85rem; font-weight: 600; text-decoration: none;
+      color: var(--moonlight);
+      padding: 0.5rem 1rem; border-radius: 999px;
+      border: 1px solid var(--glass-border); background: rgba(255,245,230,0.04);
+      transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+    }
+    .dv-link::after { content: "\2197"; margin-left: 0.4rem; font-size: 0.9em; opacity: 0.7; }
+    .dv-link:hover { border-color: var(--salmon); background: rgba(224,146,122,0.12); }
+    .dv-link-primary {
+      color: #1a120d; border-color: transparent;
+      background: linear-gradient(135deg, var(--salmon-deep), var(--salmon));
+    }
+    .dv-link-primary:hover { color: #1a120d; background: linear-gradient(135deg, var(--salmon), var(--amber)); }
+
+    /* Glyph tiles for projects without an app icon */
+    .dv-glyph { display: grid; place-items: center; overflow: hidden; }
+    .dv-glyph svg { width: 66%; height: 66%; }
+    .dv-glyph-manifold { background: radial-gradient(circle at 30% 25%, #2a2350, #120f1e); }
+    .dv-glyph-locked { background: radial-gradient(circle at 30% 25%, #2b211a, #17110d); }
+
+    @media (max-width: 640px) {
+      .dv-grid { grid-template-columns: 1fr; }
+      .pf-toggle-btn { min-width: 122px; font-size: 0.84rem; padding: 0.55rem 1rem; }
+      .dv-card-featured .dv-logo { width: 68px; height: 68px; }
+    }
   </style>
 </head>
 <body id="top" class="pf-body">
@@ -220,14 +364,24 @@
   <main id="main" class="pf-main">
 
     <header class="pf-header">
-      <p class="pf-eyebrow">Cinematography Portfolio</p>
+      <p class="pf-eyebrow" data-film="Cinematography Portfolio" data-dev="Developer Portfolio">Cinematography Portfolio</p>
       <h1>James McShane</h1>
-      <p class="pf-role">Cinematographer &amp; Director of Photography</p>
-      <p class="pf-intro">Selected work across music videos, documentary, and commercial cinematography. Click any frame to play.</p>
+      <p class="pf-role" data-film="Cinematographer &amp; Director of Photography" data-dev="Software Developer &amp; Founder">Cinematographer &amp; Director of Photography</p>
+
+      <div class="pf-toggle" role="tablist" aria-label="Portfolio mode" data-active="film">
+        <span class="pf-toggle-thumb" aria-hidden="true"></span>
+        <button class="pf-toggle-btn is-active" type="button" role="tab" id="tab-film" data-view="film" aria-controls="view-film" aria-selected="true">Cinematography</button>
+        <button class="pf-toggle-btn" type="button" role="tab" id="tab-dev" data-view="dev" aria-controls="view-dev" aria-selected="false">Developer</button>
+      </div>
+
+      <p class="pf-intro" data-film="Selected work across music videos, documentary, and commercial cinematography. Click any frame to play." data-dev="The apps and platforms I design and build under Somnora, from shipping iOS apps to AI infrastructure and tools for film and play.">Selected work across music videos, documentary, and commercial cinematography. Click any frame to play.</p>
       <div class="btn-group">
         <a href="mailto:jmcshanedp@gmail.com" class="btn btn-primary">Get in touch</a>
       </div>
     </header>
+
+    <!-- ===================== CINEMATOGRAPHY VIEW ===================== -->
+    <div id="view-film" class="pf-view" role="tabpanel" aria-labelledby="tab-film">
 
     <!-- Featured reel -->
     <section class="pf-featured" aria-label="Cinematography showreel">
@@ -362,6 +516,175 @@
       </button>
 
     </section>
+    </div><!-- /#view-film -->
+
+    <!-- ===================== DEVELOPER VIEW ===================== -->
+    <div id="view-dev" class="pf-view" role="tabpanel" aria-labelledby="tab-dev" hidden>
+
+      <!-- Featured: Somnora -->
+      <section class="dv-featured" aria-label="Featured project: Somnora">
+        <article class="dv-card dv-card-featured">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/somnora.png" alt="Somnora app icon" width="88" height="88" loading="lazy" />
+            <div class="dv-head-text">
+              <h2 class="dv-name">Somnora</h2>
+              <p class="dv-cat">Agentic Wellness Companion</p>
+            </div>
+          </div>
+          <p class="dv-desc">Nora reads your dreams, mood, and body trends each morning, then decides whether to reach out. At most once a day, and only when the evidence actually backs it up.</p>
+          <div class="dv-programs">
+            <span class="dv-program">Google for Startups</span>
+            <span class="dv-program">NVIDIA Inception Program</span>
+          </div>
+          <div class="dv-links">
+            <a class="dv-link dv-link-primary" href="https://apps.apple.com/il/app/somnora/id6755064744" target="_blank" rel="noopener">App Store</a>
+          </div>
+        </article>
+      </section>
+
+      <p class="pf-section-label">More Projects</p>
+
+      <section class="dv-grid" aria-label="Selected software projects">
+
+        <!-- Today In Time -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/today.png" alt="Today In Time app icon" width="64" height="64" loading="lazy" />
+            <div class="dv-head-text">
+              <h3 class="dv-name">Today In Time</h3>
+              <p class="dv-cat">Daily Almanac</p>
+            </div>
+            <span class="dv-status" data-kind="live">App Store</span>
+          </div>
+          <p class="dv-desc">A handful of real stories from today in history, written and sourced with care, not scraped from Wikipedia. Choose uplifting, balanced, or unflinching, and read them before your coffee's done.</p>
+          <div class="dv-links">
+            <a class="dv-link" href="https://apps.apple.com/il/app/today-in-time/id6766169103" target="_blank" rel="noopener">App Store</a>
+          </div>
+        </article>
+
+        <!-- Callsheet Companion -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/callsheet.png" alt="Callsheet Companion app icon" width="64" height="64" loading="lazy" />
+            <div class="dv-head-text">
+              <h3 class="dv-name">Callsheet Companion</h3>
+              <p class="dv-cat">Crew Finances</p>
+            </div>
+            <span class="dv-status" data-kind="live">App Store</span>
+          </div>
+          <p class="dv-desc">Built for freelance crew who work gig to gig on set. It does the overtime and golden-time math, turns shoot days into invoices, and flags who still owes you a 1099.</p>
+          <div class="dv-links">
+            <a class="dv-link" href="https://apps.apple.com/il/app/callsheet-companion/id6757967487" target="_blank" rel="noopener">App Store</a>
+          </div>
+        </article>
+
+        <!-- SquadSync -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/squadsync.png" alt="SquadSync app icon" width="64" height="64" loading="lazy" />
+            <div class="dv-head-text">
+              <h3 class="dv-name">SquadSync</h3>
+              <p class="dv-cat">Squad Planner</p>
+            </div>
+            <span class="dv-status">Open Source</span>
+          </div>
+          <p class="dv-desc">No more herding everyone through a group chat. Invite codes expire instead of living forever, and Run It Back rebuilds a finished session into a rematch with one tap.</p>
+          <div class="dv-links">
+            <a class="dv-link" href="https://github.com/Somnora/Squad-Sync" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+
+        <!-- Manifold -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <span class="dv-logo dv-glyph dv-glyph-manifold" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <defs><linearGradient id="mfGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/>
+                </linearGradient></defs>
+                <path d="M24 6 44 16 24 26 4 16z" fill="url(#mfGrad)" opacity="0.95"/>
+                <path d="M24 20 44 30 24 40 4 30z" fill="url(#mfGrad)" opacity="0.5"/>
+              </svg>
+            </span>
+            <div class="dv-head-text">
+              <h3 class="dv-name">Manifold</h3>
+              <p class="dv-cat">GPU Platform</p>
+            </div>
+            <span class="dv-status">Open Source</span>
+          </div>
+          <p class="dv-desc">Rents GPUs on Lambda Cloud, then lets me or an AI agent launch, run, and tear them down through the same guarded rails. It preinstalls Claude Code on every box, but never hands the agent the keys to spend money.</p>
+          <div class="dv-links">
+            <a class="dv-link" href="https://github.com/Somnora/Manifold-" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+
+        <!-- SetView -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/setview.svg" alt="SetView app icon" width="64" height="64" loading="lazy" />
+            <div class="dv-head-text">
+              <h3 class="dv-name">SetView</h3>
+              <p class="dv-cat">AR Previz</p>
+            </div>
+            <span class="dv-status">Open Source</span>
+          </div>
+          <p class="dv-desc">Strap on a headset in the real location, block virtual actors on the actual floor, then look through a virtual camera with true Super 16 to anamorphic optics to find your shot before the crew shows up.</p>
+          <div class="dv-links">
+            <a class="dv-link" href="https://github.com/Somnora/Set-View" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+
+        <!-- HomePlate -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/homeplate.png" alt="HomePlate app icon" width="64" height="64" loading="lazy" />
+            <div class="dv-head-text">
+              <h3 class="dv-name">HomePlate</h3>
+              <p class="dv-cat">Friend Status</p>
+            </div>
+            <span class="dv-status">Open Source</span>
+          </div>
+          <p class="dv-desc">Post available, maybe, or busy, with a note and a location, seen only by the friends you add by code. It expires on its own, no feed, no history left behind.</p>
+          <div class="dv-links">
+            <a class="dv-link" href="https://github.com/Somnora/Home-Plate" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+
+        <!-- Cosmo Trader -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/cosmo.png" alt="Cosmo Trader app icon" width="64" height="64" loading="lazy" />
+            <div class="dv-head-text">
+              <h3 class="dv-name">Cosmo Trader</h3>
+              <p class="dv-cat">Astro Trading</p>
+            </div>
+            <span class="dv-status" data-kind="dev">In Development</span>
+          </div>
+          <p class="dv-desc">Every stock gets a zodiac sign from its founding date, and Cosmo Trader plots real moon phases and Mercury retrograde windows right on the price chart. It's astrology for market vibes, not a trading signal.</p>
+        </article>
+
+        <!-- Locked -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <span class="dv-logo dv-glyph dv-glyph-locked" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <rect x="11" y="21" width="26" height="20" rx="4" fill="none" stroke="#e0927a" stroke-width="3"/>
+                <path d="M16 21v-4a8 8 0 0 1 16 0v4" fill="none" stroke="#e8b86d" stroke-width="3"/>
+                <circle cx="24" cy="29.5" r="3.2" fill="#f7efe4"/>
+                <rect x="22.6" y="29.5" width="2.8" height="6.5" rx="1.4" fill="#f7efe4"/>
+              </svg>
+            </span>
+            <div class="dv-head-text">
+              <h3 class="dv-name">Locked</h3>
+              <p class="dv-cat">Virtual Camera</p>
+            </div>
+            <span class="dv-status" data-kind="dev">In Development</span>
+          </div>
+          <p class="dv-desc">Stays locked on the real you even when someone walks through the back of frame, then commits to one clean cinematic move, on a hotkey, a clap, or just saying Lock In.</p>
+        </article>
+
+      </section>
+    </div><!-- /#view-dev -->
   </main>
 
   <footer class="pf-footer">
@@ -393,6 +716,45 @@
       document.querySelectorAll('.pf-tile').forEach(function (tile) {
         tile.addEventListener('click', function () { activate(tile); });
       });
+    })();
+
+    // Cinematography / Developer mode toggle
+    (function () {
+      var toggle = document.querySelector('.pf-toggle');
+      if (!toggle) return;
+      var tabs = Array.prototype.slice.call(toggle.querySelectorAll('.pf-toggle-btn'));
+      var views = { film: document.getElementById('view-film'), dev: document.getElementById('view-dev') };
+      var header = document.querySelector('.pf-header');
+      var swap = ['pf-eyebrow', 'pf-role', 'pf-intro'].map(function (c) {
+        return header ? header.querySelector('.' + c) : null;
+      });
+
+      function show(mode, push) {
+        if (mode !== 'dev') mode = 'film';
+        toggle.setAttribute('data-active', mode);
+        tabs.forEach(function (t) {
+          var on = t.getAttribute('data-view') === mode;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        Object.keys(views).forEach(function (k) {
+          if (views[k]) views[k].hidden = (k !== mode);
+        });
+        swap.forEach(function (el) {
+          if (!el) return;
+          var v = el.getAttribute('data-' + mode);
+          if (v != null) el.textContent = v;
+        });
+        if (push && window.history && history.replaceState) {
+          history.replaceState(null, '', mode === 'dev' ? '#dev' : '#film');
+        }
+      }
+
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () { show(t.getAttribute('data-view'), true); });
+      });
+
+      show(location.hash === '#dev' ? 'dev' : 'film', false);
     })();
   </script>
 </body>
