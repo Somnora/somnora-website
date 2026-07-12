@@ -224,10 +224,11 @@
     .pf-toggle[data-active="dev"] .pf-toggle-thumb { transform: translateX(100%); }
     .pf-toggle-btn {
       position: relative; z-index: 1;
-      flex: 1 1 0; min-width: 132px;
-      padding: 0.6rem 1.3rem;
+      flex: 1 1 0; min-width: 160px;
+      padding: 0.6rem 1.25rem;
       border: 0; background: transparent; cursor: pointer;
       font-family: var(--sans); font-size: 0.9rem; font-weight: 600;
+      white-space: nowrap;
       color: var(--moonlight-faint);
       transition: color 0.3s ease;
       -webkit-tap-highlight-color: transparent;
@@ -283,13 +284,17 @@
     }
     .dv-card-featured .dv-name { font-size: clamp(1.7rem, 3.5vw, 2.2rem); }
     .dv-cat {
-      margin-top: 0.28rem;
       font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--amber);
     }
-    .dv-card-featured .dv-cat { font-size: 0.78rem; }
+    .dv-card-featured .dv-cat { margin-top: 0.3rem; font-size: 0.78rem; }
+    /* Category + status share one row beneath the title so neither collides with a long name */
+    .dv-tags {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 0.4rem 0.6rem; margin-top: 0.4rem;
+    }
     .dv-status {
-      flex: 0 0 auto; align-self: flex-start;
+      flex: 0 0 auto;
       font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
       color: var(--moonlight-soft);
       padding: 0.28rem 0.6rem; border-radius: 999px;
@@ -342,7 +347,7 @@
 
     @media (max-width: 640px) {
       .dv-grid { grid-template-columns: 1fr; }
-      .pf-toggle-btn { min-width: 122px; font-size: 0.84rem; padding: 0.55rem 1rem; }
+      .pf-toggle-btn { min-width: 142px; font-size: 0.84rem; padding: 0.55rem 0.9rem; }
       .dv-card-featured .dv-logo { width: 68px; height: 68px; }
     }
   </style>
@@ -552,9 +557,11 @@
             <img class="dv-logo" src="logos/today.png" alt="Today In Time app icon" width="64" height="64" loading="lazy" />
             <div class="dv-head-text">
               <h3 class="dv-name">Today In Time</h3>
-              <p class="dv-cat">Daily Almanac</p>
+              <div class="dv-tags">
+                <span class="dv-cat">Daily Almanac</span>
+                <span class="dv-status" data-kind="live">App Store</span>
+              </div>
             </div>
-            <span class="dv-status" data-kind="live">App Store</span>
           </div>
           <p class="dv-desc">A handful of real stories from today in history, written and sourced with care, not scraped from Wikipedia. Choose uplifting, balanced, or unflinching, and read them before your coffee's done.</p>
           <div class="dv-links">
@@ -568,9 +575,11 @@
             <img class="dv-logo" src="logos/callsheet.png" alt="Callsheet Companion app icon" width="64" height="64" loading="lazy" />
             <div class="dv-head-text">
               <h3 class="dv-name">Callsheet Companion</h3>
-              <p class="dv-cat">Crew Finances</p>
+              <div class="dv-tags">
+                <span class="dv-cat">Crew Finances</span>
+                <span class="dv-status" data-kind="live">App Store</span>
+              </div>
             </div>
-            <span class="dv-status" data-kind="live">App Store</span>
           </div>
           <p class="dv-desc">Built for freelance crew who work gig to gig on set. It does the overtime and golden-time math, turns shoot days into invoices, and flags who still owes you a 1099.</p>
           <div class="dv-links">
@@ -584,9 +593,11 @@
             <img class="dv-logo" src="logos/squadsync.png" alt="SquadSync app icon" width="64" height="64" loading="lazy" />
             <div class="dv-head-text">
               <h3 class="dv-name">SquadSync</h3>
-              <p class="dv-cat">Squad Planner</p>
+              <div class="dv-tags">
+                <span class="dv-cat">Squad Planner</span>
+                <span class="dv-status">Open Source</span>
+              </div>
             </div>
-            <span class="dv-status">Open Source</span>
           </div>
           <p class="dv-desc">No more herding everyone through a group chat. Invite codes expire instead of living forever, and Run It Back rebuilds a finished session into a rematch with one tap.</p>
           <div class="dv-links">
@@ -608,9 +619,11 @@
             </span>
             <div class="dv-head-text">
               <h3 class="dv-name">Manifold</h3>
-              <p class="dv-cat">GPU Platform</p>
+              <div class="dv-tags">
+                <span class="dv-cat">GPU Platform</span>
+                <span class="dv-status">Open Source</span>
+              </div>
             </div>
-            <span class="dv-status">Open Source</span>
           </div>
           <p class="dv-desc">Rents GPUs on Lambda Cloud, then lets me or an AI agent launch, run, and tear them down through the same guarded rails. It preinstalls Claude Code on every box, but never hands the agent the keys to spend money.</p>
           <div class="dv-links">
@@ -624,9 +637,11 @@
             <img class="dv-logo" src="logos/setview.svg" alt="SetView app icon" width="64" height="64" loading="lazy" />
             <div class="dv-head-text">
               <h3 class="dv-name">SetView</h3>
-              <p class="dv-cat">AR Previz</p>
+              <div class="dv-tags">
+                <span class="dv-cat">AR Previz</span>
+                <span class="dv-status">Open Source</span>
+              </div>
             </div>
-            <span class="dv-status">Open Source</span>
           </div>
           <p class="dv-desc">Strap on a headset in the real location, block virtual actors on the actual floor, then look through a virtual camera with true Super 16 to anamorphic optics to find your shot before the crew shows up.</p>
           <div class="dv-links">
@@ -640,9 +655,11 @@
             <img class="dv-logo" src="logos/homeplate.png" alt="HomePlate app icon" width="64" height="64" loading="lazy" />
             <div class="dv-head-text">
               <h3 class="dv-name">HomePlate</h3>
-              <p class="dv-cat">Friend Status</p>
+              <div class="dv-tags">
+                <span class="dv-cat">Friend Status</span>
+                <span class="dv-status">Open Source</span>
+              </div>
             </div>
-            <span class="dv-status">Open Source</span>
           </div>
           <p class="dv-desc">Post available, maybe, or busy, with a note and a location, seen only by the friends you add by code. It expires on its own, no feed, no history left behind.</p>
           <div class="dv-links">
@@ -656,11 +673,16 @@
             <img class="dv-logo" src="logos/cosmo.png" alt="Cosmo Trader app icon" width="64" height="64" loading="lazy" />
             <div class="dv-head-text">
               <h3 class="dv-name">Cosmo Trader</h3>
-              <p class="dv-cat">Astro Trading</p>
+              <div class="dv-tags">
+                <span class="dv-cat">Astro Trading</span>
+                <span class="dv-status">Open Source</span>
+              </div>
             </div>
-            <span class="dv-status" data-kind="dev">In Development</span>
           </div>
           <p class="dv-desc">Every stock gets a zodiac sign from its founding date, and Cosmo Trader plots real moon phases and Mercury retrograde windows right on the price chart. It's astrology for market vibes, not a trading signal.</p>
+          <div class="dv-links">
+            <a class="dv-link" href="https://github.com/Somnora/Cosmo-Trader" target="_blank" rel="noopener">GitHub</a>
+          </div>
         </article>
 
         <!-- Locked -->
@@ -676,9 +698,11 @@
             </span>
             <div class="dv-head-text">
               <h3 class="dv-name">Locked</h3>
-              <p class="dv-cat">Virtual Camera</p>
+              <div class="dv-tags">
+                <span class="dv-cat">Virtual Camera</span>
+                <span class="dv-status" data-kind="dev">In Development</span>
+              </div>
             </div>
-            <span class="dv-status" data-kind="dev">In Development</span>
           </div>
           <p class="dv-desc">Stays locked on the real you even when someone walks through the back of frame, then commits to one clean cinematic move, on a hotkey, a clap, or just saying Lock In.</p>
         </article>
