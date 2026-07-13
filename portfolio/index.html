@@ -242,12 +242,12 @@
     @keyframes pf-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
     /* ---- Developer view ---- */
-    .dv-featured { max-width: 1040px; margin: 0 auto clamp(2.2rem, 4vw, 3.2rem); }
+    .dv-featured { max-width: 1160px; margin: 0 auto clamp(2.2rem, 4vw, 3.2rem); }
     .dv-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 14px;
-      max-width: 1040px; margin: 0 auto;
+      max-width: 1160px; margin: 0 auto;
     }
     .dv-card {
       display: flex; flex-direction: column;
@@ -342,7 +342,6 @@
     /* Glyph tiles for projects without an app icon */
     .dv-glyph { display: grid; place-items: center; overflow: hidden; }
     .dv-glyph svg { width: 66%; height: 66%; }
-    .dv-glyph-manifold { background: radial-gradient(circle at 30% 25%, #2a2350, #120f1e); }
     .dv-glyph-locked { background: radial-gradient(circle at 30% 25%, #2b211a, #17110d); }
 
     @media (max-width: 640px) {
@@ -608,15 +607,7 @@
         <!-- Manifold -->
         <article class="dv-card">
           <div class="dv-card-head">
-            <span class="dv-logo dv-glyph dv-glyph-manifold" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none">
-                <defs><linearGradient id="mfGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/>
-                </linearGradient></defs>
-                <path d="M24 6 44 16 24 26 4 16z" fill="url(#mfGrad)" opacity="0.95"/>
-                <path d="M24 20 44 30 24 40 4 30z" fill="url(#mfGrad)" opacity="0.5"/>
-              </svg>
-            </span>
+            <img class="dv-logo" src="logos/manifold.svg" alt="Manifold app icon" width="64" height="64" loading="lazy" />
             <div class="dv-head-text">
               <h3 class="dv-name">Manifold</h3>
               <div class="dv-tags">
@@ -625,7 +616,7 @@
               </div>
             </div>
           </div>
-          <p class="dv-desc">Rents GPUs on Lambda Cloud, then lets me or an AI agent launch, run, and tear them down through the same guarded rails. It preinstalls Claude Code on every box, but never hands the agent the keys to spend money.</p>
+          <p class="dv-desc">A local orchestrator for Lambda Cloud GPUs: launch instances, queue jobs, and serve open-weight models from one dark, terminal-native dashboard. Every launch and termination runs through a single guarded gateway, so nothing spins up or bills past your budget and concurrency limits. A GPU exists only while there's work for it.</p>
           <div class="dv-links">
             <a class="dv-link" href="https://github.com/Somnora/Manifold-" target="_blank" rel="noopener">GitHub</a>
           </div>
@@ -634,7 +625,7 @@
         <!-- SetView -->
         <article class="dv-card">
           <div class="dv-card-head">
-            <img class="dv-logo" src="logos/setview.svg" alt="SetView app icon" width="64" height="64" loading="lazy" />
+            <img class="dv-logo" src="logos/setview.png" alt="SetView app icon" width="64" height="64" loading="lazy" />
             <div class="dv-head-text">
               <h3 class="dv-name">SetView</h3>
               <div class="dv-tags">
