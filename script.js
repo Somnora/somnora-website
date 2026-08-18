@@ -179,6 +179,21 @@ details.forEach((targetDetail) => {
   });
 });
 
+/* ========== APP STORE TAP EVENTS ==========
+   Counted as named GoatCounter events (cookieless, no personal data),
+   one per button location, so the page's job is measurable. If the
+   analytics script is blocked or absent, taps just work untracked. */
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a[href*="apps.apple.com"]');
+  if (!link || !window.goatcounter || typeof window.goatcounter.count !== 'function') return;
+  const spot = link.dataset.track || 'page';
+  window.goatcounter.count({
+    path: 'appstore-' + spot,
+    title: 'App Store tap: ' + spot,
+    event: true
+  });
+});
+
 /* ============================================================
    NIGHT → MORNING ATMOSPHERE ENGINE
    Sky crossfade, starfield/fireflies, cursor lantern, parallax,
