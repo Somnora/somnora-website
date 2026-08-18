@@ -248,7 +248,6 @@ details.forEach((targetDetail) => {
     const upper = clamp01((t - 0.18) / 0.5);                  // dawn covers the night by ~2/3 scroll, then holds
     const dp = clamp01((t - 0.82) / 0.18);                    // just the last little bit is broad daylight,
     const day = dp * dp * (3 - 2 * dp);                       // eased so it never snaps in
-    const cloudGate = clamp01((t - 0.52) / 0.26);             // clouds drift in during the late dawn
 
     // The ground rises to meet the footer.
     const maxScroll = document.documentElement.scrollHeight - vh;
@@ -257,8 +256,17 @@ details.forEach((targetDetail) => {
     skyNight.style.opacity = night.toFixed(3);
     skyUpper.style.opacity = Math.min(1, upper).toFixed(3);
     skyDay.style.opacity = day.toFixed(3);
-    // Fade clouds out as the ground rises so none protrude into the hills.
-    if (cloudField) cloudField.style.opacity = (cloudGate * (1 - Math.min(1, g * 1.3))).toFixed(3);
+    // Clouds belong to the finished blue sky: held back until the day
+    // layer is fully lit (t reaches 1 at dayAt), then dissolved again
+    // ahead of the rising ground so the page ends on clear air.
+    if (cloudField) {
+      const cin = clamp01((window.scrollY - (dayAt + vh * 0.12)) / (vh * 0.55));
+      const cinEase = cin * cin * (3 - 2 * cin);
+      const outFrom = Math.max(maxScroll - vh * 1.9, dayAt + vh * 0.9);
+      const cout = clamp01((window.scrollY - outFrom) / (vh * 1.15));
+      const coutEase = 1 - cout * cout * (3 - 2 * cout);
+      cloudField.style.opacity = (cinEase * coutEase).toFixed(3);
+    }
 
     // Ground layers arrive in parallax: far ridge, back hill, mid, grass
     if (hillBack) {
@@ -278,25 +286,12 @@ details.forEach((targetDetail) => {
     document.body.classList.toggle('zone-day', day > 0.45);
   }
 
-  /* ---------- Parallax ---------- */
-  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
-
-  function updateParallax() {
-    if (reduced) return;
-    const y = window.scrollY;
-    parallaxEls.forEach((el) => {
-      const speed = parseFloat(el.dataset.parallax) || 0.15;
-      el.style.transform = `translateY(${(y * speed).toFixed(1)}px)`;
-    });
-  }
-
   let scrollScheduled = false;
   function onScroll() {
     if (scrollScheduled) return;
     scrollScheduled = true;
     requestAnimationFrame(() => {
       updateSky();
-      updateParallax();
       scrollScheduled = false;
     });
   }
@@ -579,81 +574,98 @@ details.forEach((targetDetail) => {
     requestAnimationFrame(frame);
   }
 
-  /* ---------- Photographic clouds (DOM) ----------
-     Real Imagen renders with true alpha, drifting on the wind and riding
-     the scroll in depth parallax. Hovering a cloud slowly fades it away;
-     it breathes back once the pointer moves on. Gated to the blue sky by
-     the field's container opacity (set in updateSky). */
+  /* ---------- Painterly clouds (DOM) ----------
+     Hand-drawn SVG cumulus (clouds/cloud-*.svg) with true alpha, drifting
+     on the wind and riding the scroll in depth parallax. Hovering a cloud
+     slowly fades it away; it breathes back once the pointer moves on. The
+     field belongs to the finished blue sky: updateSky only fades it in
+     once the day layer is fully lit, and dissolves it again before the
+     ground rises, so the page ends on clear air. */
+  const GOLD = 0.6180339887;
   const domClouds = [];
-  if (cloudField) {
-    const srcs = Array.from({ length: 10 }, (_, k) => `clouds/cloud-${String(k + 1).padStart(2, '0')}.webp`);
-    const GOLD = 0.6180339887;
-    // Order the renders by a golden-ratio hop so two identical shapes never end
-    // up sitting next to each other as the field is laid out.
-    const order = srcs
-      .map((s, k) => ({ s, r: (k * GOLD) % 1 }))
-      .sort((a, b) => a.r - b.r)
-      .map((o) => o.s);
-    // Touch devices get fewer clouds (each moving layer is fill-rate on a mobile
-    // GPU) but sized much larger, so on a narrow screen they read as real clouds
-    // rather than wisps.
+  if (cloudField && !reduced) {
+    // Each file's aspect ratio is baked in so layout never waits on a load
+    // event (and never guesses while an image is in flight).
+    const srcs = [
+      { src: 'clouds/cloud-grand.svg', ratio: 470 / 920 },
+      { src: 'clouds/cloud-drift.svg', ratio: 320 / 1060 },
+      { src: 'clouds/cloud-puff.svg', ratio: 360 / 680 },
+      { src: 'clouds/cloud-twin.svg', ratio: 370 / 900 },
+      { src: 'clouds/cloud-wisp.svg', ratio: 200 / 1080 },
+      { src: 'clouds/cloud-shoal.svg', ratio: 310 / 960 }
+    ];
+    // Touch screens size clouds much larger so they read as real clouds,
+    // and carry a fixed count: content covers most of a narrow viewport,
+    // so it takes a few extra for one to be passing an open sky gap.
     const coarse = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || innerWidth < 700;
-    // A handful of large clouds with room to breathe.
-    const count = coarse
-      ? 5
-      : Math.max(6, Math.min(9, Math.round(innerWidth / 240)));
-    // Spread the (few, large) clouds across the day-zone document height with a
-    // gentle parallax and NO wrap: each sits far apart so different shapes don't
-    // stack, and there's no modulo sawtooth to jump them around on scroll reversal.
-    const docH = document.documentElement.scrollHeight;
-    const dayTop = (firstDayZone ? firstDayZone.offsetTop : docH * 0.55) - innerHeight * 1.4;
-    const dayBot = docH - innerHeight * 0.5;   // keep clouds above the footer ground
-    const dayRange = Math.max(innerHeight * 2, dayBot - dayTop);
-    const slotH = dayRange / count;
+    const count = coarse ? 7 : Math.max(6, Math.min(9, Math.round(innerWidth / 240)));
     for (let i = 0; i < count; i++) {
+      const shape = srcs[(i * 5) % srcs.length]; // co-prime hop: neighbors never share a shape
       const img = document.createElement('img');
-      img.src = order[i % order.length];
+      img.src = shape.src;
       img.alt = '';
       img.decoding = 'async';
       img.draggable = false;
       img.className = 'cloud-img';
-      // Depth interleaved (golden ratio) so near and far clouds alternate down
-      // the page instead of marching big-to-small.
+      // Depth interleaved (golden ratio) so near and far clouds alternate
+      // down the page instead of marching big-to-small.
       const depth = 0.32 + 0.68 * ((i * GOLD + 0.13) % 1);
-      // Large cumulus scaled to the viewport so each reads as a real cloud, not
-      // a wisp; nearer clouds are larger. On a narrow (touch) screen they take a
-      // much bigger share of the width. Tall renders are capped by max-height.
-      const sizeFrac = coarse ? (0.66 + 0.34 * depth) : (0.4 + 0.34 * depth);
-      const wpx = Math.round(innerWidth * sizeFrac * (0.9 + Math.random() * 0.22));
-      const baseOp = +(0.5 + 0.4 * depth).toFixed(2);
-      // One cloud per even document slot (gentle jitter) so they're spread far
-      // apart down the page; a per-cloud parallax rate < 1 so it drifts up a
-      // little slower than the content.
-      const docY = dayTop + (i + 0.5) * slotH + (Math.random() - 0.5) * slotH * 0.5;
-      const rate = 0.72 + 0.16 * depth;
-      // Center-based horizontal spread so clouds disperse evenly left↔right. The
-      // previous formula pushed cloud centers past the right edge, so their
-      // visible mass piled up on the left (worst on narrow screens).
-      const x = ((i * GOLD + 0.37) % 1) * innerWidth - wpx * 0.5;
       const c = {
-        el: img, depth, w: wpx, h: wpx * 0.5,
+        el: img, depth, ratio: shape.ratio, w: 0, h: 0,
         flip: i % 2 === 0 ? 1 : -1,
-        x, docY, rate,
+        x: 0, docY: 0,
+        rate: 0.72 + 0.16 * depth,
+        sizeFrac: coarse ? (0.6 + 0.34 * depth) : (0.36 + 0.3 * depth),
+        // stable per-cloud randomness, so a relayout never makes it jump
+        r1: Math.random(), r2: Math.random(),
         vx: (0.05 + Math.random() * 0.09) * (i % 2 === 0 ? 1 : -1),
-        baseOp, faded: false
+        baseOp: +(0.5 + 0.4 * depth).toFixed(2),
+        faded: false
       };
-      img.style.width = wpx + 'px';
-      img.style.opacity = String(baseOp);
-      img.style.transform = `translate3d(${c.x.toFixed(0)}px, ${(c.docY - window.scrollY * c.rate).toFixed(0)}px, 0) scaleX(${c.flip})`;
-      img.onload = () => {
-        // Read the displayed size (respects the CSS max-height cap) so hover
-        // hit-testing stays accurate for capped clouds.
-        c.w = img.offsetWidth || wpx;
-        c.h = img.offsetHeight || wpx * (img.naturalHeight / img.naturalWidth);
-      };
+      img.style.opacity = String(c.baseOp);
       cloudField.appendChild(img);
       domClouds.push(c);
     }
+  }
+
+  // Anchor every cloud to a "prime scroll moment" spread evenly down the
+  // blue-sky stretch (fully lit day → just before the farewell fade), so
+  // the field is already populated the instant it fades in and clouds
+  // keep passing until the ground takes over. Re-run on resize and once
+  // the page's true height settles: document anchors are what made the
+  // old field glitchy when the layout shifted under it.
+  function layoutClouds() {
+    if (!domClouds.length) return;
+    const vh = innerHeight;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+    const dayFullAt = firstDayZone
+      ? Math.max(vh, firstDayZone.offsetTop - vh * 0.9)
+      : maxScroll * 0.6;
+    const from = dayFullAt + vh * 0.25;
+    const to = Math.max(from + vh * 0.8, maxScroll - vh * 1.05);
+    const slot = (to - from) / domClouds.length;
+    const sy = window.scrollY;
+    domClouds.forEach((c, i) => {
+      c.w = Math.round(innerWidth * c.sizeFrac * (0.9 + c.r1 * 0.22));
+      c.h = c.w * c.ratio;
+      c.el.style.width = c.w + 'px';
+      const prime = from + (i + 0.5) * slot + (c.r2 - 0.5) * slot * 0.6;
+      // hang in the upper sky at the prime moment, above the content line
+      const anchor = vh * (0.03 + 0.47 * ((i * GOLD + 0.41) % 1));
+      c.docY = anchor + prime * c.rate;
+      c.x = ((i * GOLD + 0.37) % 1) * innerWidth - c.w * 0.5;
+      c.el.style.transform = `translate3d(${c.x.toFixed(1)}px, ${(c.docY - sy * c.rate).toFixed(1)}px, 0) scaleX(${c.flip})`;
+    });
+  }
+  if (domClouds.length) {
+    layoutClouds();
+    let relayoutTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(relayoutTimer);
+      relayoutTimer = setTimeout(() => { layoutClouds(); updateSky(); }, 160);
+    });
+    // fonts and late images can grow the document after DOM-ready
+    window.addEventListener('load', () => { layoutClouds(); updateSky(); });
   }
 
   function updateClouds() {

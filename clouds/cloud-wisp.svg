@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="200" viewBox="0 0 1080 200">
+<defs>
+  <radialGradient id="wisp-hi" cx="42%" cy="33%" r="62%">
+    <stop offset="0%" stop-color="#fffefa" stop-opacity="0.95"/>
+    <stop offset="50%" stop-color="#fbf7ee" stop-opacity="0.68"/>
+    <stop offset="100%" stop-color="#f8f4e9" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="wisp-crown" cx="40%" cy="30%" r="58%">
+    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+    <stop offset="46%" stop-color="#fffef8" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="wisp-shade" cx="50%" cy="50%" r="52%">
+    <stop offset="0%" stop-color="#a3b8c5" stop-opacity="0.42"/>
+    <stop offset="60%" stop-color="#a9bcc8" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#afc1cc" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="wisp-warm" cx="44%" cy="38%" r="56%">
+    <stop offset="0%" stop-color="#f6debb" stop-opacity="0.38"/>
+    <stop offset="100%" stop-color="#f6debb" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="wisp-soften" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="10"/>
+  </filter>
+  <filter id="wisp-organic" x="-6%" y="-10%" width="112%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.011 0.017" numOctaves="2" seed="53" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <linearGradient id="wisp-basefade" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff"/>
+    <stop offset="0.78" stop-color="#fff"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <mask id="wisp-basemask">
+    <rect x="0" y="0" width="1080" height="200" fill="url(#wisp-basefade)"/>
+  </mask>
+</defs>
+<g mask="url(#wisp-basemask)">
+<g filter="url(#wisp-organic)">
+<g filter="url(#wisp-soften)" opacity="0.72"><ellipse cx="230" cy="121.4" rx="151.5" ry="17.2" fill="#f9f4e8"/><ellipse cx="452" cy="108.8" rx="200.4" ry="22.7" fill="#f9f4e8"/><ellipse cx="680" cy="116.6" rx="171.1" ry="19.4" fill="#f9f4e8"/><ellipse cx="878" cy="125.6" rx="117.3" ry="13.3" fill="#f9f4e8"/></g>
+<g><ellipse cx="230" cy="114.5" rx="141.9" ry="24.2" fill="url(#wisp-hi)"/><ellipse cx="230" cy="117" rx="125.7" ry="18.4" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="226.3" cy="110.8" rx="99.9" ry="14.5" fill="url(#wisp-hi)" opacity="0.8"/><ellipse cx="452" cy="97.3" rx="187.6" ry="32" fill="url(#wisp-hi)"/><ellipse cx="452" cy="100.6" rx="166.3" ry="24.4" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="447.1" cy="92.4" rx="132.2" ry="19.2" fill="url(#wisp-hi)" opacity="0.8"/><ellipse cx="680" cy="106.8" rx="160.2" ry="27.3" fill="url(#wisp-hi)"/><ellipse cx="680" cy="109.6" rx="142" ry="20.8" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="675.8" cy="102.6" rx="112.8" ry="16.4" fill="url(#wisp-hi)" opacity="0.8"/><ellipse cx="878" cy="119.9" rx="109.8" ry="18.7" fill="url(#wisp-hi)"/><ellipse cx="878" cy="121.8" rx="97.3" ry="14.3" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="875.1" cy="117" rx="77.4" ry="11.2" fill="url(#wisp-hi)" opacity="0.8"/></g>
+<g><ellipse cx="180.3" cy="102.1" rx="48.3" ry="10.7" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="251.8" cy="103.8" rx="57.2" ry="12.6" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="387.8" cy="81.1" rx="75.7" ry="16.7" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="489.6" cy="79.7" rx="85.8" ry="19" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="642.1" cy="91.1" rx="74.1" ry="16.4" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="697" cy="94" rx="70.9" ry="15.7" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="844.4" cy="111.2" rx="43.7" ry="9.7" fill="url(#wisp-hi)" opacity="0.9"/><ellipse cx="901.3" cy="109.1" rx="48" ry="10.6" fill="url(#wisp-hi)" opacity="0.9"/></g>
+<g><ellipse cx="395.7" cy="134.9" rx="270.9" ry="12.8" fill="url(#wisp-shade)" opacity="0.9"/><ellipse cx="694.6" cy="132.3" rx="233.5" ry="11.5" fill="url(#wisp-shade)" opacity="0.8"/></g>
+<g><ellipse cx="205.9" cy="99.4" rx="32.7" ry="10.9" fill="url(#wisp-crown)"/><ellipse cx="423.9" cy="80.5" rx="46.3" ry="15.4" fill="url(#wisp-crown)"/><ellipse cx="388" cy="80.9" rx="85.3" ry="12.3" fill="url(#wisp-warm)"/><ellipse cx="656.2" cy="92.2" rx="41.7" ry="13.9" fill="url(#wisp-crown)"/><ellipse cx="860" cy="107.8" rx="29" ry="9.7" fill="url(#wisp-crown)"/></g>
+</g>
+</g>
+</svg>
