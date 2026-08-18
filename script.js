@@ -591,14 +591,18 @@ details.forEach((targetDetail) => {
       { src: 'clouds/cloud-drift.svg', ratio: 320 / 1060 },
       { src: 'clouds/cloud-puff.svg', ratio: 360 / 680 },
       { src: 'clouds/cloud-twin.svg', ratio: 370 / 900 },
-      { src: 'clouds/cloud-wisp.svg', ratio: 200 / 1080 },
+      // the streak stays a deliberate cirrus accent: at full size it
+      // crops at the viewport edge and reads as a stray line
+      { src: 'clouds/cloud-wisp.svg', ratio: 200 / 1080, wscale: 0.78 },
       { src: 'clouds/cloud-shoal.svg', ratio: 310 / 960 }
     ];
     // Touch screens size clouds much larger so they read as real clouds,
     // and carry a fixed count: content covers most of a narrow viewport,
     // so it takes a few extra for one to be passing an open sky gap.
+    // Desktop stays sparser: an airy sky reads calmer and more premium
+    // than a busy one, and fewer co-visible clouds cannot crowd.
     const coarse = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || innerWidth < 700;
-    const count = coarse ? 7 : Math.max(6, Math.min(9, Math.round(innerWidth / 240)));
+    const count = coarse ? 7 : Math.max(5, Math.min(7, Math.round(innerWidth / 260)));
     for (let i = 0; i < count; i++) {
       const shape = srcs[(i * 5) % srcs.length]; // co-prime hop: neighbors never share a shape
       const img = document.createElement('img');
@@ -611,14 +615,18 @@ details.forEach((targetDetail) => {
       // down the page instead of marching big-to-small.
       const depth = 0.32 + 0.68 * ((i * GOLD + 0.13) % 1);
       const c = {
-        el: img, depth, ratio: shape.ratio, w: 0, h: 0,
+        el: img, depth, ratio: shape.ratio, wscale: shape.wscale || 1, w: 0, h: 0,
         flip: i % 2 === 0 ? 1 : -1,
         x: 0, docY: 0,
-        rate: 0.72 + 0.16 * depth,
-        sizeFrac: coarse ? (0.6 + 0.34 * depth) : (0.36 + 0.3 * depth),
+        // A tight rate spread keeps the procession even: with the old
+        // 0.72-0.88 range, fast clouds caught up to slow ones over the
+        // long blue stretch and pooled into clumps.
+        rate: 0.78 + 0.08 * depth,
+        sizeFrac: coarse ? (0.58 + 0.3 * depth) : (0.32 + 0.26 * depth),
         // stable per-cloud randomness, so a relayout never makes it jump
         r1: Math.random(), r2: Math.random(),
-        vx: (0.05 + Math.random() * 0.09) * (i % 2 === 0 ? 1 : -1),
+        // gentle wind: strong drift also eroded the lane spacing
+        vx: (0.03 + Math.random() * 0.05) * (i % 2 === 0 ? 1 : -1),
         baseOp: +(0.5 + 0.4 * depth).toFixed(2),
         faded: false
       };
@@ -646,14 +654,22 @@ details.forEach((targetDetail) => {
     const slot = (to - from) / domClouds.length;
     const sy = window.scrollY;
     domClouds.forEach((c, i) => {
-      c.w = Math.round(innerWidth * c.sizeFrac * (0.9 + c.r1 * 0.22));
+      c.w = Math.round(innerWidth * c.sizeFrac * (0.9 + c.r1 * 0.22) * c.wscale);
       c.h = c.w * c.ratio;
       c.el.style.width = c.w + 'px';
-      const prime = from + (i + 0.5) * slot + (c.r2 - 0.5) * slot * 0.6;
-      // hang in the upper sky at the prime moment, above the content line
-      const anchor = vh * (0.03 + 0.47 * ((i * GOLD + 0.41) % 1));
+      // Clouds ride one conveyor up the sky, so at any scroll moment the
+      // field reads as a vertical procession about a slot apart. Strict
+      // side alternation keeps vertical neighbors out of each other's
+      // air, and same-side clouds sit two slots apart. (The old layout
+      // hashed x freely, which let co-visible clouds land a quarter
+      // screen apart and pile into a band at the top of the viewport.)
+      const prime = from + (i + 0.5) * slot + (c.r2 - 0.5) * slot * 0.25;
+      const xFrac = i % 2 === 0
+        ? 0.1 + ((i * GOLD + 0.41) % 1) * 0.22
+        : 0.62 + ((i * GOLD + 0.41) % 1) * 0.24;
+      const anchor = vh * (0.06 + 0.34 * ((i * GOLD + 0.17) % 1));
       c.docY = anchor + prime * c.rate;
-      c.x = ((i * GOLD + 0.37) % 1) * innerWidth - c.w * 0.5;
+      c.x = xFrac * innerWidth - c.w * 0.5;
       c.el.style.transform = `translate3d(${c.x.toFixed(1)}px, ${(c.docY - sy * c.rate).toFixed(1)}px, 0) scaleX(${c.flip})`;
     });
   }
