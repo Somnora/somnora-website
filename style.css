@@ -299,7 +299,7 @@ body {
   pointer-events: none;
 }
 
-/* Photographic clouds: real renders drifting between sky and content */
+/* Painterly clouds: hand-drawn SVG cumulus drifting between sky and content */
 #cloudfield {
   position: fixed;
   inset: 0;
@@ -312,10 +312,13 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  /* Guards so a tall cumulus render never towers over the page and a wide
-     streak never spans the whole window — sizing is driven by width in JS. */
+  /* Guards so a tall cumulus never towers over the page and a wide streak
+     never spans the whole window; sizing is driven by width in JS, and
+     contain keeps the art's own proportions if a cap ever binds. */
   max-height: 54vh;
-  max-width: 74vw;
+  max-width: 78vw;
+  height: auto;
+  object-fit: contain;
   will-change: transform, opacity;
   transition: opacity 1.9s ease;
   user-select: none;
@@ -464,17 +467,6 @@ body.zone-day .mobile-toggle { color: var(--ink); }
   position: relative;
   overflow: clip;
 }
-
-.cloud {
-  position: absolute;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(247, 239, 228, 0.035), rgba(247, 239, 228, 0.01));
-  filter: blur(34px);
-  will-change: transform;
-}
-.cloud-1 { top: 16%; left: -6%; width: 46vw; height: 100px; }
-.cloud-2 { top: 34%; right: -10%; width: 52vw; height: 130px; }
-.cloud-3 { top: 62%; left: 10%; width: 38vw; height: 90px; }
 
 .hero-shell {
   width: min(1460px, 100%);
@@ -1580,7 +1572,7 @@ body.zone-day .btn-secondary {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  #lantern, #nightfield { display: none; }
+  #lantern, #nightfield, #cloudfield { display: none; }
   [data-reveal] { opacity: 1; transform: none; }
 }
 
