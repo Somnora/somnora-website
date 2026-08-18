@@ -128,13 +128,15 @@ body {
 }
 
 .sky-day {
-  /* Grounded daylight: a mature, dusty sky-blue overhead (deeper and less
-     saturated than a childish powder blue). No warm horizon band here — the
-     ground's own haze (.hill-far::before) blends land into sky when the
-     field rises, so the sky stays clean until then. */
+  /* Polarized daylight: a deep, rich zenith easing to a quiet horizon,
+     the way a polarizer grades a clear sky. Deliberately darker and less
+     milky than a powder blue so the day reads grown-up; the cream cards
+     and golden field sit against it with more authority. No warm horizon
+     band here — the ground's own haze (.hill-far::before) blends land
+     into sky when the field rises. Hues stay 200-210: never violet. */
   background:
-    radial-gradient(ellipse 90% 50% at 22% -10%, rgba(252, 249, 240, 0.34) 0%, transparent 55%),
-    linear-gradient(178deg, #5d7f95 0%, #82a3b6 46%, #aec3c8 82%, #c3cfcd 100%);
+    radial-gradient(ellipse 90% 50% at 22% -10%, rgba(252, 249, 240, 0.24) 0%, transparent 55%),
+    linear-gradient(178deg, #426580 0%, #65899f 46%, #93aebc 80%, #b7c6ce 100%);
 }
 
 /* The ground: golden field that rises into view at the page's end.
@@ -173,11 +175,13 @@ body {
   opacity: 0.85;
 }
 .hill-far::before {
-  /* haze where land meets sky — atmospheric perspective */
+  /* haze where land meets sky — atmospheric perspective. Wider and a
+     touch thinner than before: against the deeper polarized sky a dense
+     cream band read as a seam at the hill line, not as air. */
   content: "";
   position: absolute;
-  left: 0; right: 0; top: -9vh; height: 12vh;
-  background: linear-gradient(180deg, rgba(238, 224, 186, 0) 0%, rgba(238, 224, 186, 0.65) 78%, rgba(238, 224, 186, 0.85) 100%);
+  left: 0; right: 0; top: -12vh; height: 15vh;
+  background: linear-gradient(180deg, rgba(238, 224, 186, 0) 0%, rgba(238, 224, 186, 0.55) 78%, rgba(238, 224, 186, 0.72) 100%);
 }
 .hill-back {
   left: -25%;
@@ -992,24 +996,22 @@ body.zone-day .btn-secondary {
 .pricing-card.featured {
   background: linear-gradient(170deg, #fbf2df 0%, #f4e2c2 100%);
   border-color: rgba(224, 146, 122, 0.45);
+  border-top: 3px solid var(--salmon);
   box-shadow:
     0 26px 60px -26px rgba(201, 119, 87, 0.4),
     0 0 0 1px rgba(224, 146, 122, 0.12);
 }
+/* An editorial eyebrow in the site's own kicker voice, instead of the old
+   sticker pill floating over the card corner. */
 .pricing-card.featured::before {
   content: "Founders' favorite";
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0.28rem 0.95rem;
-  border-radius: 999px;
-  background: var(--salmon);
-  color: #fff8f2;
+  display: block;
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--salmon-deep);
+  margin-bottom: 0.7rem;
 }
 .pricing-card h3 {
   font-family: var(--serif);
@@ -1230,6 +1232,11 @@ body.zone-day .btn-secondary {
   margin-bottom: 2rem;
 }
 .footer .btn-group { justify-content: center; }
+/* The page's closing beat: the same voice, a touch more presence. */
+.footer .btn {
+  padding: 1rem 2.15rem;
+  font-size: 1.04rem;
+}
 .footer-platform {
   margin-top: 2.2rem;
   font-size: 0.85rem;
