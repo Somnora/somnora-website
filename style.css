@@ -832,6 +832,67 @@ body.zone-day .btn-secondary {
   color: var(--moonlight-soft);
 }
 
+/* ============ IN THE APP (real captures) ============ */
+
+.phone-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(1.4rem, 3vw, 2.6rem);
+}
+.phone {
+  margin: 0;
+  flex: 0 0 auto;
+  width: min(266px, 74vw);
+}
+.phone-center { width: min(300px, 78vw); }
+.phone-frame {
+  border-radius: 46px;
+  padding: 9px;
+  background: linear-gradient(165deg, #251e18 0%, #15100c 100%);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 34px 90px -34px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 245, 230, 0.12);
+}
+.phone-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 38px;
+}
+.phone figcaption {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--moonlight-faint);
+  padding-inline: 0.4rem;
+  transition: color 0.6s ease;
+}
+body.zone-day .product-proof figcaption { color: var(--ink-soft); }
+
+@media (max-width: 900px) {
+  /* One swipeable rail, the dream chat first; snap keeps each phone
+     centered under the thumb. Full-bleed so the next phone's screen
+     peeks at the viewport edge as the swipe affordance (clipped at the
+     section box, only its dark bezel showed against the night sky). */
+  .phone-row {
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: max(1.25rem, calc(50vw - 50%));
+    padding-bottom: 1.1rem;
+    scrollbar-width: none;
+  }
+  .phone-row::-webkit-scrollbar { display: none; }
+  .phone, .phone-center { width: min(242px, 64vw); scroll-snap-align: center; }
+  .phone-center { order: -1; }
+}
+
 /* ============ MODES ============ */
 
 .modes-header {
