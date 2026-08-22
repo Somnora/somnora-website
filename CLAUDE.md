@@ -1,4 +1,4 @@
-@/Users/jamesmcshane/Vaults/Main/Projects/Somnora_Web/claude-context.md
+@/Users/jamesmcshane/Desktop/obsidian-vault/the-eye/Projects/Somnora_Web/claude-context.md
 
 ## Deploy
 - Static GitHub Pages site (remote `Somnora/somnora-website`, branch `main`, domain via `CNAME` = somnora.app). Push to `main` publishes; there is no build step and no CI.

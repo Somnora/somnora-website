@@ -1691,3 +1691,70 @@ body.zone-day .zone-night .persona p { color: var(--ink-soft); }
 body.zone-day .zone-night .mode-mobile-card p,
 body.zone-day .zone-night .mode-mobile-card li { color: var(--ink-soft); }
 /* The detail card stays deliberately dark — a night window in the morning */
+
+
+/* ============ INVESTOR ACCESS PAGE ============ */
+
+.investor-page {
+  min-height: 100vh;
+  position: relative;
+}
+
+.investor-page .sky-night {
+  opacity: 1;
+}
+
+.investor-main {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + 4rem) 1.5rem 5rem;
+}
+
+.investor-hero {
+  text-align: left;
+  padding: 0;
+}
+
+.investor-hero-copy h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 600;
+  color: var(--moonlight);
+  letter-spacing: -0.02em;
+  margin: 0.85rem 0 1rem;
+  line-height: 1.12;
+}
+
+.investor-hero-copy .subtitle {
+  font-size: 1.15rem;
+  color: var(--moonlight-soft);
+  font-weight: 400;
+  max-width: 34rem;
+  margin-bottom: 0.85rem;
+}
+
+.investor-support {
+  font-size: 0.95rem;
+  color: var(--moonlight-faint);
+  max-width: 34rem;
+  margin-bottom: 2rem;
+  line-height: 1.55;
+}
+
+.investor-hero .btn-group {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .investor-main {
+    padding-top: calc(var(--nav-height) + 2.5rem);
+  }
+  .investor-hero .btn-group .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
