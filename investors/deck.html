@@ -41,6 +41,34 @@
       background-color: #181310;
       color: #F6EFDC;
       overflow-x: hidden;
+      counter-reset: deck-section;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 14%, rgba(224, 146, 122, 0.055) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 78% 32%, rgba(246, 239, 220, 0.04) 0 1px, transparent 1.5px);
+      background-size: 47px 47px, 71px 71px;
+    }
+    .deck-progress {
+      position: fixed;
+      inset: 0 0 auto;
+      height: 2px;
+      z-index: 70;
+      background: rgba(246, 239, 220, 0.04);
+    }
+    .deck-progress::after {
+      content: "";
+      display: block;
+      width: calc(var(--deck-progress, 0) * 100%);
+      height: 100%;
+      background: linear-gradient(90deg, #E0927A, #E8B86D);
+      box-shadow: 0 0 16px rgba(224, 146, 122, 0.35);
+      transition: width 100ms linear;
     }
     .chart-container {
       position: relative;
@@ -62,6 +90,7 @@
       box-shadow:
         0 18px 40px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 245, 230, 0.06);
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.45s ease, box-shadow 0.45s ease;
     }
     .ambient-glow { position: relative; }
     .ambient-glow::before {
@@ -94,7 +123,46 @@
       border-radius: 4px;
     }
     html { scroll-padding-top: 72px; }
-    section { padding-top: 4.5rem; padding-bottom: 4.5rem; }
+    section {
+      padding-top: 4.5rem;
+      padding-bottom: 4.5rem;
+      position: relative;
+      isolation: isolate;
+      counter-increment: deck-section;
+    }
+    section::after {
+      content: attr(data-index) "  /  " attr(data-label);
+      position: absolute;
+      top: 1.65rem;
+      right: 0;
+      color: rgba(168, 155, 140, 0.48);
+      font: 500 9px/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    section h2::before {
+      content: "";
+      display: inline-block;
+      width: 1.5rem;
+      height: 1px;
+      margin: 0 0.65rem 0.28em 0;
+      background: linear-gradient(90deg, #E0927A, rgba(232, 184, 109, 0.35));
+    }
+    nav a[aria-current="true"] { color: #F6EFDC; }
+    nav a[aria-current="true"]::after {
+      content: "";
+      display: block;
+      height: 1px;
+      margin-top: 0.35rem;
+      background: linear-gradient(90deg, #E0927A, transparent);
+    }
+    @media (hover: hover) {
+      .matte-panel:hover {
+        transform: translateY(-3px);
+        border-color: rgba(255, 240, 222, 0.18);
+        box-shadow: 0 24px 52px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 245, 230, 0.08);
+      }
+    }
     .pipe-node {
       position: relative;
       background: rgba(24, 19, 16, 0.78);
@@ -172,68 +240,117 @@
       opacity: 1;
       transform: none;
     }
-    .hero-mark {
-      width: 4.25rem;
-      height: 4.25rem;
-      margin: 0 auto 2rem;
-      border-radius: 999px;
-      border: 1.5px solid rgba(224, 146, 122, 0.7);
-      position: relative;
-      background:
-        radial-gradient(circle at 35% 30%, rgba(246, 239, 220, 0.18), transparent 55%),
-        radial-gradient(circle at 70% 70%, rgba(224, 146, 122, 0.22), transparent 60%);
+    .hero-logo {
+      width: 5.5rem;
+      height: 5.5rem;
+      margin: 0 auto 1.75rem;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 28px rgba(224, 146, 122, 0.22));
+      animation: dream-drift 7s ease-in-out infinite;
     }
-    .hero-mark::after {
+    header::after {
       content: "";
       position: absolute;
-      width: 0.55rem;
-      height: 0.55rem;
-      border-radius: 999px;
-      background: #E8B86D;
-      top: 58%;
-      left: 42%;
-      box-shadow: 0 0 18px rgba(232, 184, 109, 0.55);
+      width: min(46vw, 38rem);
+      aspect-ratio: 1;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(246, 239, 220, 0.035);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4rem rgba(246, 239, 220, 0.012), 0 0 0 9rem rgba(224, 146, 122, 0.01);
+      pointer-events: none;
+    }
+    @keyframes dream-drift {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-7px) rotate(1deg); }
+    }
+    @media (min-width: 768px) {
+      .hero-logo { width: 6.5rem; height: 6.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-logo { animation: none; }
+      .reveal, .matte-panel, .deck-progress::after { transition: none !important; }
     }
     @media print {
-      @page { size: Letter; margin: 0.55in 0.5in; }
+      @page { size: Letter; margin: 0; }
       html { scroll-padding-top: 0; }
       body {
         background: #181310 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
-      nav { display: none !important; }
+      body::before, .deck-progress, nav { display: none !important; }
+      header, section, footer {
+        width: 8.5in !important;
+        height: 11in !important;
+        min-height: 11in !important;
+        max-height: 11in !important;
+        box-sizing: border-box !important;
+        break-after: page !important;
+        page-break-after: always !important;
+        overflow: hidden !important;
+      }
       header {
-        min-height: auto !important;
-        padding-top: 1.5rem !important;
-        padding-bottom: 1.75rem !important;
-        break-after: page;
+        padding: 0.65in 0.5in !important;
+      }
+      header::after { width: 5.5in; }
+      .hero-logo {
+        width: 5rem !important;
+        height: 5rem !important;
+        margin-bottom: 1.25rem !important;
+        animation: none !important;
       }
       main { padding-top: 0 !important; max-width: none !important; }
+      main > :not([hidden]) ~ :not([hidden]) { margin-top: 0 !important; }
       section {
-        padding-top: 1.25rem !important;
-        padding-bottom: 1.25rem !important;
-        break-inside: avoid;
-        page-break-inside: avoid;
+        padding: 0.55in 0.5in !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
-      #problem, #system, #moat, #economics, #trust { break-before: page; page-break-before: always; }
+      section::after { top: 0.3in; right: 0.5in; }
       .reveal { opacity: 1 !important; transform: none !important; }
-      .phone-frame { box-shadow: none; }
-      footer {
-        break-before: page;
-        page-break-before: always;
-        min-height: auto !important;
-        padding-top: 2rem !important;
-        padding-bottom: 1rem !important;
+      .matte-panel { transform: none !important; box-shadow: none !important; }
+      #problem th, #problem td { padding: 1rem !important; }
+      #pipeline .matte-panel { padding: 1.75rem !important; }
+      #pipeline .pipe-node { min-height: 132px; padding: 1rem 0.8rem; }
+      #system > div, #experience > div, #traction > div {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 2rem !important;
       }
-      .chart-container { height: 220px !important; }
+      #experience .phone-frame { width: 10.2rem !important; box-shadow: none; }
+      #moat .matte-panel { padding: 1.5rem !important; }
+      #moat .architecture-flow { min-width: 0 !important; }
+      #moat .architecture-flow > .w-48 { width: 10rem !important; }
+      #moat .architecture-flow > .w-56 { width: 11rem !important; }
+      #moat .architecture-flow > .w-52 { width: 10.5rem !important; }
+      #moat .architecture-flow > .flex-1 { min-width: 1.5rem !important; }
+      #moat .architecture-flow > :not([hidden]) ~ :not([hidden]) { margin-left: 0.65rem !important; }
+      #moat .architecture-flow h4 { font-size: 0.9rem !important; }
+      #moat .architecture-flow p { font-size: 0.65rem !important; }
+      #economics > div:first-child { margin-bottom: 1.25rem !important; }
+      #economics .matte-panel { padding: 1.75rem !important; }
+      #economics .chart-container { height: 210px !important; }
+      #economics .grid { margin-top: 1.25rem !important; padding-top: 1.25rem !important; gap: 1rem !important; }
+      #economics .grid > div { padding: 1.1rem !important; }
+      footer {
+        padding: 0.65in 0.5in !important;
+      }
+      footer .matte-panel { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
     }
   </style>
 </head>
 <body class="font-sans antialiased selection:bg-salmon/40 selection:text-cream text-base">
+  <div class="deck-progress" aria-hidden="true"></div>
   <nav class="sticky top-0 z-50 bg-night/92 backdrop-blur-md border-b border-cream/10 py-4 px-6 shadow-md">
     <div class="max-w-7xl mx-auto flex justify-between items-center overflow-x-auto no-scrollbar">
-      <a href="../index.html#top" class="font-serif text-salmon font-semibold text-lg mr-8 shrink-0 tracking-wide">SOMNORA</a>
+      <a href="../index.html#top" class="inline-flex items-center gap-2.5 font-serif text-salmon font-semibold text-lg mr-8 shrink-0 tracking-wide hover:text-cream transition">
+        <img src="./somnora-logo.png" alt="Somnora Logo" class="w-7 h-7 object-contain" width="28" height="28">
+        SOMNORA
+      </a>
       <div class="flex space-x-6 text-sm text-mist font-medium whitespace-nowrap items-center">
         <a href="#problem" class="hover:text-cream transition">Market Gap</a>
         <a href="#pipeline" class="hover:text-cream transition">The Pipeline</a>
@@ -255,7 +372,7 @@
       radial-gradient(ellipse 55% 45% at 10% 90%, rgba(60,70,95,0.35), transparent 60%),
       linear-gradient(180deg, #211a15 0%, #181310 70%);"></div>
     <div class="relative max-w-4xl mx-auto">
-      <div class="hero-mark" aria-hidden="true"></div>
+      <img src="./somnora-logo.png" alt="Somnora Logo" class="hero-logo" width="104" height="104">
       <h1 class="font-serif text-5xl md:text-6xl font-semibold text-cream mb-5 tracking-wide">Somnora</h1>
       <p class="text-2xl md:text-3xl text-mist font-light tracking-wide mb-8">A companion for your nights, and the days they shape.</p>
       <div class="inline-block px-6 py-2 rounded-full border border-cream/15 bg-dusk/80 text-mist text-xs font-mono uppercase tracking-widest">Private AI wellness companion · iOS · 2026</div>
@@ -264,7 +381,7 @@
   </header>
 
   <main class="max-w-6xl mx-auto px-6 py-8 md:py-12 space-y-8 md:space-y-4">
-    <section id="problem" class="reveal">
+    <section id="problem" class="reveal" data-index="01" data-label="Market Gap">
       <div class="mb-10 max-w-3xl">
         <h2 class="font-serif text-3xl md:text-4xl text-cream mb-4">The Missing Middle</h2>
         <p class="text-mist text-lg font-light leading-relaxed">
@@ -313,7 +430,7 @@
       </div>
     </section>
 
-    <section id="pipeline" class="reveal">
+    <section id="pipeline" class="reveal" data-index="02" data-label="Reflective Pipeline">
       <div class="mb-12 max-w-3xl">
         <h2 class="font-serif text-3xl md:text-4xl pop-title mb-4">The Reflective Pipeline</h2>
         <p class="text-mist text-lg font-light leading-relaxed">
@@ -353,7 +470,7 @@
       </div>
     </section>
 
-    <section id="system" class="reveal">
+    <section id="system" class="reveal" data-index="03" data-label="Product System">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
           <h2 class="font-serif text-3xl md:text-4xl text-cream mb-6">A Human System, Technically Grounded</h2>
@@ -391,7 +508,7 @@
       </div>
     </section>
 
-    <section id="experience" class="reveal">
+    <section id="experience" class="reveal" data-index="04" data-label="Experience">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
           <h2 class="font-serif text-3xl md:text-4xl text-cream mb-6">The Experience</h2>
@@ -423,10 +540,10 @@
         <div class="flex flex-col items-center">
           <div class="flex justify-center gap-4 md:gap-6 items-start">
             <figure class="phone-frame">
-              <img src="https://somnora.app/product/dream-chat.webp" alt="Somnora dream journal conversation with Nora" width="720" height="1565" loading="lazy">
+              <img src="../product/dream-chat.webp" alt="Somnora dream journal conversation with Nora" width="720" height="1565" loading="lazy">
             </figure>
             <figure class="phone-frame is-offset">
-              <img src="https://somnora.app/product/eureka.webp" alt="Somnora Eureka idea capture and development" width="720" height="1565" loading="lazy">
+              <img src="../product/eureka.webp" alt="Somnora Eureka idea capture and development" width="720" height="1565" loading="lazy">
             </figure>
           </div>
           <p class="text-[10px] text-mist/60 font-mono uppercase tracking-widest text-center mt-6">Live product UI · Dream Journal and Eureka</p>
@@ -434,13 +551,13 @@
       </div>
     </section>
 
-    <section id="moat" class="reveal">
+    <section id="moat" class="reveal" data-index="05" data-label="Architecture">
       <div class="mb-12 max-w-3xl">
         <h2 class="font-serif text-3xl md:text-4xl pop-title mb-4">Efficient Architecture, Built for Trust</h2>
         <p class="text-mist text-lg font-light leading-relaxed">Heavy understanding runs on device. Cloud calls go through Somnora&apos;s own proxy with privacy sanitization. Richer model work is reserved for moments that need a companion response or dream art.</p>
       </div>
       <div class="matte-panel ambient-glow p-8 rounded-2xl overflow-x-auto">
-        <div class="min-w-[820px] flex items-center justify-between space-x-5">
+        <div class="architecture-flow min-w-[820px] flex items-center justify-between space-x-5">
           <div class="text-center w-48 shrink-0">
             <div class="bg-night border border-cream/15 p-4 rounded-xl shadow-lg mb-3">
               <p class="text-cream text-sm">Private Reflection &amp;<br>Health Context</p>
@@ -473,7 +590,7 @@
       <p class="text-right text-xs text-mist/50 mt-4 italic">Production path: app → somnora-proxy → Vertex AI</p>
     </section>
 
-    <section id="traction" class="reveal">
+    <section id="traction" class="reveal" data-index="06" data-label="Early Signals">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
           <h2 class="font-serif text-3xl md:text-4xl text-salmon mb-8">Early Signals, Clear Pull</h2>
@@ -513,7 +630,7 @@
       </div>
     </section>
 
-    <section id="economics" class="reveal">
+    <section id="economics" class="reveal" data-index="07" data-label="Economics">
       <div class="mb-10 text-center max-w-3xl mx-auto">
         <h2 class="font-serif text-3xl md:text-4xl text-cream mb-4">Target Unit Economics</h2>
         <div class="text-mist text-lg font-light leading-relaxed mb-6">
@@ -540,7 +657,7 @@
       </div>
     </section>
 
-    <section id="trust" class="reveal">
+    <section id="trust" class="reveal" data-index="08" data-label="Trust + Leadership">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="matte-panel ambient-glow p-10 rounded-[2rem] relative">
           <div class="absolute top-0 right-0 w-32 h-32 bg-ice/5 rounded-bl-full rounded-tr-[2rem]"></div>
@@ -638,6 +755,23 @@
     }
 
     const revealEls = document.querySelectorAll('.reveal');
+    const deckSections = [...document.querySelectorAll('main section')];
+    const navLinks = [...document.querySelectorAll('nav a[href^="#"]')];
+    const updateDeckChrome = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+      document.documentElement.style.setProperty('--deck-progress', progress.toFixed(4));
+      const marker = window.scrollY + window.innerHeight * 0.38;
+      let activeId = deckSections[0]?.id;
+      deckSections.forEach((section) => { if (section.offsetTop <= marker) activeId = section.id; });
+      navLinks.forEach((link) => {
+        if (link.getAttribute('href') === '#' + activeId) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    };
+    updateDeckChrome();
+    window.addEventListener('scroll', updateDeckChrome, { passive: true });
+    window.addEventListener('resize', updateDeckChrome);
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
