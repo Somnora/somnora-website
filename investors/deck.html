@@ -240,13 +240,51 @@
       opacity: 1;
       transform: none;
     }
+    .hero-logo-stage {
+      position: relative;
+      width: 10.5rem;
+      height: 10.5rem;
+      margin: 0 auto 1.25rem;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+    .hero-logo-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0.55rem;
+      z-index: 0;
+      border: 1px solid rgba(246, 239, 220, 0.11);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 46%, rgba(236, 191, 122, 0.2), transparent 56%),
+        radial-gradient(circle at 34% 27%, rgba(232, 184, 109, 0.2), transparent 34%),
+        radial-gradient(circle at 68% 74%, rgba(134, 197, 225, 0.1), transparent 48%),
+        linear-gradient(145deg, rgba(86, 61, 56, 0.62), rgba(21, 16, 14, 0.88));
+      box-shadow: 0 0 34px rgba(232, 184, 109, 0.11), 0 20px 44px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(246, 239, 220, 0.1);
+    }
+    .hero-logo-stage::after {
+      content: "";
+      position: absolute;
+      inset: -0.45rem;
+      z-index: -1;
+      border: 1px solid rgba(224, 146, 122, 0.14);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0.55rem rgba(232, 184, 109, 0.025), 0 0 34px rgba(224, 146, 122, 0.08);
+    }
     .hero-logo {
-      width: 5.5rem;
-      height: 5.5rem;
-      margin: 0 auto 1.75rem;
+      position: relative;
+      z-index: 1;
+      width: 6.325rem;
+      height: 6.325rem;
+      margin: 0;
       object-fit: contain;
-      filter: drop-shadow(0 12px 28px rgba(224, 146, 122, 0.22));
+      opacity: 0.8;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.3));
       animation: dream-drift 7s ease-in-out infinite;
+    }
+    .deck-logo {
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.28));
     }
     header::after {
       content: "";
@@ -266,7 +304,8 @@
       50% { transform: translateY(-7px) rotate(1deg); }
     }
     @media (min-width: 768px) {
-      .hero-logo { width: 6.5rem; height: 6.5rem; }
+      .hero-logo-stage { width: 11.5rem; height: 11.5rem; }
+      .hero-logo { width: 7.475rem; height: 7.475rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       .hero-logo { animation: none; }
@@ -275,6 +314,12 @@
     @media print {
       @page { size: Letter; margin: 0; }
       html { scroll-padding-top: 0; }
+      * {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        box-shadow: none !important;
+        filter: none !important;
+      }
       body {
         background: #181310 !important;
         -webkit-print-color-adjust: exact;
@@ -290,16 +335,78 @@
         break-after: page !important;
         page-break-after: always !important;
         overflow: hidden !important;
+        isolation: auto !important;
+        background: #181310 !important;
       }
       header {
-        padding: 0.65in 0.5in !important;
+        padding: 0.9in 0.65in 0.75in !important;
       }
-      header::after { width: 5.5in; }
+      header > .absolute, header::after { display: none !important; }
+      header > .relative {
+        width: 100% !important;
+        max-width: 7.2in !important;
+      }
+      header > .relative::before {
+        content: "SOMNORA  /  INVESTOR BRIEFING";
+        display: block;
+        margin-bottom: 0.48in;
+        color: #9F8D7C;
+        font: 500 8.5pt/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        letter-spacing: 0.24em;
+      }
+      .hero-logo-stage {
+        width: 1.32in !important;
+        height: 1.32in !important;
+        margin: 0 auto 0.34in !important;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        isolation: auto !important;
+      }
+      .hero-logo-stage::before, .hero-logo-stage::after { display: none !important; content: none !important; }
       .hero-logo {
-        width: 5rem !important;
-        height: 5rem !important;
-        margin-bottom: 1.25rem !important;
+        width: 1.32in !important;
+        height: 1.32in !important;
+        margin: 0 !important;
         animation: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+      }
+      header h1 {
+        margin-bottom: 0.2in !important;
+        color: #F6EFDC !important;
+        font-size: 43pt !important;
+        line-height: 1 !important;
+        letter-spacing: 0.05em !important;
+      }
+      header h1::after {
+        content: "";
+        display: block;
+        width: 0.62in;
+        height: 1px;
+        margin: 0.24in auto 0;
+        background: #E0927A;
+      }
+      header h1 + p {
+        max-width: 6.25in !important;
+        margin: 0 auto 0.34in !important;
+        color: #B6A797 !important;
+        font-size: 18pt !important;
+        line-height: 1.42 !important;
+      }
+      header h1 + p + div {
+        margin: 0 auto !important;
+        padding: 0.11in 0.24in !important;
+        border: 0 !important;
+        border-top: 1px solid #5A463A !important;
+        border-bottom: 1px solid #5A463A !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: #AFA092 !important;
+      }
+      header h1 + p + div + p {
+        margin-top: 0.25in !important;
+        color: #817467 !important;
       }
       main { padding-top: 0 !important; max-width: none !important; }
       main > :not([hidden]) ~ :not([hidden]) { margin-top: 0 !important; }
@@ -312,8 +419,23 @@
         page-break-inside: avoid !important;
       }
       section::after { top: 0.3in; right: 0.5in; }
+      section h2::before { background: #E0927A !important; }
+      .pop-title {
+        background: none !important;
+        color: #F6EFDC !important;
+        -webkit-text-fill-color: #F6EFDC !important;
+      }
       .reveal { opacity: 1 !important; transform: none !important; }
-      .matte-panel { transform: none !important; box-shadow: none !important; }
+      .matte-panel {
+        transform: none !important;
+        filter: none !important;
+        box-shadow: none !important;
+        background: #241C16 !important;
+        border-color: #49392F !important;
+      }
+      .ambient-glow::before { display: none !important; content: none !important; }
+      .ambient-glow > * { z-index: auto !important; }
+      #system .matte-panel > .absolute, #trust .matte-panel > .absolute { display: none !important; }
       #problem th, #problem td { padding: 1rem !important; }
       #pipeline .matte-panel { padding: 1.75rem !important; }
       #pipeline .pipe-node { min-height: 132px; padding: 1rem 0.8rem; }
@@ -333,13 +455,32 @@
       #moat .architecture-flow p { font-size: 0.65rem !important; }
       #economics > div:first-child { margin-bottom: 1.25rem !important; }
       #economics .matte-panel { padding: 1.75rem !important; }
-      #economics .chart-container { height: 210px !important; }
+      #economics .chart-container {
+        height: 210px !important;
+        padding-left: 0.24in !important;
+        box-sizing: border-box !important;
+      }
+      #economics .chart-container + p { margin-top: 2.25rem !important; }
       #economics .grid { margin-top: 1.25rem !important; padding-top: 1.25rem !important; gap: 1rem !important; }
       #economics .grid > div { padding: 1.1rem !important; }
       footer {
-        padding: 0.65in 0.5in !important;
+        padding: 0.85in 0.65in !important;
       }
-      footer .matte-panel { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+      footer .matte-panel {
+        width: 100% !important;
+        max-width: 7.1in !important;
+        padding: 0.8in 0.55in !important;
+        border-radius: 1.6rem !important;
+        background: #211A15 !important;
+      }
+      footer h2::after {
+        content: "";
+        display: block;
+        width: 0.62in;
+        height: 1px;
+        margin: 0.24in auto 0;
+        background: #E0927A;
+      }
     }
   </style>
 </head>
@@ -348,7 +489,7 @@
   <nav class="sticky top-0 z-50 bg-night/92 backdrop-blur-md border-b border-cream/10 py-4 px-6 shadow-md">
     <div class="max-w-7xl mx-auto flex justify-between items-center overflow-x-auto no-scrollbar">
       <a href="../index.html#top" class="inline-flex items-center gap-2.5 font-serif text-salmon font-semibold text-lg mr-8 shrink-0 tracking-wide hover:text-cream transition">
-        <img src="./somnora-logo.png" alt="Somnora Logo" class="w-7 h-7 object-contain" width="28" height="28">
+        <img src="./somnora-logo-deck-moody-structured.png" alt="Somnora Logo" class="deck-logo w-7 h-7 object-contain" width="28" height="28">
         SOMNORA
       </a>
       <div class="flex space-x-6 text-sm text-mist font-medium whitespace-nowrap items-center">
@@ -372,7 +513,9 @@
       radial-gradient(ellipse 55% 45% at 10% 90%, rgba(60,70,95,0.35), transparent 60%),
       linear-gradient(180deg, #211a15 0%, #181310 70%);"></div>
     <div class="relative max-w-4xl mx-auto">
-      <img src="./somnora-logo.png" alt="Somnora Logo" class="hero-logo" width="104" height="104">
+      <div class="hero-logo-stage">
+        <img src="./somnora-logo-deck-moody-structured.png" alt="Somnora Logo" class="hero-logo" width="104" height="104">
+      </div>
       <h1 class="font-serif text-5xl md:text-6xl font-semibold text-cream mb-5 tracking-wide">Somnora</h1>
       <p class="text-2xl md:text-3xl text-mist font-light tracking-wide mb-8">A companion for your nights, and the days they shape.</p>
       <div class="inline-block px-6 py-2 rounded-full border border-cream/15 bg-dusk/80 text-mist text-xs font-mono uppercase tracking-widest">Private AI wellness companion · iOS · 2026</div>
@@ -690,9 +833,10 @@
         <div class="matte-panel ambient-glow p-10 rounded-[2rem] relative">
           <div class="absolute top-0 right-0 w-32 h-32 bg-salmon/5 rounded-bl-full rounded-tr-[2rem]"></div>
           <h3 class="font-serif text-3xl text-salmon mb-6">Leadership</h3>
-          <div class="mb-8">
+          <div class="mb-6">
             <p class="text-cream text-xl font-medium mb-1">James McShane</p>
             <p class="text-[10px] text-mist font-mono uppercase tracking-widest">Founder &amp; CEO</p>
+            <a href="https://github.com/Somnora/Manifold" target="_blank" rel="noopener" class="inline-block mt-2 text-[10px] text-salmon/80 hover:text-cream font-mono uppercase tracking-widest transition">github.com/Somnora · Manifold</a>
           </div>
           <ul class="space-y-5 text-sm text-cream/90 font-light">
             <li class="flex items-start">
@@ -706,7 +850,7 @@
               <span class="text-salmon font-bold mr-4">→</span>
               <div>
                 <strong class="font-medium text-cream">The Builder:</strong><br>
-                <span class="text-mist mt-1 block">Self-taught iOS and Python engineer who built the native product, HealthKit integration, Watch companion, and AI logic stack end to end.</span>
+                <span class="text-mist mt-1 block">Self-taught iOS and Python engineer who built Somnora end to end, then created Manifold—an open-source Lambda GPU control plane—to sculpt and tune Nora from its initial Gemini harness.</span>
               </div>
             </li>
             <li class="flex items-start">
@@ -725,7 +869,7 @@
       <div class="inline-block matte-panel ambient-glow px-8 py-16 md:px-20 md:py-20 rounded-[3rem] shadow-2xl relative mx-auto">
         <h2 class="font-serif text-4xl md:text-5xl pop-title mb-6 relative z-10">Capital for the Category Build</h2>
         <p class="text-mist text-lg mb-10 font-light max-w-lg mx-auto relative z-10">
-          Seeking <strong class="text-salmon font-normal">$250k Pre-Seed</strong> to deepen the consumer product, strengthen privacy infrastructure, and expand Somnora from a dream-led wedge into a daily reflective companion.
+          Seeking <strong class="text-salmon font-normal">$750k Pre-Seed</strong> to deepen the consumer product, strengthen privacy infrastructure, and expand Somnora from a dream-led wedge into a daily reflective companion.
         </p>
         <div class="flex flex-wrap justify-center gap-4 relative z-10">
           <div class="px-5 py-3 bg-night border border-cream/15 rounded-xl text-xs text-mist font-mono tracking-wide uppercase">Consumer Product Depth</div>
@@ -793,10 +937,7 @@
     new Chart(ctxEcon, {
       type: 'bar',
       data: {
-        labels: [
-          wrapLabel('Free User (Target Monthly COGS)', 20),
-          wrapLabel('Premium User ($9.99 Monthly Rev)', 20)
-        ],
+        labels: ['Free COGS', 'Premium Revenue'],
         datasets: [
           {
             label: 'LLM Reasoning',
@@ -836,6 +977,9 @@
         responsive: true,
         maintainAspectRatio: false,
         indexAxis: 'y',
+        layout: {
+          padding: { left: 18, right: 8 }
+        },
         plugins: {
           legend: {
             position: 'top',
