@@ -1384,11 +1384,18 @@
       var closeBtn = document.getElementById('pf-modal-close');
       if (!modal || !player) return;
 
+      function decodeHtmlEntities(str) {
+        var txt = document.createElement('textarea');
+        txt.innerHTML = str;
+        return txt.value;
+      }
+
       function openModal(embedUrl, titleText) {
         if (!embedUrl) return;
+        var cleanUrl = decodeHtmlEntities(embedUrl);
         player.innerHTML = '';
         var iframe = document.createElement('iframe');
-        iframe.src = embedUrl;
+        iframe.src = cleanUrl;
         iframe.title = titleText || 'Video player';
         iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
         iframe.setAttribute('allowfullscreen', '');
