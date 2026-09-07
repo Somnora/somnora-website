@@ -5,16 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#181310" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
   <title>James McShane | Cinematographer &amp; Developer</title>
-  <meta name="description" content="James McShane: cinematographer and software developer. Selected cinematography for Khalid, Ariana Grande, Demi Lovato, the Jonas Brothers, PJ Morton and more, plus the apps and platforms he builds under Somnora." />
+  <meta name="description" content="The cinematography and software portfolio of James McShane, featuring film, music video, and commercial work plus apps and AI systems built under Somnora." />
+  <meta name="author" content="James McShane" />
+  <link rel="canonical" href="https://somnora.app/portfolio/" />
   <meta property="og:title" content="James McShane | Cinematographer &amp; Developer" />
-  <meta property="og:description" content="Selected cinematography across music videos, documentary, and commercial work, plus the apps and platforms built under Somnora." />
+  <meta property="og:description" content="Cinematography across film, music videos, and commercials, plus apps and AI systems designed and built under Somnora." />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Somnora" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://somnora.app/portfolio/" />
   <meta property="og:image" content="https://i.vimeocdn.com/video/1329765945-d55c25e96f11ba6c1f6ff9ef05a6ae68992f528741c4cc5fcbfc010ca22e3331-d_1280?region=us" />
+  <meta property="og:image:alt" content="Cinematography frame from James McShane's portfolio" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="James McShane | Cinematographer &amp; Developer" />
-  <meta name="twitter:description" content="Selected cinematography, plus the apps and platforms built under Somnora." />
+  <meta name="twitter:description" content="Cinematography across film, music videos, and commercials, plus apps and AI systems built under Somnora." />
+  <meta name="twitter:image" content="https://i.vimeocdn.com/video/1329765945-d55c25e96f11ba6c1f6ff9ef05a6ae68992f528741c4cc5fcbfc010ca22e3331-d_1280?region=us" />
+  <meta name="twitter:image:alt" content="Cinematography frame from James McShane's portfolio" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "James McShane",
+    "url": "https://somnora.app/portfolio/",
+    "jobTitle": ["Cinematographer", "Director of Photography", "Software Developer"],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Somnora LLC",
+      "url": "https://somnora.app/"
+    },
+    "knowsAbout": [
+      "Cinematography",
+      "Software development",
+      "AI agent systems",
+      "iOS application development"
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -202,7 +230,58 @@
       .pf-tile img, .pf-tile::after, .pf-meta { transition: none; }
     }
 
-    /* ---- Mode toggle (Cinematography / Developer) ---- */
+    /* ---- Video Lightbox Modal ---- */
+    .pf-modal {
+      position: fixed; inset: 0; z-index: 9999;
+      display: none; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pf-modal.is-open {
+      display: flex; opacity: 1; pointer-events: auto;
+    }
+    .pf-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(10, 7, 5, 0.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    .pf-modal-box {
+      position: relative; z-index: 1;
+      width: min(92vw, 1200px);
+      aspect-ratio: 16/9;
+      max-height: 85vh;
+      background: #0d0a08;
+      border: 1px solid rgba(224, 146, 122, 0.3);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .pf-modal-close {
+      position: absolute; top: 16px; right: 16px; z-index: 10;
+      width: 44px; height: 44px;
+      border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(20, 15, 12, 0.7);
+      backdrop-filter: blur(8px);
+      color: #f7efdc;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .pf-modal-close:hover {
+      background: rgba(224, 146, 122, 0.3);
+      border-color: rgba(224, 146, 122, 0.6);
+      transform: scale(1.05);
+    }
+    .pf-modal-player {
+      width: 100%; height: 100%; position: relative;
+    }
+    .pf-modal-player iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;
+    }
+
+    /* ---- Mode toggle (Cinematography / Creative Direction / Developer) ---- */
     .pf-toggle {
       position: relative;
       display: inline-flex;
@@ -212,22 +291,26 @@
       border-radius: 999px;
       background: var(--glass);
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      max-width: 100%;
     }
     .pf-toggle-thumb {
       position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px;
-      width: calc(50% - 4px);
+      width: calc(33.333% - 4px);
       border-radius: 999px;
       background: linear-gradient(135deg, var(--salmon-deep), var(--salmon));
       box-shadow: 0 6px 18px rgba(201, 119, 87, 0.35);
       transition: transform 0.45s var(--ease-soft);
     }
-    .pf-toggle[data-active="dev"] .pf-toggle-thumb { transform: translateX(100%); }
+    .pf-toggle[data-active="film"] .pf-toggle-thumb { transform: translateX(0); }
+    .pf-toggle[data-active="creative"] .pf-toggle-thumb { transform: translateX(100%); }
+    .pf-toggle[data-active="dev"] .pf-toggle-thumb { transform: translateX(200%); }
     .pf-toggle-btn {
       position: relative; z-index: 1;
-      flex: 1 1 0; min-width: 188px;
-      padding: 0.6rem 1.4rem 0.6rem 1.1rem;
+      flex: 1 1 0; min-width: 145px;
+      padding: 0.6rem 1.1rem;
       border: 0; background: transparent; cursor: pointer;
-      font-family: var(--sans); font-size: 0.9rem; font-weight: 600;
+      font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+      text-align: center;
       white-space: nowrap;
       color: var(--moonlight-faint);
       transition: color 0.3s ease;
@@ -235,6 +318,171 @@
     }
     .pf-toggle-btn.is-active { color: #1a120d; }
     .pf-toggle-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 999px; }
+
+    @media (max-width: 680px) {
+      .pf-toggle { width: 100%; border-radius: 14px; }
+      .pf-toggle-thumb { border-radius: 10px; }
+      .pf-toggle-btn { min-width: 0; padding: 0.5rem 0.35rem; font-size: 0.72rem; }
+    }
+
+    /* ---- Creative Direction / Producer view ---- */
+    .cd-featured {
+      max-width: 1160px;
+      margin: 0 auto clamp(2.2rem, 4vw, 3.4rem);
+    }
+    .cd-hero-card {
+      position: relative;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(232, 184, 109, 0.08), rgba(255, 245, 230, 0.03)), var(--glass);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.95fr);
+      gap: 0;
+      transition: border-color 0.3s ease, transform 0.4s var(--ease-soft);
+    }
+    .cd-hero-card:hover {
+      border-color: rgba(224, 146, 122, 0.45);
+      transform: translateY(-3px);
+    }
+    .cd-hero-media {
+      position: relative;
+      min-height: 340px;
+      background: #0c0906;
+      overflow: hidden;
+    }
+    .cd-hero-media .pf-tile {
+      height: 100%; width: 100%; aspect-ratio: auto;
+      border: 0; border-radius: 0;
+    }
+    .cd-hero-body {
+      padding: clamp(1.6rem, 3vw, 2.4rem);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .cd-hero-header { display: flex; flex-direction: column; gap: 0.5rem; }
+    .cd-badges { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .cd-badge {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.28rem 0.65rem;
+      border-radius: 999px; background: rgba(255, 255, 255, 0.07);
+      color: var(--moonlight-soft); border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .cd-badge-gold {
+      background: rgba(232, 184, 109, 0.16); color: var(--amber);
+      border-color: rgba(232, 184, 109, 0.3);
+    }
+    .cd-hero-title {
+      font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--moonlight); line-height: 1.15; margin-top: 0.25rem;
+    }
+    .cd-hero-role {
+      font-size: 0.85rem; font-weight: 600; color: var(--salmon);
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .cd-hero-desc {
+      color: var(--moonlight-faint); font-size: 0.95rem; line-height: 1.6;
+      margin-top: 0.85rem;
+    }
+    .cd-meta-list {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;
+      margin-top: 1.4rem; padding-top: 1.2rem;
+      border-top: 1px solid var(--glass-border);
+    }
+    .cd-meta-item dt {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 0.2rem;
+    }
+    .cd-meta-item dd {
+      font-size: 0.85rem; color: var(--moonlight-soft); margin: 0; line-height: 1.35;
+    }
+    .cd-actions {
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+      margin-top: 1.6rem;
+    }
+
+    .cd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+    .cd-card {
+      position: relative;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      background: var(--glass);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform 0.4s var(--ease-soft), border-color 0.3s ease, background 0.3s ease;
+    }
+    .cd-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(224, 146, 122, 0.4);
+      background: var(--glass-strong);
+    }
+    .cd-card-media {
+      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      background: #0c0906; overflow: hidden;
+    }
+    .cd-card-media .pf-tile {
+      border: 0; border-radius: 0; width: 100%; height: 100%;
+    }
+    .cd-card-content {
+      padding: 1.35rem 1.4rem 1.3rem;
+      display: flex; flex-direction: column; flex: 1 1 auto;
+      justify-content: space-between;
+    }
+    .cd-card-top { display: flex; flex-direction: column; gap: 0.35rem; }
+    .cd-client-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+    .cd-client {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--amber);
+    }
+    .cd-tag {
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--moonlight-soft);
+      padding: 0.2rem 0.5rem; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .cd-card-title {
+      font-family: var(--serif); font-weight: 600; font-size: 1.18rem;
+      color: var(--moonlight); line-height: 1.2; margin-top: 0.2rem;
+    }
+    .cd-card-role {
+      font-size: 0.78rem; font-weight: 600; color: var(--salmon);
+      letter-spacing: 0.04em; margin-bottom: 0.3rem;
+    }
+    .cd-card-desc {
+      font-size: 0.88rem; color: var(--moonlight-faint); line-height: 1.55;
+      margin: 0.35rem 0 1rem;
+    }
+    .cd-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 0.5rem; padding-top: 0.9rem; border-top: 1px solid var(--glass-border);
+      margin-top: auto;
+    }
+    .cd-card-impact {
+      font-size: 0.72rem; color: var(--moonlight-soft); font-weight: 500;
+    }
+    .cd-card-link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.82rem; font-weight: 600; color: var(--moonlight);
+      text-decoration: none; transition: color 0.2s ease;
+    }
+    .cd-card-link:hover { color: var(--salmon); }
+    .cd-card-link::after { content: "\2192"; }
+
+    @media (max-width: 900px) {
+      .cd-hero-card { grid-template-columns: 1fr; }
+      .cd-hero-media { min-height: 240px; aspect-ratio: 16 / 9; }
+    }
+    @media (max-width: 640px) {
+      .cd-grid { grid-template-columns: 1fr; gap: 12px; }
+      .cd-meta-list { grid-template-columns: 1fr; gap: 0.6rem; }
+    }
 
     /* View switching */
     .pf-view[hidden] { display: none; }
@@ -250,6 +498,7 @@
       max-width: 1160px; margin: 0 auto;
     }
     .dv-card {
+      position: relative;
       display: flex; flex-direction: column;
       padding: 1.35rem 1.4rem 1.3rem;
       border: 1px solid var(--glass-border);
@@ -262,6 +511,10 @@
       transform: translateY(-4px);
       border-color: rgba(224, 146, 122, 0.4);
       background: var(--glass-strong);
+    }
+    .dv-card:focus-within {
+      border-color: rgba(232, 184, 109, 0.62);
+      box-shadow: 0 0 0 2px rgba(232, 184, 109, 0.15);
     }
     .dv-card-featured {
       padding: clamp(1.6rem, 3vw, 2.4rem);
@@ -324,6 +577,7 @@
 
     .dv-links { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.3rem; }
     .dv-link {
+      position: relative; z-index: 2;
       display: inline-flex; align-items: center;
       font-size: 0.85rem; font-weight: 600; text-decoration: none;
       color: var(--moonlight);
@@ -338,6 +592,17 @@
       background: linear-gradient(135deg, var(--salmon-deep), var(--salmon));
     }
     .dv-link-primary:hover { color: #1a120d; background: linear-gradient(135deg, var(--salmon), var(--amber)); }
+    .dv-link-detail::after { content: "\2192"; }
+    .dv-card .dv-card-detail {
+      position: static;
+    }
+    .dv-card .dv-card-detail::before {
+      content: "";
+      position: absolute; z-index: 1; inset: 0;
+      border-radius: inherit;
+    }
+    .dv-card .dv-card-detail:focus-visible { outline: none; }
+    .dv-card .dv-link:not(.dv-card-detail) { z-index: 3; }
 
     /* Glyph tiles for projects without an app icon */
     .dv-glyph { display: grid; place-items: center; overflow: hidden; }
@@ -368,17 +633,18 @@
   <main id="main" class="pf-main">
 
     <header class="pf-header">
-      <p class="pf-eyebrow" data-film="Cinematography Portfolio" data-dev="Developer Portfolio">Cinematography Portfolio</p>
+      <p class="pf-eyebrow" data-film="Cinematography Portfolio" data-creative="Creative Direction &amp; Producing" data-dev="Developer Portfolio">Cinematography Portfolio</p>
       <h1>James McShane</h1>
-      <p class="pf-role" data-film="Cinematographer &amp; Director of Photography" data-dev="Software Developer &amp; Founder">Cinematographer &amp; Director of Photography</p>
+      <p class="pf-role" data-film="Cinematographer &amp; Director of Photography" data-creative="Creative Director &amp; Executive Producer" data-dev="Software Developer &amp; Founder">Cinematographer &amp; Director of Photography</p>
 
       <div class="pf-toggle" role="tablist" aria-label="Portfolio mode" data-active="film">
         <span class="pf-toggle-thumb" aria-hidden="true"></span>
         <button class="pf-toggle-btn is-active" type="button" role="tab" id="tab-film" data-view="film" aria-controls="view-film" aria-selected="true">Cinematography</button>
+        <button class="pf-toggle-btn" type="button" role="tab" id="tab-creative" data-view="creative" aria-controls="view-creative" aria-selected="false">Creative Direction</button>
         <button class="pf-toggle-btn" type="button" role="tab" id="tab-dev" data-view="dev" aria-controls="view-dev" aria-selected="false">Developer</button>
       </div>
 
-      <p class="pf-intro" data-film="Selected work across music videos, documentary, and commercial cinematography. Click any frame to play." data-dev="The apps and platforms I design and build under Somnora, from shipping iOS apps to AI infrastructure and tools for film and play.">Selected work across music videos, documentary, and commercial cinematography. Click any frame to play.</p>
+      <p class="pf-intro" data-film="Selected work across music videos, documentary, and commercial cinematography. Click any frame to play." data-creative="Campaigns, brand films, and creative technology productions: translating cultural moments and emerging technologies into high-impact visual stories." data-dev="The apps and platforms I design and build under Somnora, from shipping iOS apps to AI infrastructure and tools for film and play. Open any project to see how it works and explore its system architecture.">Selected work across music videos, documentary, and commercial cinematography. Click any frame to play.</p>
       <div class="btn-group">
         <a href="mailto:jmcshanedp@gmail.com" class="btn btn-primary">Get in touch</a>
       </div>
@@ -393,7 +659,7 @@
               data-embed="https://player.vimeo.com/video/658473014?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
               aria-label="Play Cinematography Showreel">
         <img src="https://i.vimeocdn.com/video/1329765945-d55c25e96f11ba6c1f6ff9ef05a6ae68992f528741c4cc5fcbfc010ca22e3331-d_1280?region=us"
-             alt="Cinematography Showreel" loading="eager" />
+             alt="Cinematography showreel by James McShane" width="1280" height="720" loading="eager" decoding="async" fetchpriority="high" />
         <span class="pf-meta"><span class="pf-cat">Reel</span><span class="pf-title">Cinematography Showreel</span></span>
       </button>
       <div class="pf-featured-caption">
@@ -410,118 +676,466 @@
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/8RtgEpz_wa8?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play Khalid: Nah">
-        <img src="https://i.ytimg.com/vi/8RtgEpz_wa8/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/8RtgEpz_wa8/hqdefault.jpg'" alt="Khalid: Nah" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/8RtgEpz_wa8/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/8RtgEpz_wa8/hqdefault.jpg'" alt="Khalid: Nah" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Music Video</span><span class="pf-title">Khalid: Nah</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/2ljp0qQiRKk?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play Ariana Grande: hate that i made you love me">
-        <img src="https://i.ytimg.com/vi/2ljp0qQiRKk/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/2ljp0qQiRKk/hqdefault.jpg'" alt="Ariana Grande: hate that i made you love me" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/2ljp0qQiRKk/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/2ljp0qQiRKk/hqdefault.jpg'" alt="Ariana Grande: hate that i made you love me" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Music Video &middot; BTS</span><span class="pf-title">Ariana Grande: hate that i made you love me</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/jTiiD8L811w?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play Demi Lovato: Dancing with the Devil">
-        <img src="https://i.ytimg.com/vi/jTiiD8L811w/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/jTiiD8L811w/hqdefault.jpg'" alt="Demi Lovato: Dancing with the Devil" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/jTiiD8L811w/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/jTiiD8L811w/hqdefault.jpg'" alt="Demi Lovato: Dancing with the Devil" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">Demi Lovato: Dancing with the Devil</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/BSToRSpV94E?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play Jonas Brothers: Chasing Happiness">
-        <img src="https://i.ytimg.com/vi/BSToRSpV94E/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/BSToRSpV94E/hqdefault.jpg'" alt="Jonas Brothers: Chasing Happiness" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/BSToRSpV94E/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/BSToRSpV94E/hqdefault.jpg'" alt="Jonas Brothers: Chasing Happiness" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">Jonas Brothers: Chasing Happiness</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/ZWTlL_w8cRA?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play Demi Lovato: Simply Complicated">
-        <img src="https://i.ytimg.com/vi/ZWTlL_w8cRA/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ZWTlL_w8cRA/hqdefault.jpg'" alt="Demi Lovato: Simply Complicated" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/ZWTlL_w8cRA/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ZWTlL_w8cRA/hqdefault.jpg'" alt="Demi Lovato: Simply Complicated" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">Demi Lovato: Simply Complicated</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/lDiIKknNhWw?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play PJ Morton: Bring It On Home to Me">
-        <img src="https://i.ytimg.com/vi/lDiIKknNhWw/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/lDiIKknNhWw/hqdefault.jpg'" alt="PJ Morton: Bring It On Home to Me" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/lDiIKknNhWw/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/lDiIKknNhWw/hqdefault.jpg'" alt="PJ Morton: Bring It On Home to Me" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Music Video</span><span class="pf-title">PJ Morton: Bring It On Home to Me</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/REVLVw3L5B4?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play Paris 2024 Closing Ceremony, LA28 Handover">
-        <img src="https://i.ytimg.com/vi/REVLVw3L5B4/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/REVLVw3L5B4/hqdefault.jpg'" alt="Paris 2024 Closing Ceremony, LA28 Handover" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/REVLVw3L5B4/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/REVLVw3L5B4/hqdefault.jpg'" alt="Paris 2024 Closing Ceremony, LA28 Handover" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Live Event &middot; LA28</span><span class="pf-title">Paris 2024 Closing Ceremony</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/rx6Pf3LITbI?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1&amp;start=1430"
               aria-label="Play Ilan Rubin at Studio 606">
-        <img src="https://i.ytimg.com/vi/rx6Pf3LITbI/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/rx6Pf3LITbI/hqdefault.jpg'" alt="Ilan Rubin at Studio 606" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/rx6Pf3LITbI/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/rx6Pf3LITbI/hqdefault.jpg'" alt="Ilan Rubin at Studio 606" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Session Film</span><span class="pf-title">Ilan Rubin: Studio 606</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://player.vimeo.com/video/603676670?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
               aria-label="Play The Green, official teaser">
-        <img src="https://i.vimeocdn.com/video/1239957999-9ac326cfed490eaad7a3635d076201d6d04ae1e987e0e9527616235bf74ecdfa-d_1280?region=us" alt="The Green, official teaser" loading="lazy" />
+        <img src="https://i.vimeocdn.com/video/1239957999-9ac326cfed490eaad7a3635d076201d6d04ae1e987e0e9527616235bf74ecdfa-d_1280?region=us" alt="The Green, official teaser" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Short Film &middot; Teaser</span><span class="pf-title">The Green</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://player.vimeo.com/video/263682306?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
               aria-label="Play Pike County, short film">
-        <img src="https://i.vimeocdn.com/video/758963873-b4d190f3cfc8b6df6cb8d097b974a83002fa5914059dca355003785d5d01a104-d_1280?region=us" alt="Pike County, short film" loading="lazy" />
+        <img src="https://i.vimeocdn.com/video/758963873-b4d190f3cfc8b6df6cb8d097b974a83002fa5914059dca355003785d5d01a104-d_1280?region=us" alt="Pike County, short film" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Short Film</span><span class="pf-title">Pike County</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://player.vimeo.com/video/443901139?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
               aria-label="Play Charlie Cheddar's">
-        <img src="https://i.vimeocdn.com/video/933695157-d145e9380d2b8ae11f0d1334d658b9e9b09c1f29be2c84dc9afd4fc7531d6dd9-d_1280?region=us" alt="Charlie Cheddar's" loading="lazy" />
+        <img src="https://i.vimeocdn.com/video/933695157-d145e9380d2b8ae11f0d1334d658b9e9b09c1f29be2c84dc9afd4fc7531d6dd9-d_1280?region=us" alt="Charlie Cheddar's" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Commercial</span><span class="pf-title">Charlie Cheddar's</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://player.vimeo.com/video/338366635?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
               aria-label="Play Fila Fusion">
-        <img src="https://i.vimeocdn.com/video/785892633-73ef00140edbb095cea3dea07d31abd16ffb0d6b169554dc595a2fe2c2134d49-d_1280?region=us" alt="Fila Fusion" loading="lazy" />
+        <img src="https://i.vimeocdn.com/video/785892633-73ef00140edbb095cea3dea07d31abd16ffb0d6b169554dc595a2fe2c2134d49-d_1280?region=us" alt="Fila Fusion" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Commercial</span><span class="pf-title">Fila Fusion</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://player.vimeo.com/video/900645674?autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1"
               aria-label="Play USPA Spring">
-        <img src="https://i.vimeocdn.com/video/1811849510-27c5f7120e589c7f859a53779a21e7fb905ccdb7965e68347db7507143eb3417-d_1280?region=us" alt="USPA Spring" loading="lazy" />
+        <img src="https://i.vimeocdn.com/video/1811849510-27c5f7120e589c7f859a53779a21e7fb905ccdb7965e68347db7507143eb3417-d_1280?region=us" alt="USPA Spring" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Commercial</span><span class="pf-title">USPA: Spring</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/CQVglFZ-HZ0?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play Sins of the Amish">
-        <img src="https://i.ytimg.com/vi/CQVglFZ-HZ0/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/CQVglFZ-HZ0/hqdefault.jpg'" alt="Sins of the Amish" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/CQVglFZ-HZ0/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/CQVglFZ-HZ0/hqdefault.jpg'" alt="Sins of the Amish" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">Sins of the Amish</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/pGUj6jV1UOc?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play The Big Empty">
-        <img src="https://i.ytimg.com/vi/pGUj6jV1UOc/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/pGUj6jV1UOc/hqdefault.jpg'" alt="The Big Empty" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/pGUj6jV1UOc/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/pGUj6jV1UOc/hqdefault.jpg'" alt="The Big Empty" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Documentary</span><span class="pf-title">The Big Empty</span></span>
       </button>
 
       <button class="pf-tile" type="button"
               data-embed="https://www.youtube.com/embed/YyODHqG2Tz0?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
               aria-label="Play Chet Faker: Feel Good">
-        <img src="https://i.ytimg.com/vi/YyODHqG2Tz0/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/YyODHqG2Tz0/hqdefault.jpg'" alt="Chet Faker: Feel Good" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/YyODHqG2Tz0/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/YyODHqG2Tz0/hqdefault.jpg'" alt="Chet Faker: Feel Good" width="1280" height="720" loading="lazy" decoding="async" />
         <span class="pf-meta"><span class="pf-cat">Music Video</span><span class="pf-title">Chet Faker: Feel Good</span></span>
       </button>
 
     </section>
     </div><!-- /#view-film -->
 
+    <!-- ===================== CREATIVE DIRECTION VIEW ===================== -->
+    <div id="view-creative" class="pf-view" role="tabpanel" aria-labelledby="tab-creative" hidden>
+
+      <!-- Featured campaign hero: Apple Shot on iPhone -->
+      <section class="cd-featured" aria-label="Featured Creative Direction Campaign">
+        <div class="cd-hero-card">
+          <div class="cd-hero-media">
+            <a href="https://www.blackcoff.ee/#/apple-iphone-1/" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block; text-decoration: none;" aria-label="View Apple Shot on iPhone campaign">
+              <img src="https://images.squarespace-cdn.com/content/v1/5a8cdd74dc2b4a355533d70b/1643944248114-3A7JU2Q6NQ4TXSO1J8JM/lighting+1.00_00_14_06.Still006.jpg"
+                   alt="Apple Shot on iPhone Film Techniques campaign" width="1280" height="720" loading="eager" decoding="async" fetchpriority="high" />
+              <span class="pf-meta" style="opacity: 1; transform: none;">
+                <span class="pf-cat">Apple &middot; Black Coffee</span>
+                <span class="pf-title">Shot on iPhone: Film Techniques</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-hero-body">
+            <div class="cd-hero-header">
+              <div class="cd-badges">
+                <span class="cd-badge">Apple Commercial Campaign</span>
+                <span class="cd-badge cd-badge-gold">Featured Showcase</span>
+              </div>
+              <h2 class="cd-hero-title">Apple: Shot on iPhone &middot; Film Techniques</h2>
+              <p class="cd-hero-role">Creative Direction &amp; Technical Direction</p>
+              <p class="cd-hero-desc">National commercial and digital campaign demonstrating advanced cinematic lighting, deliberate camera movement, and high-end film techniques executed natively on the iPhone camera system. Bridges master-level optical physics with consumer device capabilities.</p>
+            </div>
+            <dl class="cd-meta-list">
+              <div class="cd-meta-item">
+                <dt>Brand &amp; Agency</dt>
+                <dd>Apple &middot; Black Coffee</dd>
+              </div>
+              <div class="cd-meta-item">
+                <dt>Campaign Focus</dt>
+                <dd>Cinematic Lighting &amp; Camera Mastery</dd>
+              </div>
+              <div class="cd-meta-item">
+                <dt>Format</dt>
+                <dd>National Commercial &middot; Digital Series</dd>
+              </div>
+              <div class="cd-meta-item">
+                <dt>Production Agency</dt>
+                <dd>Black Coffee Productions</dd>
+              </div>
+            </dl>
+            <div class="cd-actions">
+              <a href="https://www.blackcoff.ee/#/apple-iphone-1/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Campaign Showcase &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <p class="pf-section-label">Selected Commercial &amp; Entertainment Campaigns</p>
+
+      <!-- Campaign case studies grid -->
+      <section class="cd-grid" aria-label="Campaign case studies and productions">
+
+        <!-- Swarovski x Ariana Grande -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.youtube.com/watch?v=fOgAI_gHr_U" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="View Swarovski x Ariana Grande campaign">
+              <img src="https://i.ytimg.com/vi/fOgAI_gHr_U/hqdefault.jpg"
+                   alt="Swarovski x Ariana Grande Global Capsule Collection campaign" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">Swarovski</span>
+                <span class="pf-title">Ariana Grande Capsule Collection</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">Swarovski</span>
+                <span class="cd-tag">Global Campaign</span>
+              </div>
+              <h3 class="cd-card-title">Swarovski x Ariana Grande</h3>
+              <p class="cd-card-role">Art Direction</p>
+              <p class="cd-card-desc">Global summer campaign and capsule collection launch featuring Global Brand Ambassador Ariana Grande, celebrating radiant jewelry styling, candy-colored aesthetics, and joyful high-fashion energy.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">Global Brand Ambassador Launch</span>
+              <a class="cd-card-link" href="https://www.youtube.com/watch?v=fOgAI_gHr_U" target="_blank" rel="noopener noreferrer">Watch Campaign</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Johnnie Walker Jingle Bells -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.unreasonablestudios.com/johnny-walker-jingle-bells" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="View Johnnie Walker Jingle Bells campaign">
+              <img src="https://images.squarespace-cdn.com/content/v1/671a53545c43c05e16efa35b/1729778619086-L54HC8AZQ1JKMCMDTK1Y/UNR_WTC_05_DJ_JWFF_AB_AP_CR_JWJB_02.png"
+                   alt="Johnnie Walker Jingle Bells holiday campaign" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">Diageo &middot; Unreasonable Studios</span>
+                <span class="pf-title">Holiday Jingle Bells Campaign</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">Johnnie Walker</span>
+                <span class="cd-tag">Holiday Broadcast</span>
+              </div>
+              <h3 class="cd-card-title">Johnnie Walker &middot; Jingle Bells</h3>
+              <p class="cd-card-role">Creative Director</p>
+              <p class="cd-card-desc">Holiday commercial campaign for Johnnie Walker, combining high-end tabletop beverage cinematography, kinetic festive lighting, and spirited seasonal celebration art direction.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">National Holiday Broadcast</span>
+              <a class="cd-card-link" href="https://www.unreasonablestudios.com/johnny-walker-jingle-bells" target="_blank" rel="noopener noreferrer">View Campaign</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Don Julio Tequila -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.unreasonablestudios.com/don-julio" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="View Don Julio Tequila campaign">
+              <img src="https://images.squarespace-cdn.com/content/v1/671a53545c43c05e16efa35b/1729778590495-VQ9ZVLYIZRHL5WMJ71TF/UNR_WTC_05_DJ_JWFF_AB_AP_CR_JWJB_02.png"
+                   alt="Don Julio premium tequila brand campaign" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">Diageo &middot; Unreasonable Studios</span>
+                <span class="pf-title">Artisanal Tequila Campaign</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">Don Julio</span>
+                <span class="cd-tag">Spirits Campaign</span>
+              </div>
+              <h3 class="cd-card-title">Don Julio &middot; Heritage Campaign</h3>
+              <p class="cd-card-role">Creative Director</p>
+              <p class="cd-card-desc">Visual campaign honoring artisanal blue agave heritage, pairing rich warm earth tones and rich texture work with luxury spirits brand positioning.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">Luxury Spirits Portfolio</span>
+              <a class="cd-card-link" href="https://www.unreasonablestudios.com/don-julio" target="_blank" rel="noopener noreferrer">View Campaign</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Vans Off The Wall -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.unreasonablestudios.com/vans-off-the-wall" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="View Vans Off The Wall campaign">
+              <img src="https://images.squarespace-cdn.com/content/v1/671a53545c43c05e16efa35b/1729778605506-9I1IW6E51IFTC7IV3DC0/UNR_WTC_05_Vans_Off_the_Wall.png"
+                   alt="Vans Off The Wall global brand campaign" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">Vans &middot; Unreasonable Studios</span>
+                <span class="pf-title">Off The Wall Global Campaign</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">Vans</span>
+                <span class="cd-tag">Global Brand</span>
+              </div>
+              <h3 class="cd-card-title">Vans &middot; Off The Wall</h3>
+              <p class="cd-card-role">Creative Director</p>
+              <p class="cd-card-desc">Kinetic skate and street culture campaign capturing authentic skate motion, aggressive framing, and expressive youth creativity true to the Vans legacy.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">Worldwide Action Sports Campaign</span>
+              <a class="cd-card-link" href="https://www.unreasonablestudios.com/vans-off-the-wall" target="_blank" rel="noopener noreferrer">View Campaign</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Don't Mess With Texas: Ethan Hawke -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.blackcoff.ee/#/dmwtethanhawke/" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="View Don't Mess With Texas Ethan Hawke campaign">
+              <img src="https://images.squarespace-cdn.com/content/v1/5a8cdd74dc2b4a355533d70b/1693419904440-PQA1Z06BO43J3D09FI7V/image-asset.jpeg"
+                   alt="Don't Mess With Texas commercial starring Ethan Hawke" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">TxDOT &middot; Black Coffee</span>
+                <span class="pf-title">Don't Mess With Texas :60</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">TxDOT &middot; Black Coffee</span>
+                <span class="cd-tag">Broadcast :60</span>
+              </div>
+              <h3 class="cd-card-title">Don't Mess With Texas &middot; Ethan Hawke</h3>
+              <p class="cd-card-role">Art Direction</p>
+              <p class="cd-card-desc">Statewide broadcast campaign starring four-time Academy Award nominee Ethan Hawke, blending wide-angle Texas iconography with deadpan comedic timing and classic Americana styling.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">Statewide Cultural Broadcast</span>
+              <a class="cd-card-link" href="https://www.blackcoff.ee/#/dmwtethanhawke/" target="_blank" rel="noopener noreferrer">View Campaign</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Ed Sheeran - Mathematics Tour -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.blackcoff.ee/#/ed-sheeran/" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="View Ed Sheeran Mathematics Tour visuals">
+              <img src="https://images.squarespace-cdn.com/content/v1/5a8cdd74dc2b4a355533d70b/1667165176550-NFDBTRDJO96P8K88YNYW/image-asset.jpeg"
+                   alt="Ed Sheeran Mathematics Tour screen graphics and campaign visuals" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">Global Tour Creatives &middot; Black Coffee</span>
+                <span class="pf-title">Mathematics Tour Visuals</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">Ed Sheeran</span>
+                <span class="cd-tag">Stadium Tour</span>
+              </div>
+              <h3 class="cd-card-title">Ed Sheeran &middot; Mathematics Tour</h3>
+              <p class="cd-card-role">Visual Producer</p>
+              <p class="cd-card-desc">Promotional creative and stadium screen visual package for Ed Sheeran record-shattering global stadium tour, engineered for circular 360-degree central stage geometry.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">Record-Breaking Worldwide Tour</span>
+              <a class="cd-card-link" href="https://www.blackcoff.ee/#/ed-sheeran/" target="_blank" rel="noopener noreferrer">View Campaign</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Blink-182 Travis Tour Checkup -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.blackcoff.ee/#/blink-182/" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="View Blink-182 Travis Tour Checkup campaign">
+              <img src="https://images.squarespace-cdn.com/content/v1/5a8cdd74dc2b4a355533d70b/1585244335968-ODEYNLEU58K8S48GJ2JA/BLINK_TRAVIS_THUMB_02.jpg"
+                   alt="Blink-182 Travis Tour Checkup reunion promo" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">Live Nation &middot; GTC</span>
+                <span class="pf-title">Travis Tour Checkup</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">Blink-182</span>
+                <span class="cd-tag">Reunion Promo</span>
+              </div>
+              <h3 class="cd-card-title">Blink-182 &middot; Tour Checkup</h3>
+              <p class="cd-card-role">Creative Direction</p>
+              <p class="cd-card-desc">Satirical tour launch comedy promo with Travis Barker announcing the global reunion tour, leaning into playful clinical satire and 90s pop-punk irreverence.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">Global Reunion Tour Announcement</span>
+              <a class="cd-card-link" href="https://www.blackcoff.ee/#/blink-182/" target="_blank" rel="noopener noreferrer">View Campaign</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tidal X Brooklyn -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.blackcoff.ee/#/tidal-x-brooklyn/" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="View Tidal X Brooklyn campaign">
+              <img src="https://images.squarespace-cdn.com/content/v1/5a8cdd74dc2b4a355533d70b/1585232305014-62E0623W9X09EBQAEOJG/TKIDS_THUMB_02.jpg"
+                   alt="Tidal X Brooklyn annual concert visual campaign" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">Tidal &middot; Roc Nation</span>
+                <span class="pf-title">Tidal X Brooklyn Arena Campaign</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">Tidal &middot; Roc Nation</span>
+                <span class="cd-tag">Arena Concert</span>
+              </div>
+              <h3 class="cd-card-title">Tidal X Brooklyn &middot; Arena Campaign</h3>
+              <p class="cd-card-role">Visual Producer</p>
+              <p class="cd-card-desc">High-voltage visual identity and commercial integration for Tidal annual philanthropic mega-concert at Barclays Center, supporting disaster relief and criminal justice reform.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">Barclays Center Arena Event</span>
+              <a class="cd-card-link" href="https://www.blackcoff.ee/#/tidal-x-brooklyn/" target="_blank" rel="noopener noreferrer">View Campaign</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Google x Samsung XR - Khalid -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="campaigns/khalid-samsung-xr.html" class="pf-tile" style="display: block;" aria-label="View Khalid Nah VR case study">
+              <img src="https://i.ytimg.com/vi/8RtgEpz_wa8/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/8RtgEpz_wa8/hqdefault.jpg'"
+                   alt="Khalid Nah immersive VR music experience" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">Google &middot; Samsung XR</span>
+                <span class="pf-title">Khalid: Nah Immersive VR</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">Google &middot; Samsung</span>
+                <span class="cd-tag">Spatial XR</span>
+              </div>
+              <h3 class="cd-card-title">Khalid: Nah &middot; Spatial XR Campaign</h3>
+              <p class="cd-card-role">Creative Producer &amp; VR Cinematographer</p>
+              <p class="cd-card-desc">Directed and produced the flagship 3D VR music experience for Google and Samsung XR launch. Developed in-headset real-time spatial review tools (VR Live-View) for stereoscopic 12K camera feeds.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">Webby Award Nominee</span>
+              <a class="cd-card-link" href="campaigns/khalid-samsung-xr.html">Explore Case Study</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Paris 2024 / LA28 Olympic Handover -->
+        <article class="cd-card">
+          <div class="cd-card-media">
+            <a href="https://www.youtube.com/watch?v=REVLVw3L5B4" target="_blank" rel="noopener noreferrer" class="pf-tile" style="display: block;" aria-label="Play Paris 2024 Olympic Handover stunt">
+              <img src="https://i.ytimg.com/vi/REVLVw3L5B4/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/REVLVw3L5B4/hqdefault.jpg'"
+                   alt="Paris 2024 Olympic Handover to LA28 featuring Tom Cruise" width="1280" height="720" loading="lazy" decoding="async" />
+              <span class="pf-meta">
+                <span class="pf-cat">IOC &middot; NBC &middot; LA28</span>
+                <span class="pf-title">Olympic Handover Stunt</span>
+              </span>
+            </a>
+          </div>
+          <div class="cd-card-content">
+            <div class="cd-card-top">
+              <div class="cd-client-row">
+                <span class="cd-client">IOC &middot; NBC &middot; LA28</span>
+                <span class="cd-tag">Global Broadcast</span>
+              </div>
+              <h3 class="cd-card-title">Paris 2024 &middot; LA28 Olympic Handover</h3>
+              <p class="cd-card-role">Aerial &amp; Action Cinematographer / Technical Producer</p>
+              <p class="cd-card-desc">Engineered high-G camera capture rigs tracking Tom Cruise skydiving out of a military aircraft and racing across Los Angeles to install the Olympic rings on the Hollywood sign.</p>
+            </div>
+            <div class="cd-card-footer">
+              <span class="cd-card-impact">1 Billion+ Global Viewers</span>
+              <a class="cd-card-link" href="https://www.youtube.com/watch?v=REVLVw3L5B4" target="_blank" rel="noopener noreferrer">Watch Stunt Broadcast</a>
+            </div>
+          </div>
+        </article>
+
+      </section>
+    </div><!-- /#view-creative -->
     <!-- ===================== DEVELOPER VIEW ===================== -->
     <div id="view-dev" class="pf-view" role="tabpanel" aria-labelledby="tab-dev" hidden>
 
@@ -541,6 +1155,7 @@
             <span class="dv-program">NVIDIA Inception Program</span>
           </div>
           <div class="dv-links">
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/somnora/">Explore project</a>
             <a class="dv-link dv-link-primary" href="https://apps.apple.com/il/app/somnora/id6755064744" target="_blank" rel="noopener">App Store</a>
           </div>
         </article>
@@ -564,7 +1179,47 @@
           </div>
           <p class="dv-desc">A local orchestrator for Lambda Cloud GPUs: launch instances, queue jobs, and serve open-weight models from one dark, terminal-native dashboard. Every launch and termination runs through a single guarded gateway, so nothing spins up or bills past your budget and concurrency limits. A GPU exists only while there's work for it.</p>
           <div class="dv-links">
-            <a class="dv-link" href="https://github.com/Somnora/Manifold-" target="_blank" rel="noopener">GitHub</a>
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/manifold/">Explore project</a>
+            <a class="dv-link" href="https://github.com/Somnora/Manifold" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+
+        <!-- Agentic -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/agentic.webp" alt="Agentic project icon" width="64" height="64" loading="lazy" />
+            <div class="dv-head-text">
+              <h3 class="dv-name">Agentic</h3>
+              <div class="dv-tags">
+                <span class="dv-cat">Agent-Native Commerce</span>
+                <span class="dv-status" data-kind="dev">Working Title</span>
+              </div>
+            </div>
+          </div>
+          <p class="dv-desc">A commerce layer that makes merchant-authorized product data legible to both people and agents. It publishes compact, current catalog data, preserves field-level provenance, and stops at a visible human handoff before any purchase.</p>
+          <div class="dv-links">
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/agentic/">Explore project</a>
+            <a class="dv-link" href="https://agentic-webmcp.somnora.workers.dev/" target="_blank" rel="noopener">Live Demo</a>
+            <a class="dv-link" href="https://github.com/Somnora/agentic-webmcp" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+
+        <!-- Warden -->
+        <article class="dv-card">
+          <div class="dv-card-head">
+            <img class="dv-logo" src="logos/warden.webp" alt="Warden app icon" width="64" height="64" loading="lazy" decoding="async" />
+            <div class="dv-head-text">
+              <h3 class="dv-name">Warden</h3>
+              <div class="dv-tags">
+                <span class="dv-cat">Agent Fleet Governance</span>
+                <span class="dv-status" data-kind="dev">In Development</span>
+              </div>
+            </div>
+          </div>
+          <p class="dv-desc">A zero-trust control plane for AI agents operating cloud infrastructure. Policy, spend ceilings, teardown deadlines, human approvals, DLP, and a tamper-evident audit chain all stand between an agent request and a provider action.</p>
+          <div class="dv-links">
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/warden/">Explore project</a>
+            <a class="dv-link" href="https://github.com/Somnora/Warden" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -582,6 +1237,7 @@
           </div>
           <p class="dv-desc">A handful of real stories from today in history, written and sourced with care, not scraped from Wikipedia. Choose uplifting, balanced, or unflinching, and read them before your coffee's done.</p>
           <div class="dv-links">
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/today-in-time/">Explore project</a>
             <a class="dv-link" href="https://apps.apple.com/il/app/today-in-time/id6766169103" target="_blank" rel="noopener">App Store</a>
           </div>
         </article>
@@ -600,6 +1256,7 @@
           </div>
           <p class="dv-desc">Built for freelance crew who work gig to gig on set. It does the overtime and golden-time math, turns shoot days into invoices, and flags who still owes you a 1099.</p>
           <div class="dv-links">
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/callsheet-companion/">Explore project</a>
             <a class="dv-link" href="https://apps.apple.com/il/app/callsheet-companion/id6757967487" target="_blank" rel="noopener">App Store</a>
           </div>
         </article>
@@ -612,13 +1269,14 @@
               <h3 class="dv-name">SquadSync</h3>
               <div class="dv-tags">
                 <span class="dv-cat">Squad Planner</span>
-                <span class="dv-status">Open Source</span>
+                <span class="dv-status" data-kind="dev">In Development</span>
               </div>
             </div>
           </div>
           <p class="dv-desc">No more herding everyone through a group chat. Invite codes expire instead of living forever, and Run It Back rebuilds a finished session into a rematch with one tap.</p>
           <div class="dv-links">
-            <a class="dv-link" href="https://github.com/Somnora/Squad-Sync" target="_blank" rel="noopener">GitHub</a>
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/squadsync/">Explore project</a>
+            <a class="dv-link" href="../SquadSync/">Product Page</a>
           </div>
         </article>
 
@@ -636,6 +1294,7 @@
           </div>
           <p class="dv-desc">Strap on a headset in the real location, block virtual actors on the actual floor, then look through a virtual camera with true Super 16 to anamorphic optics to find your shot before the crew shows up.</p>
           <div class="dv-links">
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/setview/">Explore project</a>
             <a class="dv-link" href="https://github.com/Somnora/Set-View" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
@@ -648,13 +1307,13 @@
               <h3 class="dv-name">HomePlate</h3>
               <div class="dv-tags">
                 <span class="dv-cat">Friend Status</span>
-                <span class="dv-status">Open Source</span>
+                <span class="dv-status" data-kind="dev">In Development</span>
               </div>
             </div>
           </div>
           <p class="dv-desc">Post available, maybe, or busy, with a note and a location, seen only by the friends you add by code. It expires on its own, no feed, no history left behind.</p>
           <div class="dv-links">
-            <a class="dv-link" href="https://github.com/Somnora/Home-Plate" target="_blank" rel="noopener">GitHub</a>
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/homeplate/">Explore project</a>
           </div>
         </article>
 
@@ -672,6 +1331,7 @@
           </div>
           <p class="dv-desc">Every stock gets a zodiac sign from its founding date, and Cosmo Trader plots real moon phases and Mercury retrograde windows right on the price chart. It's astrology for market vibes, not a trading signal.</p>
           <div class="dv-links">
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/cosmo-trader/">Explore project</a>
             <a class="dv-link" href="https://github.com/Somnora/Cosmo-Trader" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
@@ -696,6 +1356,9 @@
             </div>
           </div>
           <p class="dv-desc">Turns one static, locked-off webcam into a virtual camera operator for streamers: cinematic auto-framing, moment-driven punch-ins, and a library of camera moves you trigger with a hotkey, a clap, or just saying Lock In, all without the camera ever physically moving.</p>
+          <div class="dv-links">
+            <a class="dv-link dv-link-detail dv-card-detail" href="projects/locked/">Explore project</a>
+          </div>
         </article>
 
       </section>
@@ -715,37 +1378,70 @@
 
   <script>
     (function () {
-      function activate(tile) {
-        if (tile.classList.contains('pf-active')) return;
-        var src = tile.getAttribute('data-embed');
-        if (!src) return;
+      var modal = document.getElementById('video-modal');
+      var player = document.getElementById('pf-modal-player');
+      var backdrop = document.getElementById('pf-modal-backdrop');
+      var closeBtn = document.getElementById('pf-modal-close');
+      if (!modal || !player) return;
+
+      function openModal(embedUrl, titleText) {
+        if (!embedUrl) return;
+        player.innerHTML = '';
         var iframe = document.createElement('iframe');
-        iframe.src = src;
-        iframe.title = tile.getAttribute('aria-label') || 'Video';
+        iframe.src = embedUrl;
+        iframe.title = titleText || 'Video player';
         iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
-        tile.appendChild(iframe);
-        tile.classList.add('pf-active');
+        player.appendChild(iframe);
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
       }
+
+      function closeModal() {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        player.innerHTML = '';
+        document.body.style.overflow = '';
+      }
+
       document.querySelectorAll('.pf-tile').forEach(function (tile) {
-        tile.addEventListener('click', function () { activate(tile); });
+        var embed = tile.getAttribute('data-embed');
+        if (!embed) return;
+        tile.addEventListener('click', function (e) {
+          e.preventDefault();
+          var title = tile.getAttribute('aria-label') || 'Cinematography work';
+          openModal(embed, title);
+        });
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (backdrop) backdrop.addEventListener('click', closeModal);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
       });
     })();
 
-    // Cinematography / Developer mode toggle
+    // Cinematography / Creative Direction / Developer mode toggle
     (function () {
       var toggle = document.querySelector('.pf-toggle');
       if (!toggle) return;
       var tabs = Array.prototype.slice.call(toggle.querySelectorAll('.pf-toggle-btn'));
-      var views = { film: document.getElementById('view-film'), dev: document.getElementById('view-dev') };
+      var views = {
+        film: document.getElementById('view-film'),
+        creative: document.getElementById('view-creative'),
+        dev: document.getElementById('view-dev')
+      };
       var header = document.querySelector('.pf-header');
       var swap = ['pf-eyebrow', 'pf-role', 'pf-intro'].map(function (c) {
         return header ? header.querySelector('.' + c) : null;
       });
 
       function show(mode, push) {
-        if (mode !== 'dev') mode = 'film';
+        if (mode !== 'dev' && mode !== 'creative') mode = 'film';
         toggle.setAttribute('data-active', mode);
         tabs.forEach(function (t) {
           var on = t.getAttribute('data-view') === mode;
@@ -758,10 +1454,10 @@
         swap.forEach(function (el) {
           if (!el) return;
           var v = el.getAttribute('data-' + mode);
-          if (v != null) el.textContent = v;
+          if (v != null) el.innerHTML = v;
         });
         if (push && window.history && history.replaceState) {
-          history.replaceState(null, '', mode === 'dev' ? '#dev' : '#film');
+          history.replaceState(null, '', mode === 'film' ? '#film' : (mode === 'creative' ? '#creative' : '#dev'));
         }
       }
 
@@ -769,9 +1465,24 @@
         t.addEventListener('click', function () { show(t.getAttribute('data-view'), true); });
       });
 
-      show(location.hash === '#dev' ? 'dev' : 'film', false);
+      var initialMode = 'film';
+      if (location.hash === '#dev') initialMode = 'dev';
+      else if (location.hash === '#creative') initialMode = 'creative';
+      show(initialMode, false);
     })();
   </script>
+
+  <!-- Video Lightbox Modal -->
+  <div id="video-modal" class="pf-modal" aria-hidden="true" role="dialog" aria-label="Video player">
+    <div class="pf-modal-backdrop" id="pf-modal-backdrop"></div>
+    <div class="pf-modal-box">
+      <button class="pf-modal-close" id="pf-modal-close" aria-label="Close video">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="pf-modal-player" id="pf-modal-player"></div>
+    </div>
+  </div>
+
   <script data-goatcounter="https://somnora.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
