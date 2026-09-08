@@ -144,8 +144,20 @@
       width: 100%; height: 100%; object-fit: cover; display: block;
       transition: transform 0.6s var(--ease-soft), filter 0.4s ease;
     }
-    .pf-tile:hover img,
-    .pf-tile:focus-visible img { transform: scale(1.05); filter: brightness(0.62); }
+    .pf-tile:hover img:not(.pf-preview-gif),
+    .pf-tile:focus-visible img:not(.pf-preview-gif) { transform: scale(1.05); filter: brightness(0.62); }
+
+    /* Boomerang preview GIF on hover */
+    .pf-tile .pf-preview-gif {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+      z-index: 1;
+    }
+    .pf-tile:hover .pf-preview-gif,
+    .pf-tile:focus-visible .pf-preview-gif {
+      opacity: 1;
+    }
 
     /* Play button (pseudo-element so markup stays clean; hidden once playing) */
     .pf-tile::after {
@@ -1376,60 +1388,79 @@
     <p class="pf-copyright">© James McShane</p>
   </footer>
 
+  <!-- Video Lightbox Modal -->
+  <div id="video-modal" class="pf-modal" aria-hidden="true" role="dialog" aria-label="Video player">
+    <div class="pf-modal-backdrop" id="pf-modal-backdrop"></div>
+    <div class="pf-modal-box">
+      <button class="pf-modal-close" id="pf-modal-close" aria-label="Close video">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="pf-modal-player" id="pf-modal-player"></div>
+    </div>
+  </div>
+
   <script>
     (function () {
-      var modal = document.getElementById('video-modal');
-      var player = document.getElementById('pf-modal-player');
-      var backdrop = document.getElementById('pf-modal-backdrop');
-      var closeBtn = document.getElementById('pf-modal-close');
-      if (!modal || !player) return;
+      function initVideoModal() {
+        var modal = document.getElementById('video-modal');
+        var player = document.getElementById('pf-modal-player');
+        var backdrop = document.getElementById('pf-modal-backdrop');
+        var closeBtn = document.getElementById('pf-modal-close');
+        if (!modal || !player) return;
 
-      function decodeHtmlEntities(str) {
-        var txt = document.createElement('textarea');
-        txt.innerHTML = str;
-        return txt.value;
-      }
-
-      function openModal(embedUrl, titleText) {
-        if (!embedUrl) return;
-        var cleanUrl = decodeHtmlEntities(embedUrl);
-        player.innerHTML = '';
-        var iframe = document.createElement('iframe');
-        iframe.src = cleanUrl;
-        iframe.title = titleText || 'Video player';
-        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
-        iframe.setAttribute('allowfullscreen', '');
-        iframe.setAttribute('frameborder', '0');
-        player.appendChild(iframe);
-        modal.classList.add('is-open');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeModal() {
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-        player.innerHTML = '';
-        document.body.style.overflow = '';
-      }
-
-      document.querySelectorAll('.pf-tile').forEach(function (tile) {
-        var embed = tile.getAttribute('data-embed');
-        if (!embed) return;
-        tile.addEventListener('click', function (e) {
-          e.preventDefault();
-          var title = tile.getAttribute('aria-label') || 'Cinematography work';
-          openModal(embed, title);
-        });
-      });
-
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      if (backdrop) backdrop.addEventListener('click', closeModal);
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
-          closeModal();
+        function decodeHtmlEntities(str) {
+          var txt = document.createElement('textarea');
+          txt.innerHTML = str;
+          return txt.value;
         }
-      });
+
+        function openModal(embedUrl, titleText) {
+          if (!embedUrl) return;
+          var cleanUrl = decodeHtmlEntities(embedUrl);
+          player.innerHTML = '';
+          var iframe = document.createElement('iframe');
+          iframe.src = cleanUrl;
+          iframe.title = titleText || 'Video player';
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+          iframe.setAttribute('allowfullscreen', '');
+          iframe.setAttribute('frameborder', '0');
+          player.appendChild(iframe);
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden', 'true');
+          player.innerHTML = '';
+          document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.pf-tile').forEach(function (tile) {
+          var embed = tile.getAttribute('data-embed');
+          if (!embed) return;
+          tile.addEventListener('click', function (e) {
+            e.preventDefault();
+            var title = tile.getAttribute('aria-label') || 'Cinematography work';
+            openModal(embed, title);
+          });
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (backdrop) backdrop.addEventListener('click', closeModal);
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+            closeModal();
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initVideoModal);
+      } else {
+        initVideoModal();
+      }
     })();
 
     // Cinematography / Creative Direction / Developer mode toggle
@@ -1478,17 +1509,6 @@
       show(initialMode, false);
     })();
   </script>
-
-  <!-- Video Lightbox Modal -->
-  <div id="video-modal" class="pf-modal" aria-hidden="true" role="dialog" aria-label="Video player">
-    <div class="pf-modal-backdrop" id="pf-modal-backdrop"></div>
-    <div class="pf-modal-box">
-      <button class="pf-modal-close" id="pf-modal-close" aria-label="Close video">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-      <div class="pf-modal-player" id="pf-modal-player"></div>
-    </div>
-  </div>
 
   <script data-goatcounter="https://somnora.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
