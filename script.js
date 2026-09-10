@@ -24,8 +24,18 @@ const MODE_DETAILS = {
       "Every dream is saved, titled, and searchable in your private archive."
     ]
   },
+  mindful: {
+    label: "Mode 02 · Mindful",
+    title: "Mindful",
+    purpose: "Purpose: close the day with a steadier body and a quieter mind.",
+    points: [
+      "A 90-second guided wind-down: breathing that asks very little of you.",
+      "Meditations and gratitude prompts, read aloud in Nora's own voice.",
+      "Finish with a steadier handoff into the night."
+    ]
+  },
   eureka: {
-    label: "Mode 02 · Eureka",
+    label: "Mode 03 · Eureka",
     title: "Eureka",
     purpose: "Purpose: catch late-night ideas while they still have energy.",
     points: [
@@ -35,23 +45,13 @@ const MODE_DETAILS = {
     ]
   },
   analytics: {
-    label: "Mode 03 · Insights",
+    label: "Mode 04 · Insights",
     title: "Insights",
     purpose: "Purpose: context for how you're really doing, never a diagnosis.",
     points: [
       "Sleep balance from your real nights: durations and trends, not a judgment score.",
       "A dream climate that maps what your nights keep returning to.",
       "Resilience: how your body actually settles during breathing sessions."
-    ]
-  },
-  mindful: {
-    label: "Mode 04 · Mindful",
-    title: "Mindful",
-    purpose: "Purpose: close the day with a steadier body and a quieter mind.",
-    points: [
-      "A 90-second guided wind-down: breathing that asks very little of you.",
-      "Meditations and gratitude prompts, read aloud in Nora's own voice.",
-      "Finish with a steadier handoff into the night."
     ]
   }
 };
