@@ -94,22 +94,30 @@ const priceValues = document.querySelectorAll('.price-value');
 function setPricing(mode) { // 'founders' or 'standard'
   const activeMode = mode === 'standard' ? 'standard' : 'founders';
   const isStandard = activeMode === 'standard';
-  
+
   // Toggle visual state
   if (toggleBtnFounders && toggleBtnStandard) {
     toggleBtnFounders.setAttribute('aria-pressed', !isStandard);
     toggleBtnStandard.setAttribute('aria-pressed', isStandard);
   }
-  
+
   const slider = document.querySelector('.toggle-slider');
-  if(slider) {
+  if (slider) {
     slider.style.transform = isStandard ? 'translateX(100%)' : 'translateX(0)';
   }
 
-  // Show/hide founder reference price on yearly card
+  // Show/hide founder reference price and Founders badge on yearly card
   const refPrice = document.getElementById('yearly-ref-price');
   if (refPrice) {
     refPrice.style.display = isStandard ? 'none' : '';
+  }
+  // Yearly card is the second card; keep a stable marker so Standard can
+  // drop the Founders badge without losing track of which card to retarget.
+  const yearly = document.querySelector('.pricing-card[data-pricing-yearly]')
+    || document.querySelectorAll('.pricing-grid .pricing-card')[1];
+  if (yearly) {
+    yearly.setAttribute('data-pricing-yearly', 'true');
+    yearly.classList.toggle('featured', !isStandard);
   }
 
   // Update numbers for ALL cards
@@ -217,8 +225,18 @@ document.addEventListener('click', (e) => {
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    revealEls.forEach((el) => io.observe(el));
+    }, { threshold: 0.01, rootMargin: '120px 0px 80px 0px' });
+    revealEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      // Reveal anything already near the viewport so first paint / deep links
+      // are not stuck on empty dark gaps.
+      if (rect.top < vh + 160 && rect.bottom > -80) {
+        el.classList.add('revealed');
+      } else {
+        io.observe(el);
+      }
+    });
   } else {
     revealEls.forEach((el) => el.classList.add('revealed'));
   }

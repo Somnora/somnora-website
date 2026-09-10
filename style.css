@@ -1758,3 +1758,14 @@ body.zone-day .zone-night .mode-mobile-card li { color: var(--ink-soft); }
     text-align: center;
   }
 }
+
+
+/* Pricing honesty note under the cards */
+.pricing-note {
+  max-width: 42rem;
+  margin: 1.5rem auto 0;
+  text-align: center;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft, rgba(28, 24, 20, 0.72));
+}
