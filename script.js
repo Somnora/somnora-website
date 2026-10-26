@@ -202,6 +202,22 @@ document.addEventListener('click', (e) => {
   });
 });
 
+/* ========== ARRIVALS FROM THE SOUNDSCAPES CHANNEL ==========
+   Video descriptions on the Somnora YouTube channel link to / with
+   utm_source=youtube. Those visitors get the same one-line welcome that
+   /youtube/ gives; the line stays hidden for everyone else. */
+(function () {
+  const note = document.getElementById('arrival-note');
+  if (!note) return;
+  let source = '';
+  try {
+    source = new URLSearchParams(window.location.search).get('utm_source') || '';
+  } catch (err) {
+    return;
+  }
+  if (source.trim().toLowerCase() === 'youtube') note.hidden = false;
+})();
+
 /* ============================================================
    NIGHT → MORNING ATMOSPHERE ENGINE
    Sky crossfade, starfield/fireflies, cursor lantern, parallax,

@@ -1985,3 +1985,105 @@ body.zone-day .zone-night .mode-mobile-card li { color: var(--ink-soft); }
 [data-reveal] {
   transform: translateY(14px);
 }
+
+
+/* ===== 2026-10-26 arrivals from the soundscapes channel ===== */
+/* /youtube/: one night-sky column for people who tapped through from a
+   Somnora soundscape on YouTube. One acknowledgement, what the app is,
+   one App Store button, and a quiet way back to the channel. */
+.arrival-page {
+  min-height: 100vh;
+  position: relative;
+}
+.arrival-page .sky-night { opacity: 1; }
+
+.arrival-main {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + 5rem) 1.5rem 3.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.arrival-copy h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.1rem, 5vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--moonlight);
+}
+.arrival-copy .subtitle { max-width: 56ch; }
+.arrival-copy .btn-group { gap: 0.75rem; }
+.arrival-copy .btn-primary {
+  padding: 1rem 2.15rem;
+  font-size: 1.04rem;
+}
+
+.arrival-channel {
+  margin-top: 2.6rem;
+  font-size: 0.9rem;
+  color: var(--moonlight-faint);
+}
+.arrival-channel a {
+  color: var(--moonlight-soft);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(247, 239, 228, 0.28);
+  padding-bottom: 1px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.arrival-channel a:hover {
+  color: var(--salmon);
+  border-color: var(--salmon);
+}
+
+.arrival-footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 1.5rem 2.5rem;
+}
+.arrival-footer nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.6rem;
+  margin-bottom: 0.9rem;
+}
+.arrival-footer a {
+  color: var(--moonlight-faint);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+.arrival-footer a:hover { color: var(--salmon); }
+.arrival-footer .copyright { color: var(--moonlight-faint); }
+
+@media (max-width: 640px) {
+  .arrival-main { padding-top: calc(var(--nav-height) + 3rem); }
+  /* Full-width button, with the label kept to one line on a 375px phone. */
+  .arrival-copy .btn-group .btn {
+    width: 100%;
+    justify-content: center;
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+}
+
+/* Home page: the same acknowledgement for visitors who land on / carrying
+   utm_source=youtube from a video description. Hidden in the markup;
+   script.js lifts the hidden attribute only for that source. */
+.arrival-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.1rem);
+  color: var(--amber);
+  margin-bottom: 1.2rem;
+}
+.arrival-note[hidden] { display: none; }
