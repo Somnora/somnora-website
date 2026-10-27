@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Somnora OG image template (render at 1200x630)</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --night: #181310; --night-2: #211a15; --dusk-navy: #26303f; --cream: #f6efdc;
+    --salmon: #e0927a; --salmon-deep: #c97757; --amber: #e8b86d;
+    --moonlight: #f7efe4; --moonlight-soft: rgba(247,239,228,0.8); --moonlight-faint: rgba(247,239,228,0.5);
+    --glass-border: rgba(255,240,222,0.14);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif; color: var(--moonlight);
+    background:
+      radial-gradient(900px 520px at 78% 112%, rgba(224,146,122,0.22) 0%, rgba(224,146,122,0) 60%),
+      radial-gradient(700px 420px at 12% -10%, rgba(60,70,95,0.55) 0%, rgba(60,70,95,0) 65%),
+      linear-gradient(180deg, #0f0c0a 0%, var(--night) 55%, #2a211a 100%);
+    position: relative;
+  }
+  .stars { position: absolute; inset: 0; pointer-events: none; }
+  .stars i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: var(--moonlight); opacity: 0.7; box-shadow: 0 0 6px rgba(247,239,228,0.6); }
+  .frame { position: absolute; inset: 0; padding: 56px 60px 52px; display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 44px; align-items: center; }
+  .pill { display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--moonlight-faint); margin-bottom: 26px; }
+  .pill::before { content: ""; width: 30px; height: 1px; background: var(--amber); opacity: 0.8; }
+  h1 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 104px; line-height: 0.95; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 22px; }
+  .line { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 33px; line-height: 1.25; color: var(--salmon); margin-bottom: 20px; }
+  .sub { font-size: 20px; line-height: 1.5; color: var(--moonlight-soft); max-width: 520px; margin-bottom: 30px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 30px; border-radius: 999px; font-size: 20px; font-weight: 600; color: #fff8f2; background: linear-gradient(135deg, var(--salmon) 0%, var(--salmon-deep) 100%); box-shadow: 0 14px 40px -12px rgba(224,146,122,0.6); }
+  .btn svg { width: 20px; height: 20px; fill: currentColor; }
+  .card { justify-self: end; width: 520px; padding: 26px 28px 24px; border-radius: 26px; border: 1px solid var(--glass-border);
+    background: linear-gradient(165deg, rgba(38,48,63,0.72) 0%, rgba(24,19,16,0.82) 100%); box-shadow: 0 36px 90px -30px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,245,230,0.1); }
+  .top { display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--moonlight-faint); margin-bottom: 18px; }
+  .bubble { border-radius: 18px; padding: 15px 18px; font-size: 17px; line-height: 1.45; margin-bottom: 12px; }
+  .user { background: rgba(60,70,95,0.75); color: var(--moonlight); margin-left: 56px; border-bottom-right-radius: 6px; }
+  .nora { background: #f1e7cd; color: #2c221b; margin-right: 56px; border-bottom-left-radius: 6px; }
+  .nora .name { display: block; font-size: 12px; letter-spacing: 0.04em; color: rgba(44,34,27,0.55); margin-bottom: 4px; }
+  .typing { display: inline-flex; gap: 6px; padding: 14px 18px; background: #f1e7cd; border-radius: 18px; border-bottom-left-radius: 6px; }
+  .typing i { width: 7px; height: 7px; border-radius: 50%; background: rgba(44,34,27,0.45); }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true">
+    <i style="left:6%;top:12%"></i><i style="left:14%;top:70%;opacity:.4"></i><i style="left:23%;top:9%"></i><i style="left:31%;top:84%;opacity:.5"></i>
+    <i style="left:40%;top:18%;opacity:.5"></i><i style="left:47%;top:60%"></i><i style="left:55%;top:6%"></i><i style="left:62%;top:30%;opacity:.4"></i>
+    <i style="left:70%;top:12%"></i><i style="left:84%;top:8%;opacity:.5"></i><i style="left:92%;top:22%"></i><i style="left:96%;top:48%;opacity:.4"></i><i style="left:88%;top:88%;opacity:.5"></i>
+  </div>
+  <div class="frame">
+    <div>
+      <div class="pill">A companion that remembers.</div>
+      <h1>Somnora</h1>
+      <p class="line">A companion for your nights, and the days they shape.</p>
+      <p class="sub">Nora keeps the thread across your dreams, your days, and your late-night ideas. She notices what repeats and checks in once a day, only when it&apos;s earned.</p>
+      <span class="btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701z"/></svg>Get it on the App Store</span>
+    </div>
+    <div class="card">
+      <div class="top"><span>Tonight&apos;s thread</span><span>02:14</span></div>
+      <div class="bubble user">Woke up around 4 with that hallway dream again. Couldn&apos;t get back down.</div>
+      <div class="bubble nora"><span class="name">Nora</span>Same hallway showed up Tuesday, and last night you only got 5h 40m. The short night and the repeat often travel together. Try the 90-second wind-down once tonight, then leave the phone face down.</div>
+      <div class="typing"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -852,3 +852,45 @@ document.addEventListener('click', (e) => {
     }
   }
 })();
+
+/* ========== RECORDED DEMO (the real app, muted) ==========
+   Plays while in view, pauses out of view, never autoplays under
+   prefers-reduced-motion. The button is the only control; a pause the
+   visitor chose is respected until they press play again. */
+(function () {
+  const video = document.getElementById('demo-video');
+  const control = document.getElementById('demo-control');
+  if (!video || !control) return;
+  const label = control.querySelector('.demo-control-label');
+  let userPaused = false;
+
+  const setState = (playing) => {
+    control.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    control.setAttribute('aria-label', playing ? 'Pause the demo' : 'Play the demo');
+    if (label) label.textContent = playing ? 'Pause' : 'Play';
+  };
+  video.addEventListener('play', () => setState(true));
+  video.addEventListener('pause', () => setState(false));
+
+  control.addEventListener('click', () => {
+    if (video.paused) {
+      userPaused = false;
+      video.play().catch(() => {});
+    } else {
+      userPaused = true;
+      video.pause();
+    }
+  });
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+        if (!userPaused && video.paused) video.play().catch(() => {});
+      } else if (!video.paused) {
+        video.pause();
+      }
+    });
+  }, { threshold: [0, 0.5] });
+  io.observe(video);
+})();
