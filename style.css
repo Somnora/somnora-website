@@ -1065,7 +1065,7 @@ body.zone-day .product-proof figcaption { color: var(--ink-soft); }
 /* An editorial eyebrow in the site's own kicker voice, instead of the old
    sticker pill floating over the card corner. */
 .pricing-card.featured::before {
-  content: "Founders' favorite";
+  content: "Best value";
   display: block;
   font-size: 0.72rem;
   font-weight: 600;

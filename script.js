@@ -1,10 +1,6 @@
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.documentElement.classList.add('has-js');
 
-const PRICING = {
-  founders: { monthly: "9.99", yearly: "59.99" },
-  standard: { monthly: "9.99", yearly: "79.99" }
-};
 
 /* ========== MODES STEPPER ========== */
 const modeSteps = document.querySelectorAll('.mode-step');
@@ -84,59 +80,6 @@ if (modeSteps.length && modeDetailList) {
 
   const initialMode = document.querySelector('.mode-step.is-active')?.dataset.mode || modeSteps[0].dataset.mode;
   if (initialMode) renderModeDetail(initialMode);
-}
-
-/* ========== PRICING TOGGLE ========== */
-const toggleBtnFounders = document.getElementById('btn-founders');
-const toggleBtnStandard = document.getElementById('btn-standard');
-const priceValues = document.querySelectorAll('.price-value');
-
-function setPricing(mode) { // 'founders' or 'standard'
-  const activeMode = mode === 'standard' ? 'standard' : 'founders';
-  const isStandard = activeMode === 'standard';
-
-  // Toggle visual state
-  if (toggleBtnFounders && toggleBtnStandard) {
-    toggleBtnFounders.setAttribute('aria-pressed', !isStandard);
-    toggleBtnStandard.setAttribute('aria-pressed', isStandard);
-  }
-
-  const slider = document.querySelector('.toggle-slider');
-  if (slider) {
-    slider.style.transform = isStandard ? 'translateX(100%)' : 'translateX(0)';
-  }
-
-  // Show/hide founder reference price and Founders badge on yearly card
-  const refPrice = document.getElementById('yearly-ref-price');
-  if (refPrice) {
-    refPrice.style.display = isStandard ? 'none' : '';
-  }
-  // Yearly card is the second card; keep a stable marker so Standard can
-  // drop the Founders badge without losing track of which card to retarget.
-  const yearly = document.querySelector('.pricing-card[data-pricing-yearly]')
-    || document.querySelectorAll('.pricing-grid .pricing-card')[1];
-  if (yearly) {
-    yearly.setAttribute('data-pricing-yearly', 'true');
-    yearly.classList.toggle('featured', !isStandard);
-  }
-
-  // Update numbers for ALL cards
-  priceValues.forEach(el => {
-    const period = el.dataset.pricePeriod;
-    if (period && PRICING[activeMode][period]) {
-      el.style.opacity = '0';
-      setTimeout(() => {
-        el.textContent = PRICING[activeMode][period];
-        el.style.opacity = '1';
-      }, 160);
-    }
-  });
-}
-
-if (toggleBtnFounders && toggleBtnStandard) {
-  toggleBtnFounders.addEventListener('click', () => setPricing('founders'));
-  toggleBtnStandard.addEventListener('click', () => setPricing('standard'));
-  setPricing('founders');
 }
 
 /* ========== MOBILE MENU ========== */
