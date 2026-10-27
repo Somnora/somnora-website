@@ -29,7 +29,7 @@
   /* Text on night */
   --moonlight: #f7efe4;
   --moonlight-soft: rgba(247, 239, 228, 0.8);
-  --moonlight-faint: rgba(247, 239, 228, 0.45);
+  --moonlight-faint: rgba(247, 239, 228, 0.58);
 
   /* Glass on night */
   --glass: rgba(255, 245, 230, 0.05);
