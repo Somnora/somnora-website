@@ -1,0 +1,200 @@
+/* Scoped Campaign Case Study Styles */
+.campaign-main {
+  position: relative;
+  z-index: 2;
+  width: min(1160px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + 3rem) 0 5rem;
+}
+
+.campaign-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1.5rem;
+  color: var(--moonlight-faint);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.campaign-back:hover { color: var(--salmon); }
+
+.campaign-hero {
+  padding: clamp(1.8rem, 4vw, 3rem);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(232, 184, 109, 0.08), rgba(255, 245, 230, 0.035)), var(--glass);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  margin-bottom: 2.5rem;
+}
+
+.campaign-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.campaign-kicker {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.4rem;
+}
+
+.campaign-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  color: var(--moonlight);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+
+.campaign-role-badge {
+  display: inline-flex;
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--salmon);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.campaign-summary {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--moonlight-soft);
+  max-width: 68ch;
+  margin: 1.4rem 0 2rem;
+}
+
+.campaign-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.campaign-meta-card dt {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.25rem;
+}
+
+.campaign-meta-card dd {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--moonlight);
+  margin: 0;
+}
+
+.campaign-media-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #080604;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  margin-bottom: 3.5rem;
+}
+
+.campaign-media-box iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.campaign-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 4rem;
+}
+
+.campaign-section {
+  margin-bottom: 3rem;
+}
+
+.campaign-section h2 {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--moonlight);
+  margin-bottom: 1rem;
+}
+
+.campaign-section p {
+  font-size: 1rem;
+  line-height: 1.68;
+  color: var(--moonlight-soft);
+  margin-bottom: 1.2rem;
+}
+
+.campaign-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.campaign-card-box {
+  padding: 1.5rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+}
+
+.campaign-card-box h3 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1rem;
+}
+
+.campaign-card-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.campaign-card-box li {
+  font-size: 0.9rem;
+  color: var(--moonlight-soft);
+  line-height: 1.45;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.6rem;
+}
+.campaign-card-box li:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.campaign-card-box strong { color: var(--moonlight); font-weight: 600; }
+
+.campaign-footer-cta {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 4rem;
+}
+
+@media (max-width: 860px) {
+  .campaign-content-grid { grid-template-columns: 1fr; }
+}

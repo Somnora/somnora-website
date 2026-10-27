@@ -2,17 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://somnora.app/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-09-04</lastmod>
   </url>
   <url>
-    <loc>https://somnora.app/privacy.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://somnora.app/portfolio/</loc>
+    <lastmod>2026-09-04</lastmod>
   </url>
   <url>
-    <loc>https://somnora.app/terms.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://somnora.app/callsheet-companion/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/SquadSync/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/somnora/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/manifold/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/agentic/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/warden/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/today-in-time/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/callsheet-companion/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/squadsync/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/setview/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/homeplate/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/cosmo-trader/</loc>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://somnora.app/portfolio/projects/locked/</loc>
+    <lastmod>2026-09-04</lastmod>
   </url>
 </urlset>

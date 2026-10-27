@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#181310" />
+  <meta name="robots" content="noindex,follow" />
+  <title>Project Architecture | James McShane</title>
+  <meta name="description" content="Product details and system architecture for software designed and built by James McShane under Somnora." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Project Architecture | James McShane" />
+  <meta property="og:description" content="Product details and system architecture for software designed and built under Somnora." />
+  <meta property="og:url" content="https://somnora.app/portfolio/project.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=20260818c" />
+  <link rel="stylesheet" href="project.css?v=20260901a" />
+  <link rel="icon" href="../somnora-favicons/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../somnora-favicons/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../somnora-favicons/apple-touch-icon.png" />
+
+  <script src="projects.js?v=20260901a" defer></script>
+  <script src="project-page.js?v=20260901a" defer></script>
+</head>
+<body class="project-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="project-sky" aria-hidden="true"></div>
+
+  <nav class="nav project-nav" aria-label="Primary navigation">
+    <a href="../index.html#top" class="logo">Somnora</a>
+    <div class="nav-links">
+      <a href="index.html#dev">All projects</a>
+      <a href="mailto:jmcshanedp@gmail.com" class="nav-cta">Get in touch</a>
+    </div>
+  </nav>
+
+  <main id="main" class="project-main">
+    <a class="project-back" href="index.html#dev"><span aria-hidden="true">&#8592;</span> Developer portfolio</a>
+
+    <noscript>
+      <section class="project-error">
+        <p class="project-kicker">JavaScript required</p>
+        <h1>Project details could not load.</h1>
+        <p>This page uses a small local script to select the requested project. Return to the developer portfolio to browse every project.</p>
+      </section>
+    </noscript>
+
+    <article id="project-root" hidden>
+      <header class="project-hero">
+        <div class="project-hero-copy">
+          <div class="project-identity">
+            <img id="project-icon" class="project-icon" src="" alt="" width="112" height="112" />
+            <div>
+              <p id="project-eyebrow" class="project-kicker"></p>
+              <h1 id="project-name"></h1>
+              <div class="project-badges">
+                <span id="project-category" class="project-badge"></span>
+                <span id="project-status" class="project-badge project-status"></span>
+              </div>
+            </div>
+          </div>
+          <p id="project-summary" class="project-summary"></p>
+          <div id="project-links" class="project-links" aria-label="Project links"></div>
+        </div>
+        <dl id="project-facts" class="project-facts"></dl>
+      </header>
+
+      <section class="project-section project-overview" aria-labelledby="overview-title">
+        <p class="project-section-label">The project</p>
+        <h2 id="overview-title">What it does</h2>
+        <div id="project-overview" class="project-prose"></div>
+      </section>
+
+      <section class="project-section" aria-labelledby="features-title">
+        <p class="project-section-label">Built around</p>
+        <h2 id="features-title">Product principles</h2>
+        <div id="project-features" class="project-feature-grid"></div>
+      </section>
+
+      <section class="project-section project-architecture" aria-labelledby="architecture-title">
+        <p class="project-section-label">System architecture</p>
+        <h2 id="architecture-title">How the system moves</h2>
+        <p id="architecture-intro" class="architecture-intro"></p>
+        <div id="architecture-flows" class="architecture-flows"></div>
+        <p id="architecture-note" class="architecture-note"></p>
+      </section>
+
+      <section class="project-section project-more" aria-labelledby="more-title">
+        <p class="project-section-label">Keep exploring</p>
+        <h2 id="more-title">More systems</h2>
+        <nav id="project-switcher" class="project-switcher" aria-label="Other software projects"></nav>
+      </section>
+    </article>
+
+    <section id="project-not-found" class="project-error" hidden>
+      <p class="project-kicker">Project not found</p>
+      <h1>That architecture page does not exist.</h1>
+      <p>The project may have moved or the link may be incomplete.</p>
+      <a class="project-action project-action-primary" href="index.html#dev">Browse all projects</a>
+    </section>
+  </main>
+
+  <footer class="project-footer">
+    <p>Designed and built by James McShane under Somnora.</p>
+    <a href="mailto:jmcshanedp@gmail.com">Get in touch</a>
+  </footer>
+  <script data-goatcounter="https://somnora.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
