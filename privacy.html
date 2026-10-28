@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,follow" />
   <title>Privacy Policy | Somnora</title>
-  <meta name="description" content="Somnora privacy policy for public beta and early access users." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="style.css?v=20260818c" />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <meta name="description" content="How Somnora for iPhone and Apple Watch handles your data: what stays on your device, what reaches Somnora's servers and why, and how to delete it." />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="stylesheet" href="style.css?v=20261027b" />
   <link rel="icon" href="somnora-favicons/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="somnora-favicons/favicon-32x32.png">
   <link rel="apple-touch-icon" href="somnora-favicons/apple-touch-icon.png">
@@ -35,47 +33,58 @@
   <main class="legal-content legal-main legal-stack">
     <a href="index.html#top" class="legal-back-link">← Back</a>
 
-    <p class="modes-eyebrow">Public Beta Policy</p>
+    <p class="modes-eyebrow">Somnora for iPhone and Apple Watch</p>
     <h1>Privacy Policy</h1>
-    <p class="legal-updated">Last updated April 4, 2026.</p>
-    <p class="legal-intro">Somnora is built for private sleep reflection. We keep collection relatively narrow, use data to deliver the features you choose to use, and avoid turning your journal into an advertising asset.</p>
+    <p class="legal-updated">Last updated [publication date].</p>
+    <p class="legal-intro">This policy covers Somnora for iPhone and Apple Watch, version 1.2 and later. It explains what stays on your device, what reaches Somnora's servers and why, and how to delete it.</p>
 
     <section class="legal-section">
-      <h2>What We Collect</h2>
+      <h2>What stays on your iPhone</h2>
       <ul class="legal-list">
-        <li>Sleep duration, sleep stages, and timing data you choose to share through Apple HealthKit.</li>
-        <li>Journal entries, dream notes, and other reflections you enter directly in the product.</li>
-        <li>Self-reported wellness check-ins, such as rested, energy, mood, and stress ratings.</li>
-        <li>Voice recordings and transcriptions when you choose to use voice capture or voice-based features.</li>
-        <li>Basic contact or account details needed for access, billing support, and service communication.</li>
-        <li>Technical diagnostics and service metadata reasonably needed to operate, secure, and improve the product during beta.</li>
+        <li>Your journal entries, conversations, Eureka ideas and documents, check-ins, drafts and most app settings are stored on your device.</li>
+        <li>Apple Health data is read only with your permission, and Somnora never writes to Apple Health.</li>
+        <li>When you speak instead of typing, Apple's speech recognition turns your voice into text. Apple may process that audio on its own servers under Apple's privacy policy.</li>
       </ul>
     </section>
 
     <section class="legal-section">
-      <h2>How We Use It</h2>
+      <h2>What Somnora sends to its servers, and why</h2>
       <ul class="legal-list">
-        <li>To generate sleep summaries, pattern observations, and calm next-step prompts inside Somnora.</li>
-        <li>To process optional AI-powered features you choose to use, including Nora responses, voice playback, dream imagery, and relevant check-in context.</li>
-        <li>To maintain your account, support troubleshooting, and improve product reliability during beta.</li>
-        <li>To operate privacy-first AI workflows without selling private journaling content.</li>
+        <li><strong>Messages to Nora.</strong> When you talk to Nora, your message, the recent conversation and the context Nora needs are sent to Somnora's server. That context can include your saved Nora memory and, if you allow Apple Health, a short sleep summary. Google's Gemini models on Google Cloud's Vertex AI write the reply. Under Google's terms, Google does not use this data to train its models. Google may cache requests for up to 24 hours to answer faster, and may log prompts to detect abuse of its services.</li>
+        <li><strong>Bedside capture.</strong> If you record a dream by voice or add a sketch, the recording, the sketch and any notes are sent to Somnora's server so Gemini can write up the dream. Somnora's server does not keep the recording or the sketch.</li>
+        <li><strong>Dreamcatcher art.</strong> When you create a Dreamcatcher image, your dream's text, mood and tags are sent to Somnora's server, and Google's Imagen model draws the picture. The finished image is stored in Somnora's cloud storage under your account ID so it can be delivered to your devices.</li>
+        <li><strong>A photo of yourself, only if you add one.</strong> Somnora sends the photo once to turn it into a short written description of how you look, so Dreamcatcher can draw you. The photo is never stored, and only the words you approve are saved.</li>
+        <li><strong>Nora's memory.</strong> Things you ask Nora to remember, and things Nora notes about you, are stored with your account so Nora can recall them. You can review, correct or clear them in Settings, under Nora Memory.</li>
+        <li><strong>Safety signals.</strong> If a conversation suggests you may be in crisis, Somnora records that a safety alert happened. It keeps your account ID and the time, not the message.</li>
+        <li><strong>Desktop Workbench, if you pair one.</strong> Conversations you choose to sync to a paired Workbench are stored with your account.</li>
+        <li><strong>Purchases.</strong> Apple processes every payment, and Somnora never receives card details. To unlock Premium, Somnora's server checks your purchase with Apple. It stores the transaction identifiers, whether the purchase was a test or a real one, and when it was checked, under a one-way hash of your account ID.</li>
       </ul>
     </section>
 
     <section class="legal-section">
-      <h2>Your Controls</h2>
+      <h2>Accounts</h2>
+      <p>Creating an account is optional. Without one, Somnora uses an anonymous account on this device. You can connect an email address to keep Nora's memory across devices.</p>
+    </section>
+
+    <section class="legal-section">
+      <h2>Analytics, ads and tracking</h2>
+      <p>Somnora shows no ads, does not track you across other apps or websites, and does not sell your data. In-app analytics events stay on your device.</p>
+    </section>
+
+    <section class="legal-section">
+      <h2>Deleting your data</h2>
       <ul class="legal-list">
-        <li>You can export available data and clear local data from the app. If you need help with account or server-side data requests, contact us at privacy@somnora.app.</li>
-        <li>We do not sell private entries or use them as advertising inventory.</li>
-        <li>We aim not to use private entries to train public-facing AI models and configure our services with that goal in mind.</li>
-        <li>Check-in notes are not added to automatic Nora context unless you choose to include them in a message.</li>
-        <li>HealthKit data stays permission-based, and you can revoke access from Apple Health at any time.</li>
+        <li><strong>Delete account</strong>, in Settings under Account, permanently deletes your Somnora account and the server data described above: Nora's memory, journal data saved with your account, Workbench sync data, safety-alert records and purchase records. Somnora then removes its data from your iPhone.</li>
+        <li>[Before publishing: Delete account does not yet remove Dreamcatcher images from cloud storage. Remove them as part of account deletion, or say here how long they are kept.]</li>
+        <li>Subscriptions are managed by Apple. Deleting your account does not cancel a subscription, so cancel it in the Settings app under your Apple Account, then Subscriptions.</li>
+        <li><strong>Delete data on this device</strong>, in Settings under Data &amp; Privacy, removes Somnora's data from this iPhone only.</li>
+        <li><strong>Clear Nora memory</strong>, in Settings under Nora Memory, clears the memory saved with your account without deleting the account.</li>
       </ul>
     </section>
 
     <section class="legal-section">
       <h2>Contact</h2>
-      <p>Questions about privacy or data handling can be sent to <a class="legal-inline-link" href="mailto:privacy@somnora.app">privacy@somnora.app</a>.</p>
+      <p>Questions about privacy or your data can be sent to <a class="legal-inline-link" href="mailto:privacy@somnora.app">privacy@somnora.app</a>.</p>
     </section>
   </main>
 
@@ -83,7 +92,7 @@
     <p class="copyright">© Somnora LLC</p>
   </footer>
 
-  <script src="script.js?v=20260818c"></script>
+  <script src="script.js?v=20261027b"></script>
   <script data-goatcounter="https://somnora.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
